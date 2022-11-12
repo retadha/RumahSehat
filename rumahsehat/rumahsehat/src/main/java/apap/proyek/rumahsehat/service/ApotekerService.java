@@ -1,10 +1,11 @@
 package apap.proyek.rumahsehat.service;
 
+import apap.proyek.rumahsehat.model.Apoteker;
 import apap.proyek.rumahsehat.model.Dokter;
 
 import java.util.List;
 
-public interface DoctorService {
+public interface ApotekerService {
 
-    List<Dokter> findAll();
+    List<Apoteker> findAll();
 }

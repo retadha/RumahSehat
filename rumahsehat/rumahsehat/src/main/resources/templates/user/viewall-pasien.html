@@ -12,9 +12,9 @@
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2>Daftar Dokter</h2>
+                <h2>Daftar Pasien</h2>
                 <br>
-                <a th:href="@{/}" class="btn btn-primary">Tambah Dokter</a>
+                <a th:href="@{/}" class="btn btn-primary">Tambah Pasien</a>
                 <br>
                 <br>
                 <table class="table">
@@ -23,15 +23,17 @@
                     <th>Nama</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Tarif</th>
+                    <th>Saldo</th>
+                    <th>Umur</th>
                     </thead>
                     <tbody>
-                    <tr th:each="dokter, iterationStatus : ${listDokter}">
+                    <tr th:each="pasien, iterationStatus : ${listPasien}">
                         <td th:text="${iterationStatus.count}"></td>
-                        <td th:text="${dokter.user.nama}"></td>
-                        <td th:text="${dokter.user.username}"></td>
-                        <td th:text="${dokter.user.email}"></td>
-                        <td th:text="${dokter.tarif}"></td>
+                        <td th:text="${pasien.user.nama}"></td>
+                        <td th:text="${pasien.user.username}"></td>
+                        <td th:text="${pasien.user.email}"></td>
+                        <td th:text="${pasien.saldo}"></td>
+                        <td th:text="${pasien.umur}"></td>
                     </tbody>
                 </table>
                 <br>
