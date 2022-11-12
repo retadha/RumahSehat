@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -23,22 +24,27 @@ public class User implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "nama")
     private String nama;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "role", length = 50)
     private String role;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "username")
     private String username;
 
+    @NotNull
     @Size(max = 50)
     @Column(name = "email")
     private String email;
 
+    @NotNull
     @Lob
     @Column(name = "password")
     private String password;
