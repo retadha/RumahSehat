@@ -1,6 +1,9 @@
 package apap.proyek.rumahsehat.service;
 
+import apap.proyek.rumahsehat.model.Dokter;
 import apap.proyek.rumahsehat.model.UserModel;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -11,6 +14,7 @@ public interface UserService {
     UserModel getUserByUsername(String username);
 
     Boolean isAdmin(String username);
+
 
 
 }
