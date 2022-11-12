@@ -3,10 +3,7 @@ package apap.proyek.rumahsehat.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -23,7 +20,7 @@ public class Apoteker {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
-    private User user;
+    private UserModel user;
 
     @OneToMany(mappedBy = "confirmerUuid")
     private List<Resep> listResep;
