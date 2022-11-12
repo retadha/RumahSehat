@@ -22,6 +22,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/login-sso", "/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -36,6 +37,7 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Autowired
     private UserDetailsService userDetailsService;
