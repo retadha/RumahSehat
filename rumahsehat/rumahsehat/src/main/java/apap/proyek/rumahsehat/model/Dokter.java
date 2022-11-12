@@ -22,6 +22,9 @@ public class Dokter {
     @JoinColumn(name = "uuid", nullable = false)
     private UserModel user;
 
+    @Column(name = "tarif")
+    private Integer tarif;
+
     @OneToMany(mappedBy = "dokter")
     private List<Appointment> listAppointment;
 
