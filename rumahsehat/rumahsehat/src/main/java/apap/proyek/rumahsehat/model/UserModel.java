@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class UserModel implements Serializable {
     private static final long serialVersionUID = 1081427352141694546L;
 
     @Id

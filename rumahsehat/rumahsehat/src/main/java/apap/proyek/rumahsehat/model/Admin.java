@@ -3,7 +3,6 @@ package apap.proyek.rumahsehat.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Builder
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class Admin {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
-    private User user;
+    private UserModel user;
 
 
 }
