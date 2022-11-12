@@ -14,10 +14,13 @@ import javax.validation.constraints.NotNull;
 @Table(name = "admin")
 public class Admin {
     @Id
-    @NotNull
+    @Column(name = "uuid")
+    private String uuid;
+
+    @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
-    private User uuid;
+    private User user;
 
 
 }

@@ -17,10 +17,13 @@ import java.util.Set;
 @Table(name = "pasien")
 public class Pasien {
     @Id
-    @NotNull
+    @Column(name = "uuid")
+    private String uuid;
+
+    @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
-    private User uuid;
+    private User user;
 
     @Column(name = "saldo")
     private Integer saldo;

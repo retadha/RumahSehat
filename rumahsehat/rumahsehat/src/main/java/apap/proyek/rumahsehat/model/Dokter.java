@@ -17,13 +17,13 @@ import java.util.Set;
 @Table(name = "dokter")
 public class Dokter {
     @Id
-    @NotNull
+    @Column(name = "uuid")
+    private String uuid;
+
+    @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
-    private User uuid;
-
-    @Column(name = "tarif")
-    private Integer tarif;
+    private User user;
 
     @OneToMany(mappedBy = "dokter")
     private List<Appointment> listAppointment;
