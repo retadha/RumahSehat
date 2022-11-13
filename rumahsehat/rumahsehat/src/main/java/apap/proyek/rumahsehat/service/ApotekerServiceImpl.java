@@ -2,6 +2,7 @@ package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Apoteker;
 import apap.proyek.rumahsehat.model.Dokter;
+import apap.proyek.rumahsehat.model.UserModel;
 import apap.proyek.rumahsehat.repository.ApotekerDb;
 import apap.proyek.rumahsehat.repository.DokterDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ public class ApotekerServiceImpl implements ApotekerService {
 
     @Autowired
     private ApotekerDb apotekerDb;
+
+    @Override
+    public Apoteker addApoteker(Apoteker apoteker, UserModel user) {
+        apoteker.setUser(user);
+        return apotekerDb.save(apoteker);
+    }
 
     @Override
     public List<Apoteker> findAll() {
