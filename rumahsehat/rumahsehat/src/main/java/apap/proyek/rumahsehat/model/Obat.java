@@ -15,9 +15,8 @@ import javax.validation.constraints.Size;
 public class Obat {
     @Id
     @Size(max = 255)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_obat", nullable = false)
-    private String id;
+    private String idObat;
 
     @Size(max = 255)
     @Column(name = "nama_obat")

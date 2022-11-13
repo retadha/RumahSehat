@@ -18,9 +18,8 @@ import java.time.LocalDateTime;
 public class Tagihan {
     @Id
     @Size(max = 255)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "kode", nullable = false)
-    private String id;
+    private String kode;
 
     @Column(name = "tanggalTerbuat")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
