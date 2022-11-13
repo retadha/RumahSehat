@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/login-sso", "/validate-ticket").permitAll()
+                .antMatchers("/users/**").hasAuthority("Admin")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

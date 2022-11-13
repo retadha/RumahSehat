@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <meta charset="UTF-8">
         <title>Rumah Sehat</title>
@@ -14,7 +14,7 @@
                 <div class="m-4">
                     <h2 style="text-align: center">Selamat datang di Rumah Sehat</h2>
                     <br>
-                    <div class="d-flex justify-content-center">
+                    <div sec:authorize="hasAuthority('Admin')" class="d-flex justify-content-center">
                         <a th:href="@{/users}" class="mx-2 btn btn-outline-primary">Manajemen User</a>
                     </div>
                     <div class=" my-3 d-flex justify-content-center">
