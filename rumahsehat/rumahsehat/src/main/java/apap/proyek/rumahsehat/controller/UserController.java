@@ -45,6 +45,15 @@ public class UserController {
         return "user/viewall-pasien";
     }
 
+    @GetMapping(value = "/pasien/delete/{id}")
+    private ModelAndView deletePasien(@PathVariable String id) {
+        Pasien pasien = pasienService.getPasienById(id);
+        pasienService.deletePasien(pasien);
+        return  new ModelAndView("redirect:/users/pasien");
+
+
+    }
+
     @GetMapping(value = "/doctors")
     private String listDoctors(Model model) {
         List<Dokter> listDokter = dokterService.findAll();
@@ -75,7 +84,14 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/doctors/delete/{id}")
+    private ModelAndView deleteDokter(@PathVariable String id) {
+        Dokter dokter = dokterService.getDokterById(id);
+        dokterService.deleteDokter(dokter);
+        return  new ModelAndView("redirect:/users/doctors");
 
+
+    }
 
     @GetMapping(value = "/apoteker")
     private String listApoteker(Model model) {
@@ -104,6 +120,15 @@ public class UserController {
         model.addAttribute("username", savedUser.getUsername());
 
         return "user/add-web-user";
+
+    }
+
+    @GetMapping(value = "/apoteker/delete/{id}")
+    private ModelAndView deleteApoteker(@PathVariable String id) {
+        Apoteker apoteker = apotekerService.getApotekerById(id);
+        apotekerService.deleteApoteker(apoteker);
+        return  new ModelAndView("redirect:/users/apoteker");
+
 
     }
 

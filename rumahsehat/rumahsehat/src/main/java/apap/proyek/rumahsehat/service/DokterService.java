@@ -9,5 +9,9 @@ public interface DokterService {
 
     Dokter addDokter(Dokter dokter, UserModel user, Integer tarif);
 
+    void deleteDokter(Dokter dokter);
+
+    Dokter getDokterById(String id);
+
     List<Dokter> findAll();
 }

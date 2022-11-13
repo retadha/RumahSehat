@@ -10,5 +10,9 @@ public interface ApotekerService {
 
     Apoteker addApoteker(Apoteker apoteker, UserModel user);
 
+    void deleteApoteker(Apoteker apoteker);
+
+    Apoteker getApotekerById(String id);
+
     List<Apoteker> findAll();
 }

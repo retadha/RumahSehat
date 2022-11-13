@@ -9,9 +9,13 @@ public interface UserService {
 
     UserModel addUser(UserModel user);
 
+    void deleteUser(UserModel user);
+
     String encrypt(String password);
 
     UserModel getUserByUsername(String username);
+
+    UserModel getUserById(String id);
 
     Boolean isAdmin(String username);
 

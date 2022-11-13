@@ -24,6 +24,7 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th>Tarif</th>
+                    <th>Aksi</th>
                     </thead>
                     <tbody>
                     <tr th:each="dokter, iterationStatus : ${listDokter}">
@@ -32,6 +33,9 @@
                         <td th:text="${dokter.user.username}"></td>
                         <td th:text="${dokter.user.email}"></td>
                         <td th:text="${dokter.tarif}"></td>
+                        <td>
+                            <a class="btn btn-danger" th:href="@{/users/doctors/delete/} + ${dokter.user.uuid}">Delete Dokter</a>
+                        </td>
                     </tbody>
                 </table>
                 <br>

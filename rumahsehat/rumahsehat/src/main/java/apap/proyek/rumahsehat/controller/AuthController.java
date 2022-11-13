@@ -1,8 +1,11 @@
 package apap.proyek.rumahsehat.controller;
 
+import apap.proyek.rumahsehat.model.Admin;
 import apap.proyek.rumahsehat.model.UserModel;
 import apap.proyek.rumahsehat.security.xml.Attributes;
 import apap.proyek.rumahsehat.security.xml.ServiceResponse;
+import apap.proyek.rumahsehat.service.AdminService;
+import apap.proyek.rumahsehat.service.DokterService;
 import apap.proyek.rumahsehat.service.UserService;
 import apap.proyek.rumahsehat.setting.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AdminService adminService;
+
     private WebClient webClient = WebClient.builder().build();
 
     @RequestMapping("/login")
@@ -53,6 +59,7 @@ public class AuthController {
 
         UserModel user = userService.getUserByUsername(username);
 
+
         if (user==null) {
             user = new UserModel();
             user.setEmail(username+"@ui.ac.id");
@@ -60,7 +67,11 @@ public class AuthController {
             user.setPassword("rumahsehat");
             user.setUsername(username);
             user.setRole("Admin");
-            userService.addUser(user);
+
+            UserModel savedUser = userService.addUser(user);
+            adminService.addAdmin(new Admin(), savedUser);
+
+
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(username,"rumahsehat");

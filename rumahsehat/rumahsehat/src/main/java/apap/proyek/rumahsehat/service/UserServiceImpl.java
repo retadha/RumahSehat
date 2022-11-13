@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUser(UserModel user) {
+        userDb.delete(user);
+    }
+
+    @Override
     public String encrypt(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(password);
@@ -37,8 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserModel getUserById(String id) {
+        return userDb.findByUuid(id);
+    }
+
+    @Override
     public Boolean isAdmin(String username) {
         UserModel user = getUserByUsername(username);
         return user.getRole().equals("Admin");
     }
+
+
 }

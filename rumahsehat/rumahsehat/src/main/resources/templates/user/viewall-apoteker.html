@@ -23,6 +23,7 @@
           <th>Nama</th>
           <th>Username</th>
           <th>Email</th>
+          <th>Aksi</th>
           </thead>
           <tbody>
           <tr th:each="apoteker, iterationStatus : ${listApoteker}">
@@ -30,6 +31,9 @@
             <td th:text="${apoteker.user.nama}"></td>
             <td th:text="${apoteker.user.username}"></td>
             <td th:text="${apoteker.user.email}"></td>
+            <td>
+              <a class="btn btn-danger" th:href="@{/users/apoteker/delete/} + ${apoteker.user.uuid}">Delete Apoteker</a>
+            </td>
           </tbody>
         </table>
         <br>
