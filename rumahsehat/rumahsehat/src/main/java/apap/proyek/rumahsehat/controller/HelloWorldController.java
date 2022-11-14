@@ -14,12 +14,12 @@ import java.util.Map;
 @CrossOrigin()
 public class HelloWorldController {
 
-	@RequestMapping({ "/hello" })
+	@RequestMapping({ "/api/hello" })
 	public String hello() {
 		return "Hello World";
 	}
 
-	@RequestMapping({ "/hello2" })
+	@RequestMapping({ "/api/hello2" })
 	public String hello(@RequestHeader("Authorization") String token) {
 		Map<String, String> decodedToken = decode(token);
 		String result = "";
@@ -27,6 +27,8 @@ public class HelloWorldController {
 			result = "Halo Dokter";
 		} else if (decodedToken.get("role").equals("Apoteker")) {
 			result = "Halo apoteker";
+		} else if (decodedToken.get("role").equals("Pasien")) {
+			result = "Halo halo pasien";
 		}
 		return result;
 	}
