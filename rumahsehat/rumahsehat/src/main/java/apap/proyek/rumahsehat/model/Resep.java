@@ -32,6 +32,8 @@ public class Resep {
     @JoinColumn(name = "confirmer_uuid", nullable = false, referencedColumnName = "uuid")
     private Apoteker confirmerUuid;
 
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kodeAppointment")
+    private Appointment kodeAppointment;
 
 }
