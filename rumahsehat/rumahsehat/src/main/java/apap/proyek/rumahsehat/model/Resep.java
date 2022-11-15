@@ -28,8 +28,8 @@ public class Resep {
     private LocalDateTime createdAt;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "confirmer_uuid", nullable = false, referencedColumnName = "uuid")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "confirmer_uuid", referencedColumnName = "uuid")
     private Apoteker confirmerUuid;
 
     @OneToOne(fetch = FetchType.LAZY)
