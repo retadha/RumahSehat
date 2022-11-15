@@ -16,6 +16,11 @@
             <div class="col">
               <h2>Detail Resep</h2>
             </div>
+              <div class="col" th:if="${role == 'Apoteker'} and ${resep.isDone == false}">
+                  <div class="float-right">
+                      <button type="submit" class="btn btn-success" th:href="@{/}">Konfirmasi</button>
+                  </div>
+              </div>
           </div>
 
           <br>
@@ -49,17 +54,17 @@
             <div class="col">
               <p><b>Status</b></p>
             </div>
-            <div class="col">
+            <div class="col" th:if="${resep.confirmerUuid != null}">
               <p><b>Apoteker</b></p>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <p th:if="${resep.isDone == 1}">Selesai</p>
-              <p th:unless="${resep.isDone == 1}">Belum Selesai</p>
+              <p th:if="${resep.isDone == true}">Selesai</p>
+              <p th:unless="${resep.isDone == true}">Belum Selesai</p>
 
             </div>
-            <div class="col">
+            <div class="col" th:if="${resep.confirmerUuid != null}">
               <p th:text="${resep.confirmerUuid.user.nama}"></p>
             </div>
           </div>
