@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Detail Resep</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+      <div class="justify-content-center">
+<!--        <form th:action="" method="post">-->
+          <div class="row">
+            <div class="col">
+              <h2>Detail Resep</h2>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col">
+              <b><p th:text="'ID: ' + ${resep.id}"></p></b>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col">
+              <p><b>Dokter</b></p>
+            </div>
+            <div class="col">
+              <p><b>Pasien</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p th:text="${resep.kodeAppointment.dokter.user.nama}"></p>
+
+            </div>
+            <div class="col">
+              <p th:text="${resep.kodeAppointment.pasien.user.nama}"></p>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col">
+              <p><b>Status</b></p>
+            </div>
+            <div class="col">
+              <p><b>Apoteker</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p th:if="${resep.isDone == 1}">Selesai</p>
+              <p th:unless="${resep.isDone == 1}">Belum Selesai</p>
+
+            </div>
+            <div class="col">
+              <p th:text="${resep.confirmerUuid.user.nama}"></p>
+            </div>
+          </div>
+
+          <br>
+          <h4>Daftar Obat</h4>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Jumlah</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="jumlah, iterationStatus : ${listJumlah}">
+              <td th:text="${iterationStatus.count}"></td>
+              <td th:text="${jumlah.obat.namaObat}"></td>
+              <td th:text="${jumlah.kuantitas}"></td>
+            </tr>
+            </tbody>
+          </table>
+          <br>
+          <a class="btn btn-primary" th:href="@{/}">Back</a>
+<!--        </form>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
