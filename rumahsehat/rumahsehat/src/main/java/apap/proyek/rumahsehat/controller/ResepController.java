@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -38,6 +39,10 @@ public class ResepController {
     @Qualifier("apotekerServiceImpl")
     @Autowired
     private ApotekerService apotekerService;
+
+    @Qualifier("tagihanServiceImpl")
+    @Autowired
+    private TagihanService tagihanService;
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
@@ -72,6 +77,16 @@ public class ResepController {
             resepService.saveResep(resep);
             appointmentService.save(appointment);
 
+            Tagihan tagihan = new Tagihan();
+            tagihan.setKode("BILL-");
+            tagihan.setTanggalTerbuat(LocalDateTime.now());
+            tagihan.setIsPaid(false);
+            tagihan.setKodeAppointment(appointment);
+            tagihan.setJumlahTagihan(jumlahService.calculatePrice(idResep) + appointment.getDokter().getTarif());
+            tagihanService.saveTagihan(tagihan);
+
+            List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
+            model.addAttribute("listJumlah", listJumlah);
             model.addAttribute("resep", resep);
             return "resep/detail-resep";
         }

@@ -30,4 +30,14 @@ public class JumlahServiceImpl implements JumlahService{
         }
         return true;
     }
+
+    @Override
+    public int calculatePrice(Long idResep) {
+        List<Jumlah> listObatResep = findByResep(idResep);
+        int total = 0;
+        for (Jumlah jumlah: listObatResep){
+            total += jumlah.getKuantitas() * jumlah.getObat().getHarga();
+        }
+        return total;
+    }
 }
