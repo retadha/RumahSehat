@@ -21,4 +21,9 @@ public class ResepServiceImpl implements ResepService {
         return null;
 
     }
+
+    @Override
+    public void saveResep(Resep resep) {
+        resepDb.save(resep);
+    }
 }

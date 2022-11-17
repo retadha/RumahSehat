@@ -8,17 +8,18 @@
 <body>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="container">
+  <div class="alert alert-danger" role="alert" th:text="${gagal}" th:if="${gagal}"></div>
   <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
     <div class="card-body">
       <div class="justify-content-center">
-<!--        <form th:action="" method="post">-->
+        <form th:action="@{/resep/} + ${resep.id}" method="post">
           <div class="row">
             <div class="col">
               <h2>Detail Resep</h2>
             </div>
               <div class="col" th:if="${role == 'Apoteker'} and ${resep.isDone == false}">
                   <div class="float-right">
-                      <button type="submit" class="btn btn-success" th:href="@{/}">Konfirmasi</button>
+                      <button type="submit" class="btn btn-success">Konfirmasi</button>
                   </div>
               </div>
           </div>
@@ -89,7 +90,7 @@
           </table>
           <br>
           <a class="btn btn-primary" th:href="@{/}">Back</a>
-<!--        </form>-->
+        </form>
       </div>
     </div>
   </div>

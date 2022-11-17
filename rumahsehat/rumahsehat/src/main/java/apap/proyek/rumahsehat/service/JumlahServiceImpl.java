@@ -19,4 +19,15 @@ public class JumlahServiceImpl implements JumlahService{
         List<Jumlah> jumlah = jumlahDb.findJumlahByResep(idResep);
         return jumlah;
     }
+
+    @Override
+    public boolean checkStok(Long idResep) {
+        List<Jumlah> jumlahList = jumlahDb.findJumlahByResep(idResep);
+        for (Jumlah jumlah: jumlahList){
+            if (jumlah.getObat().getStok() < jumlah.getKuantitas()){
+                return false;
+            }
+        }
+        return true;
+    }
 }

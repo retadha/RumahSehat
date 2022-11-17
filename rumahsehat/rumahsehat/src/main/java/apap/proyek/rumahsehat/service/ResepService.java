@@ -4,4 +4,5 @@ import apap.proyek.rumahsehat.model.Resep;
 
 public interface ResepService {
     Resep getResepById(Long idResep);
+    void saveResep(Resep resep);
 }
