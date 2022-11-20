@@ -1,5 +1,6 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
