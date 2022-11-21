@@ -43,16 +43,14 @@ public class ResepRestServiceImpl implements ResepRestService{
         }
 
         List<Jumlah> jumlah = jumlahService.findByResep(idResep);
-        ArrayList<String> listObat = new ArrayList<>();
+        ArrayList<Object> listObat = new ArrayList<>();
         for(Jumlah j: jumlah){
-            listObat.add(j.getObat().getNamaObat());
-        }
-        ArrayList<Integer> listKuantitas = new ArrayList<>();
-        for(Jumlah j: jumlah){
-            listKuantitas.add(j.getKuantitas());
+            Map<String, Object> map2 = new HashMap<>();
+            map2.put("namaObat", j.getObat().getNamaObat());
+            map2.put("kuantitas", j.getKuantitas());
+            listObat.add(map2);
         }
         map.put("listObat", listObat);
-        map.put("listKuantitas", listKuantitas);
         return map;
     }
 }
