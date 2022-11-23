@@ -68,14 +68,8 @@ public class AppointmentController {
 
         Appointment appointment = appointmentService.getAppointmentById(id);
 
-//        boolean resepAda = false;
-//        if (appointment.getResep() != null) {
-//            resepAda = true;
-//        }
-
         model.addAttribute("appointment", appointment);
         model.addAttribute("role", role);
-//        model.addAttribute("resepAda", resepAda);
         return "appointment/view-appointment";
     }
 
@@ -94,7 +88,7 @@ public class AppointmentController {
         else {
             //jika status resep sudah selesai
             if (appointment.getResep().getIsDone() == true) {
-
+                appointment.setIsDone(true);
             }
             //jika status resep belum selesai
             redirectAttributes.addFlashAttribute("gagal", String.format("Resep masih belum selesai sehingga appointment tidak dapat diselesaikan"));
