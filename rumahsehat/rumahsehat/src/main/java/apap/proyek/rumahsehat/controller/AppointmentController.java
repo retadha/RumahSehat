@@ -68,13 +68,14 @@ public class AppointmentController {
 
         Appointment appointment = appointmentService.getAppointmentById(id);
 
-        boolean resepAda = false;
-        if (appointment.getResep() == null) {
-            resepAda = true;
-        }
+//        boolean resepAda = false;
+//        if (appointment.getResep() != null) {
+//            resepAda = true;
+//        }
 
         model.addAttribute("appointment", appointment);
         model.addAttribute("role", role);
+//        model.addAttribute("resepAda", resepAda);
         return "appointment/view-appointment";
     }
 
