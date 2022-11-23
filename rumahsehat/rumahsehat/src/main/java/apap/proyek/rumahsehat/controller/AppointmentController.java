@@ -91,7 +91,7 @@ public class AppointmentController {
         Appointment appointment = appointmentService.getAppointmentById(id);
         //jika resep tidak ada
         if (appointment.getResep() == null) {
-            model.addAttribute(appointment);
+            model.addAttribute("appointment", appointment);
 //            return "appointment/finish-appointment-without-resep";
         }
         else {
@@ -100,7 +100,8 @@ public class AppointmentController {
                 appointment.setIsDone(true);
 
                 Tagihan tagihan = new Tagihan();
-                tagihan.setKode("BILL-");
+                int jumlahTagihan = tagihanService.getListTagihan().size();
+                tagihan.setKode("BILL-" + Integer.toString(jumlahTagihan));
                 tagihan.setTanggalTerbuat(LocalDateTime.now());
                 tagihan.setIsPaid(false);
                 tagihan.setKodeAppointment(appointment);
@@ -116,5 +117,30 @@ public class AppointmentController {
         }
 
         return "redirect:/appointment/{id}";
+    }
+
+    @GetMapping("/appointment/konfirmasi/{id}")
+    public String getAppointment(@PathVariable String id, Model model) {
+        Appointment appointment = appointmentService.getAppointmentById(id);
+        model.addAttribute("appointment", appointment);
+        return "appointment/finish-appointment-without-resep";
+    }
+
+    @PostMapping("/appointment/konfirmasi/{id}")
+    public String selesaikanAppointment2(@PathVariable String id, Model model) {
+        Appointment appointment = appointmentService.getAppointmentById(id);
+        appointment.setIsDone(true);
+
+        Tagihan tagihan = new Tagihan();
+        int jumlahTagihan = tagihanService.getListTagihan().size();
+        tagihan.setKode("BILL-" + Integer.toString(jumlahTagihan));
+        tagihan.setTanggalTerbuat(LocalDateTime.now());
+        tagihan.setIsPaid(false);
+        tagihan.setKodeAppointment(appointment);
+        tagihan.setJumlahTagihan(appointment.getDokter().getTarif());
+        tagihanService.saveTagihan(tagihan);
+
+        model.addAttribute("appointment", appointment);
+        return "appointment/view-appointment";
     }
 }

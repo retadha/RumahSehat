@@ -32,11 +32,11 @@
             <td th:text="${appointment.pasien.user.nama}"></td>
             <td th:text="${#temporals.format(appointment.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
             <div th:switch="${appointment.isDone}">
-                <td th:case="true" th:text="'Selesai'" style="color: green" class="font-weight-bold"></td>
-                <td th:case="false" th:text="'Belum Selesai'" style="color: red" class="font-weight-bold"></td>
+                <td th:case="true" th:text="'Selesai'" style="color: green"></td>
+                <td th:case="false" th:text="'Belum Selesai'" style="color: red"></td>
             </div>
             <td>
-                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/resep/} + ${appointment.id}">Detail Resep</a>
+                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointment.id}">Detail Appointment</a>
             </td>
         </tr>
         </tbody>
@@ -63,7 +63,7 @@
                 <td th:case="false" th:text="'Belum Selesai'" style="color: red" class="font-weight-bold"></td>
             </div>
             <td>
-                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointmentDokter.id}">Detail Resep</a>
+                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointmentDokter.id}">Detail Appointment</a>
             </td>
         </tr>
         </tbody>

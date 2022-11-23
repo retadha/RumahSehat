@@ -9,13 +9,15 @@
 <body>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="container">
-    <div class="card m-4 p-4">
+    <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2 th:text="'Apakah anda ingin menyelesaikan appointment tanpa resep?'"></h2>
-                <br>
-                <button type="submit" class="btn btn-success">Ya</button>
-                <a class="btn btn-primary" href="@{/appointment/} + ${appointment.id}">Tidak</a>
+                <form th:action="@{/appointment/konfirmasi/} + ${appointment.id}" method="post">
+                    <h2 th:text="'Apakah anda ingin menyelesaikan appointment dengan kode ' + ${appointment.id} + ' tanpa resep?'"></h2>
+                    <br>
+                    <button type="submit" class="btn btn-success">Ya</button>
+                    <a class="btn btn-primary" th:href="@{/appointment/} + ${appointment.id}">Tidak</a>
+                </form>
             </div>
         </div>
     </div>
