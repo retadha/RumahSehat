@@ -97,7 +97,7 @@ public class AppointmentController {
 
             }
             //jika status resep belum selesai
-            redirectAttributes.addFlashAttribute("gagal", String.format("Resep masih belum selesai sehingga tidak appointment tidak dapat diselesaikan"));
+            redirectAttributes.addFlashAttribute("gagal", String.format("Resep masih belum selesai sehingga appointment tidak dapat diselesaikan"));
         }
 
         return "redirect:/appointment/{id}";

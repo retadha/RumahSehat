@@ -20,7 +20,7 @@
                         </div>
                         <div class="col" th:if="${role == 'Apoteker'} and ${resep.isDone == false}">
                             <div class="float-right">
-                                <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                <button type="submit" class="btn btn-success">Selesai</button>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     </div>
                     <br>
                     <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep != null}">Detail Resep</a>
-                    <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep == null}">Create Resep</a>
+                    <a class="btn btn-warning" th:href="@{/resep/}" th:if="${appointment.resep == null}">Create Resep</a>
                     <br>
                     <a class="btn btn-primary" th:href="@{/}">Back</a>
                 </form>
