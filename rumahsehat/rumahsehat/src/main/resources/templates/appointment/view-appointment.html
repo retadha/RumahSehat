@@ -19,7 +19,7 @@
                         <div class="col">
                             <h2>Detail Appointment</h2>
                         </div>
-                        <div class="col" th:if="${role == 'Apoteker'} and ${resep.isDone == false}">
+                        <div class="col" th:if="${role == 'Dokter'}">
                             <div class="float-right">
                                 <button type="submit" class="btn btn-success">Selesai</button>
                             </div>
@@ -29,9 +29,15 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <b><p th:text="'ID: ' + ${resep.id}"></p></b>
+                            <b><p th:text="'ID: ' + ${appointment.id}"></p></b>
                         </div>
                     </div>
+
+<!--                    <br>-->
+<!--                    <div th:switch="${appointment.isDone}">-->
+<!--                        <td th:case="true" th:text="'Selesai'" style="color: green" class="font-weight-bold"></td>-->
+<!--                        <td th:case="false" th:text="'Belum Selesai'" style="color: red" class="font-weight-bold"></td>-->
+<!--                    </div>-->
 
                     <br>
                     <div class="row">
@@ -44,38 +50,22 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p th:text="${resep.kodeAppointment.dokter.user.nama}"></p>
+                            <p th:text="${appointment.dokter.user.nama}"></p>
 
                         </div>
                         <div class="col">
-                            <p th:text="${resep.kodeAppointment.pasien.user.nama}"></p>
+                            <p th:text="${appointment.pasien.user.nama}"></p>
                         </div>
                     </div>
 
                     <br>
-                    <div class="row">
-                        <div class="col">
-                            <p><b>Status</b></p>
-                        </div>
-                        <div class="col" th:if="${resep.confirmerUuid != null}">
-                            <p><b>Apoteker</b></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p th:if="${resep.isDone == true}">Selesai</p>
-                            <p th:unless="${resep.isDone == true}">Belum Selesai</p>
-
-                        </div>
-                        <div class="col" th:if="${resep.confirmerUuid != null}">
-                            <p th:text="${resep.confirmerUuid.user.nama}"></p>
-                        </div>
-                    </div>
-                    <br>
-                    <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep != null}">Detail Resep</a>
-                    <a class="btn btn-warning" th:href="@{/resep/}" th:if="${appointment.resep == null}">Create Resep</a>
-                    <br>
-                    <a class="btn btn-primary" th:href="@{/}">Back</a>
+                    <td>
+                        <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep != null}">Detail Resep</a>
+                        <a class="btn btn-warning" th:href="@{/resep/}" th:if="${appointment.resep == null}">Create Resep</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/}">Back</a>
+                    </td>
                 </form>
             </div>
         </div>
