@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rumahsehat/page/detail_resep.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(DetailResepPage("111"));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home page'),
     );
   }
 }
