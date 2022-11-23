@@ -1,10 +1,9 @@
 package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.Appointment;
+import apap.proyek.rumahsehat.model.Tagihan;
 import apap.proyek.rumahsehat.model.UserModel;
-import apap.proyek.rumahsehat.service.AppointmentService;
-import apap.proyek.rumahsehat.service.ResepService;
-import apap.proyek.rumahsehat.service.UserService;
+import apap.proyek.rumahsehat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +33,14 @@ public class AppointmentController {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
+
+    @Qualifier("jumlahServiceImpl")
+    @Autowired
+    private JumlahService jumlahService;
+
+    @Qualifier("tagihanServiceImpl")
+    @Autowired
+    private TagihanService tagihanService;
 
     //melihat semua jadwal appointment
     @GetMapping("/appointment")
@@ -83,15 +91,28 @@ public class AppointmentController {
         Appointment appointment = appointmentService.getAppointmentById(id);
         //jika resep tidak ada
         if (appointment.getResep() == null) {
-            return "";
+            model.addAttribute(appointment);
+//            return "appointment/finish-appointment-without-resep";
         }
         else {
             //jika status resep sudah selesai
             if (appointment.getResep().getIsDone() == true) {
                 appointment.setIsDone(true);
+
+                Tagihan tagihan = new Tagihan();
+                tagihan.setKode("BILL-");
+                tagihan.setTanggalTerbuat(LocalDateTime.now());
+                tagihan.setIsPaid(false);
+                tagihan.setKodeAppointment(appointment);
+                tagihan.setJumlahTagihan(appointment.getDokter().getTarif());
+                tagihanService.saveTagihan(tagihan);
+
+                model.addAttribute("appointment", appointment);
+                return "appointment/view-appointment";
             }
             //jika status resep belum selesai
-            redirectAttributes.addFlashAttribute("gagal", String.format("Resep masih belum selesai sehingga appointment tidak dapat diselesaikan"));
+            redirectAttributes.addFlashAttribute("gagal",
+                    String.format("Resep masih belum selesai sehingga appointment tidak dapat diselesaikan"));
         }
 
         return "redirect:/appointment/{id}";
