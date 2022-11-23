@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 
 void main() {
-  runApp(DetailResepPage("111"));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
