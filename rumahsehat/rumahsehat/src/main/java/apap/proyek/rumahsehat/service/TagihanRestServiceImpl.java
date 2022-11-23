@@ -25,8 +25,11 @@ public class TagihanRestServiceImpl implements TagihanRestService{
         for(Tagihan tagihan: listTagihan){
             Map<String, Object> map2 = new HashMap<>();
             map2.put("kode", tagihan.getKode());
-            map2.put("tanggal", tagihan.getTanggalTerbuat());
+            map2.put("tanggalDibuat", tagihan.getTanggalTerbuat());
             map2.put("status", tagihan.getIsPaid());
+            map2.put("tanggalBayar", tagihan.getTanggalBayar());
+            map2.put("jumlahTagihan", tagihan.getJumlahTagihan());
+            map2.put("appointment", tagihan.getKodeAppointment().getId());
             list.add(map2);
         }
         map.put("tagihan", list);
