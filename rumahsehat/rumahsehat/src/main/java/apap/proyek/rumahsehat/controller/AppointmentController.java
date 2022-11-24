@@ -100,7 +100,7 @@ public class AppointmentController {
                 appointment.setIsDone(true);
 
                 Tagihan tagihan = new Tagihan();
-                int jumlahTagihan = tagihanService.getListTagihan().size();
+                int jumlahTagihan = tagihanService.getListTagihan().size() + 1;
                 tagihan.setKode("BILL-" + Integer.toString(jumlahTagihan));
                 tagihan.setTanggalTerbuat(LocalDateTime.now());
                 tagihan.setIsPaid(false);
@@ -132,7 +132,7 @@ public class AppointmentController {
         appointment.setIsDone(true);
 
         Tagihan tagihan = new Tagihan();
-        int jumlahTagihan = tagihanService.getListTagihan().size();
+        int jumlahTagihan = tagihanService.getListTagihan().size() + 1;
         tagihan.setKode("BILL-" + Integer.toString(jumlahTagihan));
         tagihan.setTanggalTerbuat(LocalDateTime.now());
         tagihan.setIsPaid(false);
