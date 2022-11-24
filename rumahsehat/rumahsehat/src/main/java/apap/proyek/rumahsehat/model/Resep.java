@@ -27,10 +27,12 @@ public class Resep {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "confirmer_uuid", referencedColumnName = "uuid")
     private Apoteker confirmerUuid;
 
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kodeAppointment")
+    private Appointment kodeAppointment;
 
 }

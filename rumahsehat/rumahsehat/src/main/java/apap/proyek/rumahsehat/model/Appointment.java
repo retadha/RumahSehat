@@ -41,6 +41,7 @@ public class Appointment {
     @OneToOne(mappedBy = "kodeAppointment")
     private Tagihan tagihan;
 
-
+    @OneToOne(mappedBy = "kodeAppointment")
+    private Resep resep;
 
 }
