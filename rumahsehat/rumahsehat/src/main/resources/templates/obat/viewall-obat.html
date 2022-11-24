@@ -19,12 +19,12 @@
         <table class="table">
           <thead>
           <tr>
-            <th style="text-align: center">No</th>
-            <th style="text-align: center">id</th>
-            <th style="text-align: center">Nama</th>
-            <th style="text-align: center">Stok</th>
-            <th style="text-align: center">Harga</th>
-            <th style="text-align: center">Aksi</th>
+            <th>No</th>
+            <th>id</th>
+            <th>Nama</th>
+            <th>Stok</th>
+            <th>Harga</th>
+            <th>Aksi</th>
           </tr>
 
           </thead>
@@ -34,7 +34,6 @@
             <td th:text="${obat.idObat}"></td>
             <td th:text="${obat.namaObat}"></td>
             <td th:text="${obat.stok}"></td>
-            <td th:text="${obat.harga}"></td>
             <td th:text="${obat.harga}"></td>
             <td style="align-items: center">
               <a class="btn btn-primary" th:href="@{/obat/update-stok/} + ${obat.idObat} ">Update Stok</a>
