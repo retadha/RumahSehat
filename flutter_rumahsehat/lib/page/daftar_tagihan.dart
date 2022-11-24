@@ -31,7 +31,8 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                       future: futureTagihan,
                       builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                          return Container(
+                        if (snapshot.data!.tagihan.length!=0){
+                           return Container(
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -40,6 +41,13 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                                 return buildCard(snapshot.data!.tagihan[index]);
                               })
                           );
+                        } else {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text("Anda belum memiliki tagihan.", )
+                          );
+                        }
+                         
                         } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                         }
