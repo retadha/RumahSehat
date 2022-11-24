@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Obat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Daftar Obat</h2>
+        <br> <br>
+        <table class="table">
+          <thead>
+          <tr>
+            <th style="text-align: center">No</th>
+            <th style="text-align: center">id</th>
+            <th style="text-align: center">Nama</th>
+            <th style="text-align: center">Stok</th>
+            <th style="text-align: center">Harga</th>
+            <th style="text-align: center">Aksi</th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr th:each="obat, iterationStatus : ${listObat}" th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${obat.idObat}"></td>
+            <td th:text="${obat.namaObat}"></td>
+            <td th:text="${obat.stok}"></td>
+            <td th:text="${obat.harga}"></td>
+            <td th:text="${obat.harga}"></td>
+            <td style="align-items: center">
+              <a class="btn btn-primary" th:href="@{/obat/update-stok/} + ${obat.idObat} ">Update Stok</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <br>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

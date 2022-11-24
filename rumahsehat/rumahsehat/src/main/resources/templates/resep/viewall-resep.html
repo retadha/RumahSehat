@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Resep</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <br>
+    <h2>Daftar Resep</h2>
+    <br>
+    <div th:if="${listResep.size() != 0}">
+        <table class="table"; style="text-align:center">
+            <thead>
+            <tr>
+                <th>ID Resep</th>
+                <th>Tanggal Dibuat</th>
+                <th>Status Resep</th>
+                <th colspan="4" >Detail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="resep, iterationStatus : ${listResep}">
+                <td th:text="${resep.id}"></td>
+                <td th:text="${#calendars.format(new java.util.Date(resep.createdAt), 'dd-M-yyyy hh:mm:ss')}"></td>
+                <td th:text="${resep.isDone}"></td>
+                <td>
+                    <a class="btn btn-success" th:href="@{/resep/} + ${resep.id}">Detail</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="btn btn-primary" href="/">Home</a>
+</div>
+
+</body>
+</html>
