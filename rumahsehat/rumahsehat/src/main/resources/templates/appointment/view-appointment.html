@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Appointment</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="container">
+    <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert" th:text="${gagal}" th:if="${gagal}"></div>
+            <div class="justify-content-center">
+                <form th:action="@{/appointment/} + ${appointment.id}" method="post">
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="text-primary">Detail Appointment</h2>
+                        </div>
+                        <div class="col" th:if="${role == 'Dokter'} and ${appointment.isDone == false}">
+                            <div class="float-right">
+                                <a class="btn btn-primary" th:href="@{/appointment/konfirmasi/} + ${appointment.id}" th:if="${appointment.resep == null}">Selesai</a>
+                                <button type="submit" class="btn btn-success" th:if="${appointment.resep != null}">Selesai</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <b><p th:text="'ID: ' + ${appointment.id}"></p></b>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <p><b>Status</b></p>
+                        </div>
+                        <div class="col">
+                            <p><b>Waktu Awal</b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" th:switch="${appointment.isDone}">
+                            <td th:case="true" th:text="'Selesai'" style="color: green"></td>
+                            <td th:case="false" th:text="'Belum Selesai'" style="color: red"></td>
+
+                        </div>
+                        <div class="col">
+                            <p th:text="${#temporals.format(appointment.waktuAwal, 'dd MMMM yyyy HH:mm')}"></p>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <p><b>Dokter</b></p>
+                        </div>
+                        <div class="col">
+                            <p><b>Pasien</b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p th:text="${appointment.dokter.user.nama}"></p>
+
+                        </div>
+                        <div class="col">
+                            <p th:text="${appointment.pasien.user.nama}"></p>
+                        </div>
+                    </div>
+
+                    <br>
+                    <td>
+                        <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep != null}">Detail Resep</a>
+                        <a class="btn btn-warning" th:href="@{/resep}" th:if="${appointment.resep == null} and ${appointment.isDone == false}">Create Resep</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/}">Back</a>
+                    </td>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
