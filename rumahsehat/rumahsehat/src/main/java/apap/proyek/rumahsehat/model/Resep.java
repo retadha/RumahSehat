@@ -27,9 +27,8 @@ public class Resep {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "confirmer_uuid", nullable = false, referencedColumnName = "uuid")
+    @JoinColumn(name = "confirmer_uuid", referencedColumnName = "uuid")
     private Apoteker confirmerUuid;
 
 
