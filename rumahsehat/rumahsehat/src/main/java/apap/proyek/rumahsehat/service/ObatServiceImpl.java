@@ -12,7 +12,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ObatServiceImpl implements ObatService {
-
     @Autowired
     ObatDb obatDb;
 
