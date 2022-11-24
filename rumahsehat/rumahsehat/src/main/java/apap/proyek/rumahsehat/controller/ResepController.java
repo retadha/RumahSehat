@@ -10,13 +10,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ResepController {
@@ -43,6 +43,10 @@ public class ResepController {
     @Qualifier("tagihanServiceImpl")
     @Autowired
     private TagihanService tagihanService;
+
+    @Qualifier("obatServiceImpl")
+    @Autowired
+    private ObatService obatService;
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
@@ -96,4 +100,10 @@ public class ResepController {
         return "redirect:/resep/{idResep}";
     }
 
+    @GetMapping({"/daftar-resep"})
+    public String listResep(Model model) {
+        List<Resep> listResep = this.resepService.findAllResep();
+        model.addAttribute("listResep", listResep);
+        return "resep/viewall-resep";
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -35,5 +36,8 @@ public class Resep {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kodeAppointment")
     private Appointment kodeAppointment;
+
+    @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
+    private List<Jumlah> listJumlah;
 
 }
