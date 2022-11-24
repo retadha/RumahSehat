@@ -1,11 +1,13 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -35,4 +37,11 @@ public class Resep {
     @JoinColumn(name = "kodeAppointment")
     private Appointment kodeAppointment;
 
+<<<<<<< HEAD
 }
+=======
+    @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
+    private List<Jumlah> listJumlah;
+
+}
+>>>>>>> ad8aae416ca2465b83a8c85608ba3dd9a1ac4682
