@@ -18,12 +18,15 @@
         <br> <br>
         <table class="table">
           <thead>
+          <tr>
             <th style="text-align: center">No</th>
             <th style="text-align: center">id</th>
             <th style="text-align: center">Nama</th>
             <th style="text-align: center">Stok</th>
             <th style="text-align: center">Harga</th>
             <th style="text-align: center">Aksi</th>
+          </tr>
+
           </thead>
           <tbody>
           <tr th:each="obat, iterationStatus : ${listObat}" th:style="${iterationStatus.even} ? 'font-weight:bold;'">
