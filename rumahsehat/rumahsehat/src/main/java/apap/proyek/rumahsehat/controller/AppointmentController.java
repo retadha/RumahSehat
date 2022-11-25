@@ -108,6 +108,7 @@ public class AppointmentController {
                 tagihan.setJumlahTagihan(appointment.getDokter().getTarif());
                 tagihanService.saveTagihan(tagihan);
 
+                model.addAttribute("role", role);
                 model.addAttribute("appointment", appointment);
                 return "appointment/view-appointment";
             }
