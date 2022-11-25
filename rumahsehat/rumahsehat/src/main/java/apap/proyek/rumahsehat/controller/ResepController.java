@@ -107,13 +107,12 @@ public class ResepController {
         return "resep/viewall-resep";
     }
 
-    @GetMapping("/create-resep/{idAppoinment}")
-    public String formCreateResep(@PathVariable String idAppoinment, Model model) {
-        Resep resep = new Resep();
-        Appointment appointment = appointmentService.findAppointmentById(idAppoinment);
-        List<Jumlah> listJumlah = new ArrayList<>();
+    @GetMapping("/create-resep/{idAppointment}")
+    public String formCreateResep(@PathVariable String idAppointment, Model model) {
+        Appointment appointment = appointmentService.findAppointmentById(idAppointment);
         if (!appointment.getIsDone()){
-//            appointment.setResep(resep);
+            Resep resep = new Resep();
+            List<Jumlah> listJumlah = new ArrayList<>();
             resep.setListJumlah(listJumlah);
 
             Jumlah jumlah = new Jumlah();
@@ -125,7 +124,7 @@ public class ResepController {
 
             model.addAttribute("listObat", listObat);
             model.addAttribute("resep", resep);
-            model.addAttribute("idAppoinment", idAppoinment);
+            model.addAttribute("idAppointment", idAppointment);
 
             return "resep/form-create-resep";
         }
@@ -133,10 +132,10 @@ public class ResepController {
     }
 
     @PostMapping(
-            value = {"/create-resep/{idAppoinment}"},
+            value = {"/create-resep/{idAppointment}"},
             params = {"addRow"}
     )
-    private String addRowMultiple(@PathVariable String idAppoinment, @ModelAttribute Resep resep, Model model) {
+    private String addRowMultiple(@PathVariable String idAppointment, @ModelAttribute Resep resep, Model model) {
         if (resep.getListJumlah() == null || resep.getListJumlah().size() == 0) {
             resep.setListJumlah(new ArrayList<>());
         }
@@ -151,15 +150,15 @@ public class ResepController {
 
         model.addAttribute("resep", resep);
         model.addAttribute ( "listObat", listObat);
-        model.addAttribute("idAppoinment", idAppoinment);
+        model.addAttribute("idAppointment", idAppointment);
         return "resep/form-create-resep";
     }
 
     @PostMapping(
-            value = {"/create-resep/{idAppoinment}"},
+            value = {"/create-resep/{idAppointment}"},
             params = {"deleteRow"}
     )
-    private String deleteRowMultiple(@PathVariable String idAppoinment, @ModelAttribute Resep resep, @RequestParam("deleteRow") Integer row, Model model) {
+    private String deleteRowMultiple(@PathVariable String idAppointment, @ModelAttribute Resep resep, @RequestParam("deleteRow") Integer row, Model model) {
         final Integer rowId = Integer.valueOf(row);
         resep.getListJumlah().remove(rowId.intValue());
 
@@ -167,22 +166,22 @@ public class ResepController {
 
         model.addAttribute("resep", resep);
         model.addAttribute ( "listObat", listObat);
-        model.addAttribute("idAppoinment", idAppoinment);
+        model.addAttribute("idAppointment", idAppointment);
 
         return "resep/form-create-resep";
     }
 
     @PostMapping(
-            value = {"/create-resep/{idAppoinment}"},
+            value = {"/create-resep/{idAppointment}"},
             params = {"save"}
     )
-    public String buatResepSubmit(@PathVariable String idAppoinment, @ModelAttribute Resep resep, Model model) {
+    public String buatResepSubmit(@PathVariable String idAppointment, @ModelAttribute Resep resep, Model model) {
         if (resep.getListJumlah() == null) {
             resep.setListJumlah(new ArrayList<>());
         }
-        Appointment kodeAppoinment = appointmentService.findAppointmentById(idAppoinment);
+        Appointment kodeAppointment = appointmentService.findAppointmentById(idAppointment);
 
-        resep.setKodeAppointment(kodeAppoinment);
+        resep.setKodeAppointment(kodeAppointment);
         resep.setCreatedAt(LocalDateTime.now());
         resep.setIsDone(false);
         Resep savedResep = resepService.saveResep(resep);
@@ -201,7 +200,7 @@ public class ResepController {
             jumlahService.addJumlah(newJumlah);
         }
         model.addAttribute("resep", resep);
-        model.addAttribute("idAppoinment", idAppoinment);
+        model.addAttribute("idAppointment", idAppointment);
         return "resep/create-resep";
     }
 }
