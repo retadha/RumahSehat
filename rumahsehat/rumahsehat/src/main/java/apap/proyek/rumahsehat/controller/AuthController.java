@@ -104,5 +104,4 @@ public class AuthController {
         return "user/pasien-forbidden";
     }
 
-
 }

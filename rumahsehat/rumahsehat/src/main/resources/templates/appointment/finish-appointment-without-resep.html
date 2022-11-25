@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Appointment</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <form th:action="@{/appointment/konfirmasi/} + ${appointment.id}" method="post">
+                    <h2 th:text="'Apakah anda ingin menyelesaikan appointment dengan kode ' + ${appointment.id} + ' tanpa resep?'"></h2>
+                    <br>
+                    <button type="submit" class="btn btn-success">Ya</button>
+                    <a class="btn btn-primary" th:href="@{/appointment/} + ${appointment.id}">Tidak</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
