@@ -37,19 +37,4 @@ public class JumlahId implements Serializable {
     public void setResep(Long resep) {
         this.resep = resep;
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-//        JumlahId entity = (JumlahId) o;
-//        return Objects.equals(this.obat, entity.obat) &&
-//                Objects.equals(this.resep, entity.resep);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(obat, resep);
-//    }
-
 }

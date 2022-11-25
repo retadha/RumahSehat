@@ -27,7 +27,9 @@
             <tr th:each="resep, iterationStatus : ${listResep}">
                 <td th:text="${resep.id}"></td>
                 <td th:text="${#calendars.format(new java.util.Date(resep.createdAt), 'dd-M-yyyy hh:mm:ss')}"></td>
-                <td th:text="${resep.isDone}"></td>
+<!--                <td th:text="${resep.isDone}"></td>-->
+                <td th:if="${resep.isDone == false}" th:text="'Belum Selesai'"></td>
+                <td th:if="${resep.isDone == true}" th:text="'Selesai'"></td>
                 <td>
                     <a class="btn btn-success" th:href="@{/resep/} + ${resep.id}">Detail</a>
                 </td>
