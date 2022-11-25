@@ -25,14 +25,13 @@ public class MultiHttpSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+
+    public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
     }
 
     @Configuration
