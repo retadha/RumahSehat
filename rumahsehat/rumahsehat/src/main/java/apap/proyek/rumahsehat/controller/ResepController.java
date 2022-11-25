@@ -106,4 +106,102 @@ public class ResepController {
         model.addAttribute("listResep", listResep);
         return "resep/viewall-resep";
     }
+
+    @GetMapping("/create-resep/{idAppoinment}")
+    public String formCreateResep(@PathVariable String idAppoinment, Model model) {
+        Resep resep = new Resep();
+        Appointment appointment = appointmentService.findAppointmentById(idAppoinment);
+        List<Jumlah> listJumlah = new ArrayList<>();
+        if (!appointment.getIsDone()){
+//            appointment.setResep(resep);
+            resep.setListJumlah(listJumlah);
+
+            Jumlah jumlah = new Jumlah();
+            JumlahId jumlahId = new JumlahId();
+            jumlah.setId(jumlahId);
+
+            resep.getListJumlah().add(jumlah);
+            List<Obat> listObat = obatService.getListObat();
+
+            model.addAttribute("listObat", listObat);
+            model.addAttribute("resep", resep);
+            model.addAttribute("idAppoinment", idAppoinment);
+
+            return "resep/form-create-resep";
+        }
+        return "appointment-not-found";
+    }
+
+    @PostMapping(
+            value = {"/create-resep/{idAppoinment}"},
+            params = {"addRow"}
+    )
+    private String addRowMultiple(@PathVariable String idAppoinment, @ModelAttribute Resep resep, Model model) {
+        if (resep.getListJumlah() == null || resep.getListJumlah().size() == 0) {
+            resep.setListJumlah(new ArrayList<>());
+        }
+
+        Jumlah jumlah = new Jumlah();
+        JumlahId jumlahId = new JumlahId();
+        jumlah.setId(jumlahId);
+
+        resep.getListJumlah().add(jumlah);
+
+        List<Obat> listObat = obatService.getListObat();
+
+        model.addAttribute("resep", resep);
+        model.addAttribute ( "listObat", listObat);
+        model.addAttribute("idAppoinment", idAppoinment);
+        return "resep/form-create-resep";
+    }
+
+    @PostMapping(
+            value = {"/create-resep/{idAppoinment}"},
+            params = {"deleteRow"}
+    )
+    private String deleteRowMultiple(@PathVariable String idAppoinment, @ModelAttribute Resep resep, @RequestParam("deleteRow") Integer row, Model model) {
+        final Integer rowId = Integer.valueOf(row);
+        resep.getListJumlah().remove(rowId.intValue());
+
+        List<Obat> listObat = obatService.getListObat();
+
+        model.addAttribute("resep", resep);
+        model.addAttribute ( "listObat", listObat);
+        model.addAttribute("idAppoinment", idAppoinment);
+
+        return "resep/form-create-resep";
+    }
+
+    @PostMapping(
+            value = {"/create-resep/{idAppoinment}"},
+            params = {"save"}
+    )
+    public String buatResepSubmit(@PathVariable String idAppoinment, @ModelAttribute Resep resep, Model model) {
+        if (resep.getListJumlah() == null) {
+            resep.setListJumlah(new ArrayList<>());
+        }
+        Appointment kodeAppoinment = appointmentService.findAppointmentById(idAppoinment);
+
+        resep.setKodeAppointment(kodeAppoinment);
+        resep.setCreatedAt(LocalDateTime.now());
+        resep.setIsDone(false);
+        Resep savedResep = resepService.saveResep(resep);
+
+        for (Jumlah jumlah: resep.getListJumlah()) {
+            Jumlah newJumlah = new Jumlah();
+            JumlahId jumlahId = new JumlahId();
+            newJumlah.setId(jumlahId);
+            newJumlah.setResep(savedResep);
+            String idObat = jumlah.getObat().getIdObat();
+            Obat obat = obatService.getObatByIdObat(idObat);
+            newJumlah.setObat(obat);
+            Integer kuantitas = jumlah.getKuantitas();
+            newJumlah.setKuantitas(kuantitas);
+
+            jumlahService.addJumlah(newJumlah);
+        }
+        model.addAttribute("resep", resep);
+        model.addAttribute("idAppoinment", idAppoinment);
+        return "resep/create-resep";
+    }
 }
