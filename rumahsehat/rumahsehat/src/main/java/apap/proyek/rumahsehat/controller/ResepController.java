@@ -129,7 +129,7 @@ public class ResepController {
 
             return "resep/form-create-resep";
         }
-        return "appointment-not-found";
+        return "resep/appointment-is-done";
     }
 
     @PostMapping(
