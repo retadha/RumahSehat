@@ -1,11 +1,13 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -27,11 +29,17 @@ public class Resep {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "confirmer_uuid", nullable = false, referencedColumnName = "uuid")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "confirmer_uuid", referencedColumnName = "uuid")
     private Apoteker confirmerUuid;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kodeAppointment")
+    private Appointment kodeAppointment;
 
 
+    @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
+    private List<Jumlah> listJumlah;
 }
+
+

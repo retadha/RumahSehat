@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Dokter</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Daftar Pasien</h2>
+                <br>
+                <br>
+                <table class="table">
+                    <thead>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Saldo</th>
+                    <th>Umur</th>
+                    <th>Aksi</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pasien, iterationStatus : ${listPasien}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${pasien.user.nama}"></td>
+                        <td th:text="${pasien.user.username}"></td>
+                        <td th:text="${pasien.user.email}"></td>
+                        <td th:text="${pasien.saldo}"></td>
+                        <td th:text="${pasien.umur}"></td>
+                        <td>
+                            <a class="btn btn-danger" th:href="@{/users/pasien/delete/} + ${pasien.user.uuid}">Delete Pasien</a>
+                        </td>
+                    </tbody>
+                </table>
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

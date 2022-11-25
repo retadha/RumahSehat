@@ -22,5 +22,19 @@ public class JumlahId implements Serializable {
     @Column(name = "resep", nullable = false)
     private Long resep;
 
+    public String getObat() {
+        return obat;
+    }
 
+    public void setObat(String obat) {
+        this.obat = obat;
+    }
+
+    public Long getResep() {
+        return resep;
+    }
+
+    public void setResep(Long resep) {
+        this.resep = resep;
+    }
 }
