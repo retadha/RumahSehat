@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Jadwal Appointment</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+    <h2 style="text-align: center">Jadwal Appointment</h2>
+    <br>
+
+    <table class="table" th:if="${role == 'Admin'}">
+        <thead class="blue-back">
+        <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Nama Dokter</th>
+            <th class="text-center">Nama Pasien</th>
+            <th class="text-center">Waktu Awal</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment, iterationStatus : ${listAppointment}"
+            th:style="${iterationStatus.even} ? 'background-color:#e0e0e0;'">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${appointment.dokter.user.nama}"></td>
+            <td th:text="${appointment.pasien.user.nama}"></td>
+            <td th:text="${#temporals.format(appointment.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
+            <div th:switch="${appointment.isDone}">
+                <td th:case="true" th:text="'Selesai'" style="color: green"></td>
+                <td th:case="false" th:text="'Belum Selesai'" style="color: red"></td>
+            </div>
+            <td>
+                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointment.id}">Detail Appointment</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table" th:if="${role == 'Dokter'}">
+        <thead class="blue-back">
+        <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Nama Pasien</th>
+            <th class="text-center">Waktu Awal</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointmentDokter, iterationStatus : ${listAppointmentDokter}"
+            th:style="${iterationStatus.even} ? 'background-color:#e0e0e0;'">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${appointmentDokter.pasien.user.nama}"></td>
+            <td th:text="${#temporals.format(appointmentDokter.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
+            <div th:switch="${appointmentDokter.isDone}">
+                <td th:case="true" th:text="'Selesai'" style="color: green" class="font-weight-bold"></td>
+                <td th:case="false" th:text="'Belum Selesai'" style="color: red" class="font-weight-bold"></td>
+            </div>
+            <td>
+                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointmentDokter.id}">Detail Appointment</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a class="btn btn-primary" href="/">Back</a>
+</div>
 
 </body>
 </html>

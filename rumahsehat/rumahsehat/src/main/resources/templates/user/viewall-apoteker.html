@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Dokter</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Daftar Apoteker</h2>
+        <br>
+        <a th:href="@{/users/apoteker/add}" class="btn btn-primary">Tambah Apoteker</a>
+        <br>
+        <br>
+        <table class="table">
+          <thead>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Aksi</th>
+          </thead>
+          <tbody>
+          <tr th:each="apoteker, iterationStatus : ${listApoteker}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${apoteker.user.nama}"></td>
+            <td th:text="${apoteker.user.username}"></td>
+            <td th:text="${apoteker.user.email}"></td>
+            <td>
+              <a class="btn btn-danger" th:href="@{/users/apoteker/delete/} + ${apoteker.user.uuid}">Delete Apoteker</a>
+            </td>
+          </tbody>
+        </table>
+        <br>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
