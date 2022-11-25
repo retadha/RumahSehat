@@ -22,8 +22,8 @@
 <!--                        <a th:href="@{/}" class="mx-2 btn btn-outline-primary">Buat appointment</a>-->
                     </div>
                     <div class=" my-3 d-flex justify-content-center">
-                        <a th:href="@{/}" class="mx-2 btn btn-primary">Daftar Resep</a>
-                        <a th:href="@{/}" class="mx-2 btn btn-outline-primary">Buat Resep</a>
+                        <a th:href="@{/daftar-resep}" class="mx-2 btn btn-primary">Daftar Resep</a>
+<!--                        <a th:href="@{/}" class="mx-2 btn btn-outline-primary">Buat Resep</a>-->
                     </div>
                     <div class=" my-3 d-flex justify-content-center">
                         <a sec:authorize="hasAnyAuthority('Admin', 'Apoteker')" th:href="@{/obat/viewall}" class="mx-2 btn btn-primary">Daftar Obat</a>
