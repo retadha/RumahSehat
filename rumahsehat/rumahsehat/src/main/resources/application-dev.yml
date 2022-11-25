@@ -1,7 +1,8 @@
+server:
+  address: 0.0.0.0
+  port: 8080
+
 spring:
-  sql:
-    init:
-      platform: mysql
 
   # konfigurasi untuk koneksi db
   datasource:
@@ -11,8 +12,8 @@ spring:
     url: jdbc:mysql://localhost:3306/rumahsehat?useSSL=false&serverTimezone=Asia/Jakarta
 
     # sesuaikan dengan NAMA dan PASSWORD anda dengan username password di bawah ini
-    username: apap_user
-    password: password1234!
+    username: root
+    password:
 
   jpa:
     properties:
@@ -21,7 +22,7 @@ spring:
         format_sql: true
 
     # pembuatan database (create || create-drop || validate || update)
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: update
 
     show-sql: true
 
