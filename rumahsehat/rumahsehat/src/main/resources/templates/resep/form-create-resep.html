@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rumah Sehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Buat Resep</h2>
+                <br>
+                <form th:action="@{/create-resep/} + ${idAppoinment}" th:object="${resep}" method="POST">
+                    <table class="table" style="width:100%">
+                        <thead>
+                        <th style="width:70%">Nama Obat</th>
+                        <th style="width:15%">Kuantitas</th>
+                        <th>
+                            <button class="btn btn-primary" type="submit" name="addRow">Tambah Row</button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="jumlah, iterationStatus : *{listJumlah}">
+                            <td>
+                                <select th:field="*{listJumlah[__${iterationStatus.index}__].obat}" class="form-control">
+                                    <option th:each="obat, iterationStatus2 : ${listObat}" th:value="${obat.idObat}" th:text="${obat.namaObat}"></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" min="0" th:field="*{listJumlah[__${iterationStatus.index}__].kuantitas}">
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit" name="deleteRow">
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit" name="save">Submit</button>
+                    <a class="btn btn-primary" href="/">Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('select').selectize({
+            sortField: 'text'
+        });
+    });
+</script>
+</html>

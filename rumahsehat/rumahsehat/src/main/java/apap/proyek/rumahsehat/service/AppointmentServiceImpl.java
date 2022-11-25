@@ -33,4 +33,13 @@ public class AppointmentServiceImpl implements AppointmentService{
     public void save(Appointment appointment) {
         appointmentDb.save(appointment);
     }
+
+    @Override
+    public Appointment findAppointmentById(String id) {
+        Optional<Appointment> appointment = appointmentDb.findById(id);
+        if (appointment.isPresent()) {
+            return appointment.get();
+        } else
+            return null;
+    }
 }

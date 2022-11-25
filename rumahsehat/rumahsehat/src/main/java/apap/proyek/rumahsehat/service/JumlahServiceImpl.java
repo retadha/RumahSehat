@@ -40,4 +40,9 @@ public class JumlahServiceImpl implements JumlahService{
         }
         return total;
     }
+
+    @Override
+    public Jumlah addJumlah(Jumlah jumlah) {
+        return jumlahDb.save(jumlah);
+    }
 }
