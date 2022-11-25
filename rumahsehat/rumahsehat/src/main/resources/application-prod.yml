@@ -4,15 +4,19 @@ server:
 
 spring:
   # konfigurasi untuk koneksi db
+  sql:
+    init:
+      platform: mysql
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
 
     # sesuaikan nama database anda dengan di bawah ini
-    url: jdbc:mysql://db:3306/apap_db?useSSL=false&serverTimezone=Asia/Jakarta
+    url: jdbc:mysql://db:3306/rumahsehat?useSSL=false&serverTimezone=Asia/Jakarta
 
     # sesuaikan dengan NAMA dan PASSWORD anda dengan username password di bawah ini
-    username: root
-    password:
+    username: apap_user
+    password: password1234!
 
   jpa:
     properties:
@@ -24,3 +28,10 @@ spring:
     hibernate.ddl-auto: create-drop
 
     show-sql: true
+
+jwt:
+  secret: proyekapaprumahsehatapap50springbootflutter
+  get:
+    token:
+      uri: /authenticate
+
