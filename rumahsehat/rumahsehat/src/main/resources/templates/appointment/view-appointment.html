@@ -76,7 +76,7 @@
                     <br>
                     <td>
                         <a class="btn btn-warning" th:href="@{/resep/} + ${appointment.resep.id}" th:if="${appointment.resep != null}">Detail Resep</a>
-                        <a class="btn btn-warning" th:href="@{/resep}" th:if="${appointment.resep == null} and ${appointment.isDone == false}">Create Resep</a>
+                        <a class="btn btn-warning" th:href="@{/resep}" th:if="${appointment.resep == null} and ${appointment.isDone == false} and ${role == 'Dokter'}">Create Resep</a>
                     </td>
                     <td>
                         <a class="btn btn-primary" th:href="@{/}">Back</a>
