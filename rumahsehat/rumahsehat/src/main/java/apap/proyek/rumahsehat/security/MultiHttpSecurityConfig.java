@@ -3,6 +3,7 @@ package apap.proyek.rumahsehat.security;
 import apap.proyek.rumahsehat.security.jwt_config.JwtAuthenticationEntryPoint;
 import apap.proyek.rumahsehat.security.jwt_config.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -22,22 +23,24 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class MultiHttpSecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Bean
-    public BCryptPasswordEncoder encoder() {
+    public static BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 
     @Configuration
     @Order(1)
     public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Qualifier("jwtUserDetailsServiceImpl")
+        @Autowired
+        private UserDetailsService jwtUserDetailsService;
+
+        @Autowired
+        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+            auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder());
+        }
 
         @Autowired
         private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -76,6 +79,15 @@ public class MultiHttpSecurityConfig {
     @Configuration
     @Order(2)
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Qualifier("userDetailsServiceImpl")
+        @Autowired
+        private UserDetailsService userDetailsService;
+
+        @Autowired
+        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+            auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        }
 
         @Autowired
         private LoginSuccessHandler successHandler;

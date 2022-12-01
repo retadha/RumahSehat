@@ -16,13 +16,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDb userDb;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userDb.findByUsername(username);
+        UserModel user = userDb.findByUsernameAndRole(username, "Pasien");
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
         return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
