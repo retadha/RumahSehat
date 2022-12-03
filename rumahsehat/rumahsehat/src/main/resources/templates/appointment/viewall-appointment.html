@@ -69,6 +69,33 @@
         </tbody>
     </table>
 
+    <table class="table" th:if="${role == 'Pasien'}">
+        <thead class="blue-back">
+        <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Nama Dokter</th>
+            <th class="text-center">Waktu Awal</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointmentPasien, iterationStatus : ${listAppointmentPasien}"
+            th:style="${iterationStatus.even} ? 'background-color:#e0e0e0;'">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${appointmentPasien.dokter.user.nama}"></td>
+            <td th:text="${#temporals.format(appointmentPasien.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
+            <div th:switch="${appointmentPasien.isDone}">
+                <td th:case="true" th:text="'Selesai'" style="color: green" class="font-weight-bold"></td>
+                <td th:case="false" th:text="'Belum Selesai'" style="color: red" class="font-weight-bold"></td>
+            </div>
+            <td>
+                <a class="btn btn-success font-weight-bold m-auto" th:href="@{/appointment/} + ${appointmentPasien.id}">Detail Appointment</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
     <br>
     <a class="btn btn-primary" href="/">Back</a>
 </div>

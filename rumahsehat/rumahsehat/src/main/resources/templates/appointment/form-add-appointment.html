@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buat Appointment</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="justify-content-center">
+        <h2 style="text-align: center"><b>Buat appointment</b></h2>
+        <br>
+        <form th:action="@{/create-appointment}" th:object="${appointment}" method="POST">
+            Tanggal dan Waktu: <br>
+            <input required class="form-control" type="datetime-local" th:field="*{waktuAwal}"/>
+            <br><br>
+
+            Dokter: <br>
+<!--            <select th:field="*{jenisLembaga}"-->
+<!--                    class="form-control">-->
+<!--                <option th:value="0" th:text="Non-Pendidikan"></option>-->
+<!--                <option th:value="1" th:text="Pendidikan"></option>-->
+<!--            </select>-->
+<!--            <br><br>-->
+
+            <hr />
+            <div class="d-flex justify-content-center" style="margin-bottom: 40px;">
+                <button class="mx-2 btn btn-success font-weight-bold m-auto" type="submit" name="save">Simpan</button>
+                <a class="mx-2 btn back btn-danger font-weight-bold m-auto" href="/appointment">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

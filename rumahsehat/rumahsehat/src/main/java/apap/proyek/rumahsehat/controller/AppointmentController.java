@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,16 +53,33 @@ public class AppointmentController {
         else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Dokter"))) {
             role = "Dokter";
         }
-        UserModel user = userService.getUserByUsername(principal.getName());
-        List<Appointment> listAppointment = appointmentService.getListAppointment();
-        List<Appointment> listAppointmentDokter = new ArrayList<>();
-        for (Appointment i : listAppointment) {
-            if (i.getDokter().getUser().getUsername().equals(user.getUsername())) {
-                listAppointmentDokter.add(i);
-            }
+        else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Pasien"))) {
+            role = "Pasien";
         }
+
+        List<Appointment> listAppointment = appointmentService.getListAppointment();
+        if (role.equals("Dokter")) {
+            UserModel user = userService.getUserByUsername(principal.getName());
+            List<Appointment> listAppointmentDokter = new ArrayList<>();
+            for (Appointment i : listAppointment) {
+                if (i.getDokter().getUser().getUsername().equals(user.getUsername())) {
+                    listAppointmentDokter.add(i);
+                }
+            }
+            model.addAttribute("listAppointmentDokter", listAppointmentDokter);
+        }
+        else if (role.equals("Pasien")) {
+            UserModel user = userService.getUserByUsername(principal.getName());
+            List<Appointment> listAppointmentPasien = new ArrayList<>();
+            for (Appointment e : listAppointment) {
+                if (e.getPasien().getUser().getUsername().equals(user.getUsername())) {
+                    listAppointmentPasien.add(e);
+                }
+            }
+            model.addAttribute("listAppointmentPasien", listAppointmentPasien);
+        }
+
         model.addAttribute("role", role);
-        model.addAttribute("listAppointmentDokter", listAppointmentDokter);
         model.addAttribute("listAppointment", listAppointment);
         return "appointment/viewall-appointment";
     }
@@ -143,5 +161,45 @@ public class AppointmentController {
 
         model.addAttribute("appointment", appointment);
         return "appointment/view-appointment";
+    }
+
+    @GetMapping("/create-appointment")
+    public String addAppointmentFormPage(Model model, Authentication authentication) {
+        String role = "";
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Pasien"))) {
+            role = "Pasien";
+        }
+        Appointment appointment = new Appointment();
+
+        model.addAttribute("appointment", appointment);
+        model.addAttribute("role", role);
+        return "appointment/form-add-appointment";
+    }
+
+    @PostMapping("/create-appointment")
+    public String addAppointmentSubmit(@ModelAttribute Appointment appointment, Model model, RedirectAttributes redirectAttributes) {
+        //cek apakah waktu appointment tabrakan atau tidak
+        boolean statusDokter = false;
+        //pake isbefore isafter
+//        for (Appointment i : appointment.getDokter().getListAppointment()) {
+//
+//        }
+
+        //waktu appointment dengan dokter tidak tabrakan
+        if (statusDokter == true) {
+            appointmentService.save(appointment);
+
+            appointment.setIsDone(false);
+            int jumlahAppointment = appointmentService.getListAppointment().size() + 1;
+            appointment.setId("APT-" + Integer.toString(jumlahAppointment));
+
+            model.addAttribute("kodeAppointment", appointment.getId());
+            return "appointment/add-appointment";
+        }
+        //waktu dokter tabrakan
+        redirectAttributes.addFlashAttribute("gagal",
+                String.format("Waktu appointment dengan dokter yang dipilih bertabrakan dengan jadwal appointment lain"));
+
+        return "appointment/viewall-appointment";
     }
 }
