@@ -62,7 +62,8 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
 
     Future<Tagihan> fetchTagihan(String username) async {
         var url = 'http://localhost:8080/api/list-tagihan/' + username;
-        final response = await http.get(Uri.parse(url));
+        final response = await http.get(Uri.parse(url)
+        headers: <String, String>{'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUGFzaWVuIiwidXVpZCI6IjMiLCJzdWIiOiJwYXNpZW4xIiwiaWF0IjoxNjY5MzY1OTg1LCJleHAiOjE2NjkzODM5ODV9.1gq10NjMot41jxs1mhVx1BTErSaryvfG1el_wNcXN80'},);
         Map<String, dynamic> data = jsonDecode(response.body);
         print(data);
         return Tagihan.fromJson(jsonDecode(response.body));
@@ -117,6 +118,9 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                         child: ElevatedButton(
                             child: const Text('Detail'),
                             onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DetailTagihanPage(data.kode),
+                              ));
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.green,

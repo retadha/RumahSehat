@@ -20,4 +20,8 @@ public class TagihanRestController {
         return tagihanRestService.getListTagihan(username);
     }
 
+    @GetMapping(value = "/tagihan/{kode}")
+    private Map detailTagihan(@PathVariable("kode") String kode){
+        return tagihanRestService.getDetailTagihan(kode);
+    }
 }

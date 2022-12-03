@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -33,6 +30,25 @@ public class TagihanRestServiceImpl implements TagihanRestService{
             list.add(map2);
         }
         map.put("tagihan", list);
+        return map;
+    }
+
+    @Override
+    public Map getDetailTagihan(String kode) {
+        Optional<Tagihan> tagihanOptional = tagihanDb.findById(kode);
+        Tagihan tagihan = null;
+        if (tagihanOptional.isPresent()){
+            tagihan = tagihanOptional.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("kode", tagihan.getKode());
+        map.put("tanggalDibuat", tagihan.getTanggalTerbuat());
+        map.put("status", tagihan.getIsPaid());
+        map.put("tanggalBayar", tagihan.getTanggalBayar());
+        map.put("jumlahTagihan", tagihan.getJumlahTagihan());
+        map.put("appointment", tagihan.getKodeAppointment().getId());
         return map;
     }
 }
