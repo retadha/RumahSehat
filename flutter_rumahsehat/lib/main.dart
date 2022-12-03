@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(const RumahSehatApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class RumahSehatApp extends StatefulWidget {
+  const RumahSehatApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _RumahSehatAppState createState() => _RumahSehatAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;

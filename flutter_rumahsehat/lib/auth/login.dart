@@ -127,6 +127,8 @@ class LoginFormState extends State<LoginForm> {
                 side: BorderSide(color: Colors.blue))),
       ),
       onPressed: () async {
+        print(username);
+        print(password);
         final isValid = _formKey.currentState!.validate();
         if (isValid) {
           _formKey.currentState!.save();
@@ -147,7 +149,7 @@ class LoginFormState extends State<LoginForm> {
           } else if (loginResponseCode == 401) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text("Username atau Password salah",
+                  content: Text("Username atau Password salah"),
                       style: TextStyle(fontSize: 20, fontFamily: 'ABeeZee'))),
             );
           }

@@ -1,152 +1,136 @@
-import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rumahsehat/main.dart';
-// import 'package:jwt_token_flutter_app/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 void main() {
   runApp(LoginPage());
 }
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  bool _isLoading = false;
+  void displayDialog(context, title, text) => showDialog(
+    context: context,
+    builder: (context) =>
+        AlertDialog(
+            title: Text(title),
+            content: Text(text)
+        ),
+  );
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  Future<String?> attemptLogIn(String username, String password) async {
+    final String apiUrl = 'http://localhost:8080/api/authenticate';
+    var res = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+        },
+        body: jsonEncode({
+          "username": username,
+          "password": password,
+        }));
+    if(res.statusCode == 200) return res.body;
+    return null;
+  }
+
+  Future<int> attemptSignUp(String username, String password) async {
+    final String apiUrl = 'http://localhost:8080/api/authenticate';
+    var res = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+        },
+        body: jsonEncode({
+          "username": username,
+          "password": password,
+        }));
+    return res.statusCode;
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Log In"),),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                    labelText: 'Username'
+                ),
+              ),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                    labelText: 'Password'
+                ),
+              ),
+              TextButton(
+                  onPressed: () async {
+                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+                    var username = _usernameController.text;
+                    var password = _passwordController.text;
 
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue, Colors.teal],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+                    print(username);
+                    print(password);
+
+                    var response = await attemptLogIn(username, password);
+                    print(response);
+
+                    if(response != null) {
+                      sharedPreferences.setString("token", json.decode(response)["token"]);
+                      print(sharedPreferences.getString("token"));
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RumahSehatApp()
+                          )
+                      );
+                    } else {
+                      displayDialog(context, "An Error Occurred", "No account was found matching that username and password");
+                    }
+                  },
+                  child: Text("Log In")
+              ),
+              TextButton(
+                  onPressed: () async {
+                    var username = _usernameController.text;
+                    var password = _passwordController.text;
+
+                    if(username.length < 4)
+                      displayDialog(context, "Invalid Username", "The username should be at least 4 characters long");
+                    else if(password.length < 4)
+                      displayDialog(context, "Invalid Password", "The password should be at least 4 characters long");
+                    else{
+                      var res = await attemptSignUp(username, password);
+                      if(res == 201)
+                        displayDialog(context, "Success", "The user was created. Log in now.");
+                      else if(res == 409)
+                        displayDialog(context, "That username is already registered", "Please try to sign up using another username or log in if you already have an account.");
+                      else {
+                        displayDialog(context, "Error", "An unknown error occurred.");
+                      }
+                    }
+                  },
+                  child: Text("Sign Up")
+              )
+            ],
           ),
-        ),
-        child: _isLoading ? Center(child: CircularProgressIndicator(),) : ListView(
-          children: <Widget>[
-            heardSection(),
-            textSection(),
-            buttonSection(),
-          ],
-        ),
+        )
       ),
     );
   }
-
-  signIn(String username, String password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map data = {
-      'email': username,
-      'password': password
-    };
-
-    print(data);
-    var jsonResponse = null;
-    Map<String, String> headers = {"Content-Type":"application/json"};
-
-    final msg = jsonEncode({"username":username,"password":password});
-
-    var response = await http.post(
-        Uri.parse("http://localhost:8080/api/authenticate"),
-        body: msg,
-        headers: headers
-    );
-    jsonResponse = json.decode(response.body);
-
-    print('Response Status: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-
-    if(jsonResponse != null){
-      setState(() {
-        _isLoading = false;
-      });
-      sharedPreferences.setString("token", jsonResponse['token']);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => MyApp()),
-              (Route<dynamic> route) => false
-      );
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      print(response.body);
-    }
-  }
-
-  Container buttonSection(){
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
-      child: ElevatedButton(
-        onPressed: (){
-          setState(() {
-            _isLoading = true;
-          });
-          signIn(usernameController.text,passwordController.text);
-        },
-        // elevation: 0.0,
-        // color: Colors.purple,
-        child: Text('SignIn', style: TextStyle(color: Colors.white70),),
-        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      ),
-    );
-  }
-
-  Container textSection(){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 20.0),
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            controller: usernameController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70),
-            decoration: InputDecoration(
-                icon: Icon(Icons.email,color: Colors.white70,),
-                hintText: "Username",
-                border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
-                hintStyle: TextStyle(color: Colors.white)
-            ),
-          ),
-          SizedBox(height: 30.0,),
-          TextFormField(
-            obscureText: true,
-            controller: passwordController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70),
-            decoration: InputDecoration(
-                icon: Icon(Icons.lock,color: Colors.white70,),
-                hintText: "Password",
-                border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
-                hintStyle: TextStyle(color: Colors.white)
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container heardSection(){
-    return Container(
-      margin: EdgeInsets.only(top: 50.0,),
-      padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 30.0),
-      child: Text("app JWT",style: TextStyle(color: Colors.white70,fontSize: 40.0,fontWeight: FontWeight.bold),),
-    );
-  }
-
 }
