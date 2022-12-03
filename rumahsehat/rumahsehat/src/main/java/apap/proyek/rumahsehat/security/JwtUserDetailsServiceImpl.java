@@ -1,6 +1,8 @@
 package apap.proyek.rumahsehat.security;
 
+import apap.proyek.rumahsehat.model.Pasien;
 import apap.proyek.rumahsehat.model.UserModel;
+import apap.proyek.rumahsehat.repository.PasienDb;
 import apap.proyek.rumahsehat.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +21,9 @@ import java.util.Set;
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDb userDb;
+
+    @Autowired
+    private PasienDb pasienDb;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

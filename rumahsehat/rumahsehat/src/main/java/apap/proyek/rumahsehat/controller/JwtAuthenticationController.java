@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.controller;
 
 
+import apap.proyek.rumahsehat.security.JwtUserDetailsServiceImpl;
 import apap.proyek.rumahsehat.security.jwt.JwtRequest;
 import apap.proyek.rumahsehat.security.jwt.JwtResponse;
 import apap.proyek.rumahsehat.security.jwt_config.JwtTokenUtil;
@@ -29,7 +30,7 @@ public class JwtAuthenticationController {
 
 	@Qualifier("jwtUserDetailsServiceImpl")
 	@Autowired
-	private UserDetailsService jwtInMemoryUserDetailsService;
+	private JwtUserDetailsServiceImpl jwtInMemoryUserDetailsService;
 
 	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)

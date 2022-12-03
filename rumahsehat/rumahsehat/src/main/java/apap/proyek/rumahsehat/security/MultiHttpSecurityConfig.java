@@ -23,6 +23,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class MultiHttpSecurityConfig {
 
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Qualifier("jwtUserDetailsServiceImpl")
+    @Autowired
+    private JwtUserDetailsServiceImpl jwtUserDetailsService;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder());
+
+    }
 
     @Bean
     public static BCryptPasswordEncoder encoder() {
@@ -33,45 +47,34 @@ public class MultiHttpSecurityConfig {
     @Order(1)
     public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
-        @Qualifier("jwtUserDetailsServiceImpl")
-        @Autowired
-        private UserDetailsService jwtUserDetailsService;
-
-        @Autowired
-        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-            auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder());
-        }
-
         @Autowired
         private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
         @Autowired
         private JwtRequestFilter jwtRequestFilter;
-
         @Bean
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
         }
-
         @Override
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             // We don't need CSRF for this example
             httpSecurity
                     .antMatcher("/api/**")
                     .csrf().disable()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and().
-                    exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/api/authenticate").permitAll()
-                    .antMatchers("/api/**").hasAuthority("Pasien")
-                    .anyRequest().authenticated().and();
+                        .antMatchers("/api/authenticate").permitAll()
+                        .antMatchers("/api/**").hasAuthority("Pasien")
+                        .anyRequest().authenticated()
+                        .and()
+                    .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
             // Add a filter to validate the tokens with every request
-            httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//            httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         }
 
     }
@@ -79,15 +82,6 @@ public class MultiHttpSecurityConfig {
     @Configuration
     @Order(2)
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Qualifier("userDetailsServiceImpl")
-        @Autowired
-        private UserDetailsService userDetailsService;
-
-        @Autowired
-        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-            auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-        }
 
         @Autowired
         private LoginSuccessHandler successHandler;
@@ -108,7 +102,10 @@ public class MultiHttpSecurityConfig {
                     .successHandler(successHandler)
                     .and()
                     .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login").permitAll();
+                    .logoutSuccessUrl("/login").permitAll()
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
         }
     }
