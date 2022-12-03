@@ -1,11 +1,21 @@
 
 import 'package:flutter/material.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rumahsehat/auth/login.dart';
 
 
 void main() {
-  runApp(const RumahSehatApp());
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Rumah Sehat App',
+      home: RumahSehatApp(),
+    );
+  }
 }
 
 class RumahSehatApp extends StatefulWidget {
@@ -17,16 +27,29 @@ class RumahSehatApp extends StatefulWidget {
 
 class _RumahSehatAppState extends State<RumahSehatApp> {
 
+  late SharedPreferences sharedPreferences;
+
+  @override
+  void initState(){
+    super.initState();
+    checkLoginStatus();
+  }
+
+  checkLoginStatus() async{
+    sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.getString("token") == null){
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+              (Route<dynamic> route) => false
+      );
+    }
+  }
+
   @override
   int index = 0;
   List<Widget> bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rumah Sehat',
-      debugShowCheckedModeBanner: false,
-      //theme: theme,
-      // home : sesuaikan dengan halaman masing2 buat dicoba
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
             actions: <Widget>[
@@ -34,7 +57,13 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  sharedPreferences.clear();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                          (Route<dynamic> route) => false
+                  );
+                },
                 child: Text("Logout"),
 
               ),
@@ -75,7 +104,6 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
