@@ -3,6 +3,7 @@ package apap.proyek.rumahsehat.service;
 import apap.proyek.rumahsehat.model.UserModel;
 import apap.proyek.rumahsehat.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDb userDb;
 
+    @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
