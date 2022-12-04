@@ -1,5 +1,6 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,10 +27,6 @@ public class Jumlah {
     @JoinColumn(name = "resep", nullable = false)
     private Resep resep;
 
-
     @Column(name = "kuantitas")
     private Integer kuantitas;
-
-
-
 }

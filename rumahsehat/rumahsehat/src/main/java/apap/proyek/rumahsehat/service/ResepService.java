@@ -2,7 +2,11 @@ package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Resep;
 
+import java.util.List;
+
 public interface ResepService {
     Resep getResepById(Long idResep);
-    void saveResep(Resep resep);
+    Resep saveResep(Resep resep);
+//    void saveResep(Resep resep);
+    List<Resep> findAllResep();
 }
