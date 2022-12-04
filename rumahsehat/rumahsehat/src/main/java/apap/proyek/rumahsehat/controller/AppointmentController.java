@@ -138,6 +138,7 @@ public class AppointmentController {
         return "redirect:/appointment/{id}";
     }
 
+    //get mappring konfirmasi
     @GetMapping("/appointment/konfirmasi/{id}")
     public String getAppointment(@PathVariable String id, Model model) {
         Appointment appointment = appointmentService.getAppointmentById(id);
@@ -145,6 +146,7 @@ public class AppointmentController {
         return "appointment/finish-appointment-without-resep";
     }
 
+    //post mapping konfirmasi
     @PostMapping("/appointment/konfirmasi/{id}")
     public String selesaikanAppointment2(@PathVariable String id, Model model) {
         Appointment appointment = appointmentService.getAppointmentById(id);
@@ -163,6 +165,7 @@ public class AppointmentController {
         return "appointment/view-appointment";
     }
 
+    //get mapping membuat appointment
     @GetMapping("/create-appointment")
     public String addAppointmentFormPage(Model model, Authentication authentication) {
         String role = "";
@@ -176,6 +179,7 @@ public class AppointmentController {
         return "appointment/form-add-appointment";
     }
 
+    //post mapping membuat appointment
     @PostMapping("/create-appointment")
     public String addAppointmentSubmit(@ModelAttribute Appointment appointment, Model model, RedirectAttributes redirectAttributes) {
         //cek apakah waktu appointment tabrakan atau tidak
