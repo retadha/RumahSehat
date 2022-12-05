@@ -182,12 +182,18 @@ public class AppointmentController {
     //post mapping membuat appointment
     @PostMapping("/create-appointment")
     public String addAppointmentSubmit(@ModelAttribute Appointment appointment, Model model, RedirectAttributes redirectAttributes) {
+        //list appointment dokter yang dipilih
+        List<Appointment> listAppointmentDokterPilihan = appointment.getDokter().getListAppointment();
         //cek apakah waktu appointment tabrakan atau tidak
         boolean statusDokter = false;
-        //pake isbefore isafter
-//        for (Appointment i : appointment.getDokter().getListAppointment()) {
-//
-//        }
+        for (Appointment i : listAppointmentDokterPilihan) {
+            if (appointment.getWaktuAwal().isBefore(i.getWaktuAwal().plusHours(1)) && appointment.getWaktuAwal().isAfter(i.getWaktuAwal())) {
+                statusDokter = true;
+            }
+            else {
+                statusDokter = false;
+            }
+        }
 
         //waktu appointment dengan dokter tidak tabrakan
         if (statusDokter == true) {
