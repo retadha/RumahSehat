@@ -32,8 +32,8 @@
             </button>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">User</a>
+                    <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+                        <a class="nav-link" th:href="@{/users}">Manajemen User</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Appointment</a>
@@ -46,9 +46,6 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav pull-right">
-                    <a class="nav-item nav-link text-text-secondary" th:href="@{/}">Update Password</a>
-                </ul>
                 <ul class="navbar-nav pull-right">
                     <a class="nav-item nav-link text-text-secondary" th:href="@{/logout-sso}">Logout</a>
                 </ul>
