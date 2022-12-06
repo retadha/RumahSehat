@@ -138,7 +138,7 @@ public class AppointmentController {
         return "redirect:/appointment/{id}";
     }
 
-    //get mappring konfirmasi
+    //get mapping konfirmasi
     @GetMapping("/appointment/konfirmasi/{id}")
     public String getAppointment(@PathVariable String id, Model model) {
         Appointment appointment = appointmentService.getAppointmentById(id);
@@ -184,6 +184,7 @@ public class AppointmentController {
     public String addAppointmentSubmit(@ModelAttribute Appointment appointment, Model model, RedirectAttributes redirectAttributes) {
         //list appointment dokter yang dipilih
         List<Appointment> listAppointmentDokterPilihan = appointment.getDokter().getListAppointment();
+
         //cek apakah waktu appointment tabrakan atau tidak
         boolean statusDokter = false;
         for (Appointment i : listAppointmentDokterPilihan) {
