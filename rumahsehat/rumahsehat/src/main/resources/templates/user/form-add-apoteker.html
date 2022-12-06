@@ -16,17 +16,9 @@
 
                 <input type="hidden" name="role" value="Apoteker">
 
-                <label>Username</label>
-                <input type="text" name="username" class="form-control">
+                <div th:replace="fragments/fragment :: user-basic-data"></div>
 
-                <label>Nama</label>
-                <input type="text" name="nama" class="form-control">
-
-                <label>E-mail</label>
-                <input type="text" name="email" class="form-control">
-
-                <label>Password</label>
-                <input type="password" name="password" class="form-control">
+                <div th:replace="fragments/fragment :: user-validation"></div>
 
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>

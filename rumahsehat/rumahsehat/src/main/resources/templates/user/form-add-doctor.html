@@ -16,42 +16,13 @@
 
                 <input type="hidden" name="role" value="Dokter">
 
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" required>
-
-                <label>Nama</label>
-                <input type="text" name="nama" class="form-control" required>
-
-                <label>E-mail</label>
-                <input type="text" name="email" class="form-control" required>
-
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" required>
+                <div th:replace="fragments/fragment :: user-basic-data"></div>
 
                 <label>Tarif</label>
+
                 <input type="number" name="tarif" class="form-control" required>
 
-                <br><br>
-
-                <div th:if="${userExists} == true" class="alert alert-danger" role="alert">
-                    Username sudah digunakan
-                </div>
-
-                <div th:if="${validUsername} == false" class="alert alert-danger" role="alert">
-                    Username harus 6 - 30 karakter, boleh mengandung huruf, angka, dan underscore saja
-                </div>
-
-                <div th:if="${validName} == false" class="alert alert-danger" role="alert">
-                    Nama minimal memiliki 2 karakter dan alfabetik
-                </div>
-
-                <div th:if="${validEmail} == false" class="alert alert-danger" role="alert">
-                    Email tidak valid
-                </div>
-
-                <div th:if="${validPassword} == false" class="alert alert-danger" role="alert">
-                    Password minimal 8 karakter alfanumerik, mengandung uppercase dan lowercase, dan karakter spesial
-                </div>
+                <div th:replace="fragments/fragment :: user-validation"></div>
 
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>

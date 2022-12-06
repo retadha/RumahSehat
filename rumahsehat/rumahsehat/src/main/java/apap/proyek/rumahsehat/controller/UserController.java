@@ -133,17 +133,39 @@ public class UserController {
     }
 
     @PostMapping(value = "/apoteker/add")
-    private String addApotekerSubmitPage(@ModelAttribute UserModel user, Model model) {
-        UserModel savedUser = userService.addUser(user);
+    private String addApotekerSubmitPage(@ModelAttribute UserModel user,
+                                         @RequestParam(value = "username") String username,
+                                         @RequestParam(value = "nama") String name,
+                                         @RequestParam(value = "email") String email,
+                                         @RequestParam(value = "password") String password,
+                                         Model model) {
 
-        Apoteker apoteker = new Apoteker();
-        apotekerService.addApoteker(apoteker, savedUser);
+        boolean validInput = userService.validateCredentials(username, name, email, password);
 
-        model.addAttribute("role", savedUser.getRole());
-        model.addAttribute("nama", savedUser.getNama());
-        model.addAttribute("username", savedUser.getUsername());
+        if (validInput) {
+            UserModel savedUser = userService.addUser(user);
 
-        return "user/add-web-user";
+            Apoteker apoteker = new Apoteker();
+            apotekerService.addApoteker(apoteker, savedUser);
+
+            model.addAttribute("role", savedUser.getRole());
+            model.addAttribute("nama", savedUser.getNama());
+            model.addAttribute("username", savedUser.getUsername());
+
+            return "user/add-web-user";
+        }
+
+        HashMap<String, Boolean> credentialsStatus = userService.credentialsStatus(username, name, email, password);
+
+        model.addAttribute("userExists", credentialsStatus.get("userExists"));
+        model.addAttribute("validUsername", credentialsStatus.get("validUsername"));
+        model.addAttribute("validName", credentialsStatus.get("validName"));
+        model.addAttribute("validEmail", credentialsStatus.get("validEmail"));
+        model.addAttribute("validPassword", credentialsStatus.get("validPassword"));
+
+        return "user/form-add-apoteker";
+
+
 
     }
 
