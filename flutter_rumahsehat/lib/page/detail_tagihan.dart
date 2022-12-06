@@ -4,6 +4,10 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../model/Pasien.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class DetailTagihanPage extends StatefulWidget {
   final String kode;
@@ -15,7 +19,8 @@ class DetailTagihanPage extends StatefulWidget {
 }
 
 class _DetailTagihanPage extends State<DetailTagihanPage> {
-
+  int totalTagihan = 0;
+  int saldo=0;
   TextStyle _style(){
     return TextStyle(
       fontWeight: FontWeight.bold
@@ -167,7 +172,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                     } else {
                       tanggalBayarStr = DateFormat.yMMMd().format(snapshot.data!.tanggalBayar);
                     }
-                    return Text(tanggalBayarStr);
+                    return Text(tanggalBayarStr);   
                   }
                   return const CircularProgressIndicator();
                 },
@@ -196,6 +201,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
       ),
     );
   }
+
   showConfirmDialog(BuildContext context, String kode) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -208,10 +214,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     Widget continueButton = TextButton(
       child: Text("Konfirmasi"),
       onPressed: () {
-        // submit(context, idUser);
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => BuatProjectPage(idUser)));
-        // showAlertDialog(context, kode);
+        bayar(context, kode);
       },
     );
 
@@ -233,14 +236,107 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     );
   }
 
+  bayar(context, kode) async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString("token");
+    var url = 'http://localhost:8080/api/bayar-tagihan/' + kode;
+    final response = await http.get(Uri.parse(url),
+      headers: <String, String>{'Authorization': 'Bearer $token'},
+    );
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(data["status"]);
+    if (data["status"] == "berhasil"){
+              Navigator.of(context).pop();
+
+      showSuccess(context, kode);
+    } else {
+              Navigator.of(context).pop();
+
+      showFailed(context, kode);
+    }
+
+  }
+
+  showFailed(BuildContext context, String kode) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Kembali"),
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DetailTagihanPage(kode),
+                              ));
+      },
+    );
+  
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("Maaf, saldo Anda tidak mencukupi. Silakan Top up terlebih dahulu."),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showSuccess(BuildContext context, String kode) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Kembali"),
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DetailTagihanPage(kode),
+                              ));
+      },
+    );
+  
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("Pembayaran Sukses"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
 
     Future<TagihanElement> fetchTagihan(String kode) async {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString("token");
         var url = 'http://localhost:8080/api/tagihan/' + kode;
         final response = await http.get(Uri.parse(url),
-        headers: <String, String>{'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUGFzaWVuIiwidXVpZCI6IjMiLCJzdWIiOiJwYXNpZW4xIiwiaWF0IjoxNjY5MzY1OTg1LCJleHAiOjE2NjkzODM5ODV9.1gq10NjMot41jxs1mhVx1BTErSaryvfG1el_wNcXN80'},);
+        headers: <String, String>{'Authorization': 'Bearer $token'},);
         Map<String, dynamic> data = jsonDecode(response.body);
+        totalTagihan = data["jumlahTagihan"];
         print(data);
         return TagihanElement.fromJson(jsonDecode(response.body));
+    }
+
+    Future<Pasien> fetchPasien(String kode) async {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString("token");
+        var url = 'http://localhost:8080/api/pasien-tagihan/' + kode;
+        final response = await http.get(Uri.parse(url),
+        headers: <String, String>{'Authorization': 'Bearer $token'},);
+        Map<String, dynamic> data = jsonDecode(response.body);
+        saldo = data["saldo"];
+        print(data);
+        return Pasien.fromJson(jsonDecode(response.body));
     }
 }
 

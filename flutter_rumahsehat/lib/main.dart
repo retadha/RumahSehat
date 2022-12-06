@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '/page/daftar_tagihan.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: DaftarTagihanPage()));
 }
 
 class MyApp extends StatelessWidget {
