@@ -99,5 +99,10 @@ public class AuthController {
 
     }
 
+    @GetMapping(value = "/pasien/forbidden")
+    private String pasienForbidden() {
+        return "user/pasien-forbidden";
+    }
+
 
 }
