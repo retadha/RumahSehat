@@ -18,6 +18,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+@CrossOrigin(value = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
