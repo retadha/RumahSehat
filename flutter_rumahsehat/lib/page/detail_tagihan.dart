@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../model/Pasien.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '/main.dart';
+import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
 
 
 
@@ -32,10 +33,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     String kode = widget.kode;
     Future<TagihanElement> futureTagihan = fetchTagihan(kode);
 
-    return MaterialApp(
-       home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text('Detail Tagihan'),
+          backgroundColor: Colors.white,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.blue),
+            onPressed: () => Navigator.of(context).pop(),
+          ), 
+          title: const Text('Detail Tagihan', style: TextStyle(color:Colors.black)),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20.0),
@@ -52,13 +57,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                 child: Text(
                   "Detail Tagihan",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 )
               ),
+              SizedBox(height: 20),
               Container(
                 child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
@@ -124,7 +130,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                     if (snapshot.data!.tanggalDibuat == null){
                       tanggalBuatStr = "-";
                     } else {
-                      tanggalBuatStr = DateFormat.yMMMd().format(snapshot.data!.tanggalDibuat);
+                      tanggalBuatStr = snapshot.data!.tanggalDibuat;
                     }
                     return Text(tanggalBuatStr);
                   }
@@ -170,7 +176,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                     if (snapshot.data!.tanggalBayar == null){
                       tanggalBayarStr = "-";
                     } else {
-                      tanggalBayarStr = DateFormat.yMMMd().format(snapshot.data!.tanggalBayar);
+                      tanggalBayarStr = snapshot.data!.tanggalBayar;
                     }
                     return Text(tanggalBayarStr);   
                   }
@@ -182,7 +188,26 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                 alignment: Alignment.center,
                 height: 100,
                 padding: const EdgeInsets.fromLTRB(60, 10, 60, 5),
-                child: ElevatedButton(
+                child: FutureBuilder<TagihanElement>(
+                future: futureTagihan,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.status == false){
+                      return buttonConditionFalse(context, kode);
+                    }  
+                  }
+                  return Container();
+                },
+              ),
+            ),
+            ]
+          )
+        )
+      );
+  }
+   
+  buttonConditionFalse(BuildContext context, String kode){
+      return ElevatedButton(
                 child: const Text('Bayar'),
                 onPressed: () {
                   showConfirmDialog(context, kode);
@@ -193,21 +218,15 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                     color: Colors.white,
                     )
                 )
-            )
-            ),
-            ]
-          )
-        )
-      ),
-    );
-  }
+            );
+    }
 
-  showConfirmDialog(BuildContext context, String kode) {
+  showConfirmDialog(BuildContext context, String kode){
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Batal"),
       onPressed: () {
-        Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
@@ -231,7 +250,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+    return alert;
       },
     );
   }
@@ -246,25 +265,27 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data["status"]);
     if (data["status"] == "berhasil"){
-              Navigator.of(context).pop();
-
       showSuccess(context, kode);
     } else {
-              Navigator.of(context).pop();
+      if (data["statusSaldo"] == "kurang"){
+         showFailedSaldo(context, kode);
+      }
+      else if (data["statusStok"] == "kurang"){
+        showFailedStok(context, kode);
 
-      showFailed(context, kode);
+      }
     }
 
   }
 
-  showFailed(BuildContext context, String kode) {
+  showFailedSaldo(BuildContext context, String kode) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Kembali"),
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DetailTagihanPage(kode),
-                              ));
+              Navigator.of(context, rootNavigator: true).pop();
+
+      Navigator.of(context, rootNavigator: true).pop();
       },
     );
   
@@ -285,20 +306,53 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     );
   }
 
-  showSuccess(BuildContext context, String kode) {
+  showFailedStok(BuildContext context, String kode) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Kembali"),
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DetailTagihanPage(kode),
-                              ));
+              Navigator.of(context, rootNavigator: true).pop();
+
+      Navigator.of(context, rootNavigator: true).pop();
       },
     );
   
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("Pembayaran Sukses"),
+      content: Text("Maaf, Stok tidak mencukupi. Silakan menunggu ketersediaan obat"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
+  showSuccess(BuildContext context, String kode) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Kembali"),
+      onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+
+              Navigator.of(context, rootNavigator: true).pop();
+Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
+                          (Route<dynamic> route) => false
+                  );        
+      }
+    );
+  
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("Selamat, Pembayaran Anda Sukses!"),
       actions: [
         cancelButton,
       ],

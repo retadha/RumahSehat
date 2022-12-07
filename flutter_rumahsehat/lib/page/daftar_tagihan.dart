@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '/page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,14 +20,11 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
     Widget build(BuildContext context){
         Future<Tagihan> futureTagihan = fetchTagihan();
 
-        return MaterialApp(
-            home: Scaffold(
-                appBar: AppBar(
-                title: const Text('Daftar Tagihan'),
-                ),
+        return Scaffold(
                 body: SingleChildScrollView(
                   child: Container(
-                    child: FutureBuilder<Tagihan>(
+                    child: 
+                      FutureBuilder<Tagihan>(
                       future: futureTagihan,
                       builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -57,8 +53,8 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                     )
                   )
                 )
-            ), 
         );
+      
     }
 
     Future<Tagihan> fetchTagihan() async {
@@ -73,8 +69,6 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
     }
 
       Widget buildCard(data) {
-        DateTime tanggalDibuat = data.tanggalDibuat;
-        String tanggalStr = DateFormat.yMMMd().format(tanggalDibuat);
         bool statusBool = data.status;
         String statusStr = "";
         if (statusBool == false){
@@ -87,14 +81,16 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
           child: Column(
             children: <Widget>[
               Card(
+                shadowColor: Colors.grey,
+                elevation: 7,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
                       // border color
-                      color: Colors.blue.shade200,
+                      color: Colors.blueGrey.shade200,
                       // border thickness
-                      width: 4)),
+                      width: 3)),
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(0,10, 0, 0 ),
+                    padding: const EdgeInsets.fromLTRB(0,30, 0, 0 ),
                 alignment: Alignment.center,
                 child: Column(
                   children: [
@@ -112,7 +108,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                     Container(
                         padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
                         alignment: Alignment.centerLeft,
-                        child: Text('Tanggal Terbuat : ' + tanggalStr,
+                        child: Text('Tanggal Terbuat : ' + data.tanggalDibuat,
                             style: TextStyle(
                               height: 1,
                             ))),
@@ -120,7 +116,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                         padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                            'Status: ' + statusStr,
+                            'Status : ' + statusStr,
                             style: TextStyle(
                               height: 1,
                             ))),
@@ -131,9 +127,10 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                         child: ElevatedButton(
                             child: const Text('Detail'),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DetailTagihanPage(data.kode),
-                              ));
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DetailTagihanPage(data.kode)),
+                            );
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.green,

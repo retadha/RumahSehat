@@ -35,7 +35,7 @@ class TagihanElement {
     int jumlahTagihan;
     String kode;
     String appointment;
-    DateTime tanggalDibuat;
+    String tanggalDibuat;
     bool status;
 
     factory TagihanElement.fromJson(Map<String, dynamic> json) => TagihanElement(
@@ -43,7 +43,7 @@ class TagihanElement {
         jumlahTagihan: json["jumlahTagihan"],
         kode: json["kode"],
         appointment: json["appointment"],
-        tanggalDibuat: DateTime.parse(json["tanggalDibuat"]),
+        tanggalDibuat: json["tanggalDibuat"],
         status: json["status"],
     );
 
@@ -52,7 +52,7 @@ class TagihanElement {
         "jumlahTagihan": jumlahTagihan,
         "kode": kode,
         "appointment": appointment,
-        "tanggalDibuat": tanggalDibuat.toIso8601String(),
+        "tanggalDibuat": tanggalDibuat,
         "status": status,
     };
 }

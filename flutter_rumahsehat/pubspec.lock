@@ -100,16 +100,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
-<<<<<<< HEAD
-  intl:
-    dependency: "direct dev"
-    description:
-      name: intl
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.7"
-=======
->>>>>>> auth
   js:
     dependency: transitive
     description:
