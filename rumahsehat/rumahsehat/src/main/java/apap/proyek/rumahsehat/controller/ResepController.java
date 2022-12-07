@@ -4,6 +4,7 @@ import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,11 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
@@ -50,16 +53,22 @@ public class ResepController {
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
-        String role = "";
-        if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
-            role="Apoteker";
+        try{
+            String role = "";
+            if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
+                role="Apoteker";
+            }
+            Resep resep = resepService.getResepById(idResep);
+            List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
+            model.addAttribute("resep", resep);
+            model.addAttribute("listJumlah", listJumlah);
+            model.addAttribute("role", role);
+            return "resep/detail-resep";
+        } catch (NoSuchElementException e){
+            return "resep/resep-not-found";
         }
-        Resep resep = resepService.getResepById(idResep);
-        List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
-        model.addAttribute("resep", resep);
-        model.addAttribute("listJumlah", listJumlah);
-        model.addAttribute("role", role);
-        return "resep/detail-resep";
+
+
     }
 
     @PostMapping("/resep/{idResep}")
