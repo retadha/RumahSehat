@@ -54,19 +54,23 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
           centerTitle: true,
           backgroundColor: Colors.white,
             actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: () {
-                  sharedPreferences.clear();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                          (Route<dynamic> route) => false
-                  );
-                },
-                child: Text("Logout"),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black
+                    ),
+                    onPressed: () {
+                      sharedPreferences.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                              (Route<dynamic> route) => false
+                      );
+                    },
+                    child: Text("Logout"),
 
+                  ),
               ),
             ],
           title: Text("Rumah Sehat",

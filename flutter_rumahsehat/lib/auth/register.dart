@@ -63,31 +63,23 @@ class Register extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: Colors.black,
+            iconSize: 20.0,
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                      (Route<dynamic> route) => false
+              );
+            },
+          ),
           centerTitle: true,
           backgroundColor: Colors.white,
           title: Text("Sign Up",
               style: TextStyle(color: Colors.black)
           ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                style: TextButton.styleFrom(
 
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.yellow,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                          (Route<dynamic> route) => false
-                  );
-                },
-                child: Text("Back"),
-              ),
-            ),
-
-          ],
 
         ),
         body: Align(
@@ -103,8 +95,12 @@ class Register extends StatelessWidget {
                   child: TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Username'
                     ),
@@ -116,8 +112,12 @@ class Register extends StatelessWidget {
                   child: TextField(
                     controller: _namaController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Nama'
                     ),
@@ -129,8 +129,12 @@ class Register extends StatelessWidget {
                   child: TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Email'
                     ),
@@ -143,8 +147,12 @@ class Register extends StatelessWidget {
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Password'
                     ),
@@ -154,12 +162,17 @@ class Register extends StatelessWidget {
                 SizedBox(
                   width: 500,
                   child: TextField(
+
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number,
                     controller: _saldoController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Saldo'
                     ),
@@ -173,8 +186,12 @@ class Register extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     controller: _umurController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Umur'
                     ),
@@ -182,37 +199,45 @@ class Register extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
 
-                TextButton(
-                    onPressed: () async {
-                      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                SizedBox(
+                  width: 80,
+                  height: 30,
+                  child: TextButton(
+                      onPressed: () async {
+                        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                      var username = _usernameController.text;
-                      var nama = _namaController.text;
-                      var email = _emailController.text;
-                      var password = _passwordController.text;
-                      var saldo = _saldoController.text;
-                      var umur = _umurController.text;
+                        var username = _usernameController.text;
+                        var nama = _namaController.text;
+                        var email = _emailController.text;
+                        var password = _passwordController.text;
+                        var saldo = _saldoController.text;
+                        var umur = _umurController.text;
 
-                      var response = await attemptRegister(username, nama, email, password, saldo, umur);
+                        var response = await attemptRegister(username, nama, email, password, saldo, umur);
 
-                      if (response == 200) {
-                        displayDialog(context, "Registrasi berhasil", 'Pasien dengan username $username berhasil dibuat');
-                        emptyFields();
+                        if (response == 200) {
+                          displayDialog(context, "Registrasi berhasil", 'Pasien dengan username $username berhasil dibuat');
+                          emptyFields();
 
-                      } else if (response == 409) {
-                        displayDialog(context, "Registrasi Gagal", "Username tersebut sudah terdaftar");
+                        } else if (response == 409) {
+                          displayDialog(context, "Registrasi Gagal", "Username tersebut sudah terdaftar");
 
-                      } else if (response == 400) {
-                        displayDialog(context, "Registrasi Gagal", "Pastikan data diisi dengan tepat");
-                      }
-                    },
-                    child: Text("Sign Up"),
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
+                        } else if (response == 400) {
+                          displayDialog(context, "Registrasi Gagal", "Pastikan data diisi dengan tepat");
+                        }
+                      },
+                      child: Text("Sign Up",
+                          style: new TextStyle(
+                            fontSize: 16,
+                          )
+                      ),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.black,
 
-                    )
+                      )
 
+                  ),
                 ),
               ],
             ),

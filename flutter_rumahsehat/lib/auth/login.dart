@@ -52,7 +52,7 @@ class LoginPage extends StatelessWidget {
                 style: TextButton.styleFrom(
 
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                 ),
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
@@ -80,8 +80,12 @@ class LoginPage extends StatelessWidget {
                   child: TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Username'
                     ),
@@ -94,44 +98,64 @@ class LoginPage extends StatelessWidget {
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         labelText: 'Password'
                     ),
                   ),
                 ),
                 SizedBox(height: 10),
-                TextButton(
-                    onPressed: () async {
-                      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                SizedBox(
+                  width: 80,
+                  height: 30,
+                  child: TextButton(
+                      onPressed: () async {
+                        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                      var username = _usernameController.text;
-                      var password = _passwordController.text;
+                        var username = _usernameController.text;
+                        var password = _passwordController.text;
 
-                      print(username);
-                      print(password);
+                        print(username);
+                        print(password);
 
-                      var response = await attemptLogIn(username, password);
-                      print(response);
+                        var response = await attemptLogIn(username, password);
+                        print(response);
 
-                      if(response != null) {
-                        sharedPreferences.setString("token", json.decode(response)["token"]);
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
-                                (Route<dynamic> route) => false
-                        );
-                      } else {
-                        displayDialog(context, "Login gagal", "Tidak ada akun pasien dengan username dan password tersebut");
-                      }
-                    },
-                    child: Text("Log In"),
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
+                        if(response != null) {
+                          sharedPreferences.setString("token", json.decode(response)["token"]);
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
+                                  (Route<dynamic> route) => false
+                          );
+                        } else {
+                          displayDialog(context, "Login gagal", "Tidak ada akun pasien dengan username dan password tersebut");
+                        }
+                      },
+                      child: Text("Log In",
+                          style: new TextStyle(
+                            fontSize: 16,
+                          )
+                      ),
+                      style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8),
+                            ),
 
-                    )
+                          )
 
+
+
+                      )
+
+                  ),
                 ),
               ],
             ),
