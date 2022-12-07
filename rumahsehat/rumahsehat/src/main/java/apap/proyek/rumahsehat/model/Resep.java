@@ -37,6 +37,10 @@ public class Resep {
     @JoinColumn(name = "kodeAppointment")
     private Appointment kodeAppointment;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc2f548984b06c0af5a24bde64e2e96fa70abbcd
     @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
     private List<Jumlah> listJumlah;
 }

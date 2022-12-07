@@ -3,11 +3,12 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '/page/detail_tagihan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class DaftarTagihanPage extends StatefulWidget {
-  final String username;
-  DaftarTagihanPage(this.username) : super(key: null);
+  DaftarTagihanPage() : super(key: null);
 
   @override
   _DaftarTagihanPage createState() => _DaftarTagihanPage();
@@ -17,17 +18,13 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
 
     @override
     Widget build(BuildContext context){
-        String username = widget.username;
-        Future<Tagihan> futureTagihan = fetchTagihan(username);
+        Future<Tagihan> futureTagihan = fetchTagihan();
 
-        return MaterialApp(
-            home: Scaffold(
-                appBar: AppBar(
-                title: const Text('Daftar Tagihan'),
-                ),
+        return Scaffold(
                 body: SingleChildScrollView(
                   child: Container(
-                    child: FutureBuilder<Tagihan>(
+                    child: 
+                      FutureBuilder<Tagihan>(
                       future: futureTagihan,
                       builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -56,21 +53,22 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                     )
                   )
                 )
-            ), 
         );
+      
     }
 
-    Future<Tagihan> fetchTagihan(String username) async {
-        var url = 'http://localhost:8080/api/list-tagihan/' + username;
-        final response = await http.get(Uri.parse(url));
+    Future<Tagihan> fetchTagihan() async {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString("token");
+        var url = 'http://localhost:8080/api/list-tagihan/';
+        final response = await http.get(Uri.parse(url),
+        headers: <String, String>{'Authorization': 'Bearer $token'},);
         Map<String, dynamic> data = jsonDecode(response.body);
         print(data);
         return Tagihan.fromJson(jsonDecode(response.body));
     }
 
       Widget buildCard(data) {
-        DateTime tanggalDibuat = data.tanggalDibuat;
-        String tanggalStr = DateFormat.yMMMd().format(tanggalDibuat);
         bool statusBool = data.status;
         String statusStr = "";
         if (statusBool == false){
@@ -83,9 +81,16 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
           child: Column(
             children: <Widget>[
               Card(
+                shadowColor: Colors.grey,
+                elevation: 7,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      // border color
+                      color: Colors.blueGrey.shade200,
+                      // border thickness
+                      width: 3)),
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(0,10, 0, 0 ),
-                color: Colors.blue,
+                    padding: const EdgeInsets.fromLTRB(0,30, 0, 0 ),
                 alignment: Alignment.center,
                 child: Column(
                   children: [
@@ -93,30 +98,39 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                         style: TextStyle(
                           fontSize: 20,
                         )),
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(15, 20, 7, 10),
+                        Container(
+                        padding: const EdgeInsets.fromLTRB(25, 30, 7, 10),
                         alignment: Alignment.centerLeft,
-                        child: Text('Tanggal Terbuat : ' + tanggalStr,
+                        child: Text('Total Tagihan : Rp ' + data.jumlahTagihan.toString(),
                             style: TextStyle(
                               height: 1,
-                              color: Colors.white,
                             ))),
                     Container(
-                        padding: const EdgeInsets.fromLTRB(15, 10, 7, 10),
+                        padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                            'Status: ' + statusStr,
+                        child: Text('Tanggal Terbuat : ' + data.tanggalDibuat,
                             style: TextStyle(
                               height: 1,
-                              color: Colors.white,
+                            ))),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            'Status : ' + statusStr,
+                            style: TextStyle(
+                              height: 1,
                             ))),
                     Container(
                         alignment: Alignment.center,
                         height: 100,
-                        padding: const EdgeInsets.fromLTRB(60, 10, 60, 5),
+                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 5),
                         child: ElevatedButton(
                             child: const Text('Detail'),
                             onPressed: () {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DetailTagihanPage(data.kode)),
+                            );
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.green,
