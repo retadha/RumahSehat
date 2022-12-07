@@ -38,24 +38,55 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Log In"),),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text("Log In",
+              style: TextStyle(color: Colors.black)
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: () {},
+                child: Text("Sign Up"),
+              ),
+            ),
+
+          ],
+
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    ),
                     labelText: 'Username'
                 ),
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    ),
                     labelText: 'Password'
                 ),
               ),
+              SizedBox(height: 10),
               TextButton(
                   onPressed: () async {
                     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -79,7 +110,13 @@ class LoginPage extends StatelessWidget {
                       displayDialog(context, "Login gagal", "Tidak ada akun pasien dengan username dan password tersebut");
                     }
                   },
-                  child: Text("Log In")
+                  child: Text("Log In"),
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.black,
+
+                  )
+
               ),
             ],
           ),
