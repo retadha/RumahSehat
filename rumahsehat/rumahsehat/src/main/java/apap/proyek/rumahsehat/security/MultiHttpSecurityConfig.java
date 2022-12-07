@@ -66,6 +66,7 @@ public class MultiHttpSecurityConfig {
                     .and()
                     .authorizeRequests()
                         .antMatchers("/api/authenticate").permitAll()
+                        .antMatchers("/api/users/pasien/register").permitAll()
                         .antMatchers("/api/**").hasAuthority("Pasien")
                         .anyRequest().authenticated()
                         .and()

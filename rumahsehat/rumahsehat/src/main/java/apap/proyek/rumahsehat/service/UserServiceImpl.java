@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.UserModel;
+import apap.proyek.rumahsehat.repository.PasienDb;
 import apap.proyek.rumahsehat.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDb userDb;
+
+    @Autowired
+    private PasienDb pasienDb;
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
