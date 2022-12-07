@@ -1,15 +1,12 @@
 package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Jumlah;
-<<<<<<< HEAD
 import apap.proyek.rumahsehat.model.Resep;
 import apap.proyek.rumahsehat.repository.JumlahDb;
 import apap.proyek.rumahsehat.repository.ResepDb;
-=======
 import apap.proyek.rumahsehat.model.Obat;
 import apap.proyek.rumahsehat.repository.JumlahDb;
 import apap.proyek.rumahsehat.repository.ObatDb;
->>>>>>> 97e64667e59d1c234ed99cb4e63d0517810a2f4c
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +17,9 @@ public class JumlahServiceImpl implements JumlahService{
     @Autowired
     JumlahDb jumlahDb;
 
-<<<<<<< HEAD
-=======
     @Autowired
     ObatDb obatDb;
 
->>>>>>> 97e64667e59d1c234ed99cb4e63d0517810a2f4c
     @Override
     public List<Jumlah> findByResep(Long idResep) {
         List<Jumlah> jumlah = jumlahDb.findJumlahByResep(idResep);
@@ -44,7 +38,6 @@ public class JumlahServiceImpl implements JumlahService{
     }
 
     @Override
-<<<<<<< HEAD
     public int calculatePrice(Long idResep) {
         List<Jumlah> listObatResep = findByResep(idResep);
         int total = 0;
@@ -58,7 +51,6 @@ public class JumlahServiceImpl implements JumlahService{
     public Jumlah addJumlah(Jumlah jumlah) {
         return jumlahDb.save(jumlah);
     }
-=======
     public void minusStock(Long idResep) {
         List<Jumlah> jumlahList = jumlahDb.findJumlahByResep(idResep);
         for (Jumlah jumlah: jumlahList){
@@ -68,5 +60,4 @@ public class JumlahServiceImpl implements JumlahService{
         }
     }
 
->>>>>>> 97e64667e59d1c234ed99cb4e63d0517810a2f4c
 }
