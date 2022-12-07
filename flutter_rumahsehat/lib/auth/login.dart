@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rumahsehat/auth/register.dart';
 import 'package:flutter_rumahsehat/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,7 @@ class LoginPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
           title: Text("Log In",
               style: TextStyle(color: Colors.black)
@@ -52,7 +54,12 @@ class LoginPage extends StatelessWidget {
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.blue,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (BuildContext context) => Register()),
+                          (Route<dynamic> route) => false
+                  );
+                },
                 child: Text("Sign Up"),
               ),
             ),
@@ -60,65 +67,74 @@ class LoginPage extends StatelessWidget {
           ],
 
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30)
+        body: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 500,
+                  child: TextField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        labelText: 'Username'
                     ),
-                    labelText: 'Username'
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30)
+                SizedBox(height: 10),
+                SizedBox(
+                  width: 500,
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        labelText: 'Password'
                     ),
-                    labelText: 'Password'
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                  onPressed: () async {
-                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                SizedBox(height: 10),
+                TextButton(
+                    onPressed: () async {
+                      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                    var username = _usernameController.text;
-                    var password = _passwordController.text;
+                      var username = _usernameController.text;
+                      var password = _passwordController.text;
 
-                    print(username);
-                    print(password);
+                      print(username);
+                      print(password);
 
-                    var response = await attemptLogIn(username, password);
-                    print(response);
+                      var response = await attemptLogIn(username, password);
+                      print(response);
 
-                    if(response != null) {
-                      sharedPreferences.setString("token", json.decode(response)["token"]);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
-                              (Route<dynamic> route) => false
-                      );
-                    } else {
-                      displayDialog(context, "Login gagal", "Tidak ada akun pasien dengan username dan password tersebut");
-                    }
-                  },
-                  child: Text("Log In"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: Colors.black,
+                      if(response != null) {
+                        sharedPreferences.setString("token", json.decode(response)["token"]);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
+                                (Route<dynamic> route) => false
+                        );
+                      } else {
+                        displayDialog(context, "Login gagal", "Tidak ada akun pasien dengan username dan password tersebut");
+                      }
+                    },
+                    child: Text("Log In"),
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.black,
 
-                  )
+                    )
 
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         )
       ),

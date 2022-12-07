@@ -51,6 +51,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
             actions: <Widget>[
               TextButton(
