@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Appointment;
+import apap.proyek.rumahsehat.model.Resep;
 import apap.proyek.rumahsehat.repository.AppointmentDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,12 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
                 map2.put("resep", null);
             }
             else {
-                map2.put("resep", appointment.getResep());
+                map2.put("resep", appointment.getResep().getId());
             }
             list.add(map2);
         }
         map.put("appointment", list);
+
         return map;
     }
 
@@ -50,15 +52,16 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
         }
 
         Map<String, Object> map = new HashMap<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         map.put("id", appointmentPilihan.getId());
-        map.put("waktuAwal", appointmentPilihan.getWaktuAwal());
+        map.put("waktuAwal", appointmentPilihan.getWaktuAwal().format(dateTimeFormatter));
         map.put("status", appointmentPilihan.getIsDone());
         map.put("dokter", appointmentPilihan.getDokter().getUser().getNama());
         map.put("pasien", appointmentPilihan.getPasien().getUser().getNama());
         if (appointmentPilihan.getResep() == null) {
             map.put("resep", null);
         } else {
-            map.put("resep", appointmentPilihan.getResep());
+            map.put("resep", appointmentPilihan.getResep().getId());
         }
         return map;
     }
