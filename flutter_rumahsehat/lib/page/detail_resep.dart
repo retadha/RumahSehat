@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class DetailResepPage extends StatefulWidget {
   final String id;
@@ -26,10 +28,14 @@ class _DetailResepPage extends State<DetailResepPage> {
     String id = widget.id;
     Future<Resep> futureResep = fetchResep(id);
 
-    return MaterialApp(
-       home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text('Detail Resep'),
+          backgroundColor: Colors.white,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.blue),
+            onPressed: () => Navigator.of(context).pop(),
+          ), 
+          title: const Text('Detail Resep', style: TextStyle(color:Colors.black)),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20.0),
@@ -46,7 +52,7 @@ class _DetailResepPage extends State<DetailResepPage> {
                 child: Text(
                   "Detail Resep",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
                   ),
@@ -191,16 +197,18 @@ class _DetailResepPage extends State<DetailResepPage> {
             ]
           )
         )
-      ),
-    );
+      );
     
   }
 }
 
 Future<Resep> fetchResep(String id) async {
   String idResep = id;
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var token = sharedPreferences.getString("token");
+
   var url = 'http://localhost:8080/api/resep/' + idResep;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: <String, String>{'Authorization': 'Bearer $token'});
   Map<String, dynamic> data = jsonDecode(response.body);
   print(data);
   return Resep.fromJson(jsonDecode(response.body));

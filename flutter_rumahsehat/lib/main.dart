@@ -49,7 +49,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  List<Widget> bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
