@@ -6,16 +6,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @Transactional
 public class AppointmentRestServiceImpl implements AppointmentRestService {
     @Autowired
     private AppointmentDb appointmentDb;
+
+    @Override
+    public Map getListAppointment(String uuid) {
+        List<Appointment> listAppointment = appointmentDb.findByUuid(uuid);
+        Map<String, Object> map = new HashMap<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+
+        List<Object> list = new ArrayList<>();
+        for (Appointment appointment : listAppointment) {
+            Map<String, Object> map2 = new HashMap<>();
+            map2.put("dokter", appointment.getDokter().getUser().getNama());
+            map2.put("waktuAwal", appointment.getWaktuAwal().format(dateTimeFormatter));
+            map2.put("status", appointment.getIsDone());
+            if (appointment.getResep() == null) {
+                map2.put("resep", null);
+            }
+            else {
+                map2.put("resep", appointment.getResep());
+            }
+            list.add(map2);
+        }
+        map.put("appointment", list);
+        return map;
+    }
 
     @Override
     public Map getAppointmentById(String id) {
