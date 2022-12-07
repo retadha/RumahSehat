@@ -6,6 +6,7 @@ import '/page/daftar_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
 import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
+import 'page/profil_pasien.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -50,7 +51,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  final bodies = [Container(color: Colors.cyan), DaftarTagihanPage(), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), Container(color: Colors.blue), Container(color: Colors.yellow)];
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -90,8 +91,8 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
+              icon: Icon(Icons.person),
+              label: 'Profil'
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.monetization_on),
