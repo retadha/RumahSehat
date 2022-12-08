@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8b357625-7293-43ea-afc4-0fcde3295847" name="kirti">
+        <fileTransfer accessType="SFTP" host="kawung.cs.ui.ac.id" port="12122" sshConfigId="ade43239-001b-4972-9771-33ef676cddcb" sshConfig="retadha.rumi@kawung.cs.ui.ac.id:12122 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

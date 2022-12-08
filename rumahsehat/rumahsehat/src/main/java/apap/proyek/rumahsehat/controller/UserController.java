@@ -80,7 +80,7 @@ public class UserController {
         model.addAttribute("nama", savedUser.getNama());
         model.addAttribute("username", savedUser.getUsername());
 
-        return "/user/add-web-user";
+        return "user/add-web-user";
 
     }
 
