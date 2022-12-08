@@ -36,7 +36,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		if (request.getServletPath().contains("/api/")
-			&& !request.getServletPath().equals("/api/authenticate")) {
+			&& !request.getServletPath().equals("/api/authenticate")
+		 	&& !request.getServletPath().equals("/api/users/pasien/register")) {
+
 			final String requestTokenHeader = request.getHeader("Authorization");
 
 			String username = null;
