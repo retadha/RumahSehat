@@ -91,7 +91,6 @@ public class ResepController {
             appointmentService.save(appointment);
 
             Tagihan tagihan = new Tagihan();
-            tagihan.setKode("BILL-");
             tagihan.setTanggalTerbuat(LocalDateTime.now());
             tagihan.setIsPaid(false);
             tagihan.setKodeAppointment(appointment);
