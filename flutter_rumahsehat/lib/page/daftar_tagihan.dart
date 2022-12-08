@@ -62,7 +62,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
       var token = sharedPreferences.getString("token");
         var url = 'http://localhost:8080/api/list-tagihan/';
         final response = await http.get(Uri.parse(url),
-        headers: <String, String>{'Authorization': 'Bearer $token'},);
+        headers: <String, String>{'Authorization': 'Bearer $token', 'Access-Control-Allow-Origin': '*'},);
         Map<String, dynamic> data = jsonDecode(response.body);
         print(data);
         return Tagihan.fromJson(jsonDecode(response.body));

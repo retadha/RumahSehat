@@ -1,28 +1,49 @@
+import 'dart:convert';
+
+Appointment appointmentFromJson(String str) => Appointment.fromJson(json.decode(str));
+String appointmentToJson(Appointment data) => json.encode(data.toJson());
+
 class Appointment {
+  Appointment({
+    required this.appointment,
+  });
+
+  List<AppointmentElement> appointment;
+
+  factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
+    appointment: List<AppointmentElement>.from(json["appointment"].map((x) => AppointmentElement.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "appointment": List<dynamic>.from(appointment.map((x) => x.toJson())),
+  };
+}
+
+class AppointmentElement {
   String? dokter;
   String? id;
   String? pasien;
   String? waktuAwal;
   int? resep;
-  // String? tagihan;
+  String? tagihan;
   bool? status;
 
-  Appointment(
-      {this.dokter,
-        this.id,
-        this.pasien,
-        this.waktuAwal,
+  AppointmentElement(
+      { required this.dokter,
+        required this.id,
+        required this.pasien,
+        required this.waktuAwal,
         this.resep,
-        // this.tagihan,
-        this.status});
+        this.tagihan,
+        required this.status});
 
-  Appointment.fromJson(Map<String, dynamic> json) {
+  AppointmentElement.fromJson(Map<String, dynamic> json) {
     dokter = json['dokter'];
     id = json['id'];
     pasien = json['pasien'];
     waktuAwal = json['waktuAwal'];
     resep = json['resep'];
-    // tagihan = json['tagihan'];
+    tagihan = json['tagihan'];
     status = json['status'];
   }
 
@@ -33,7 +54,7 @@ class Appointment {
     data['pasien'] = this.pasien;
     data['waktuAwal'] = this.waktuAwal;
     data['resep'] = this.resep;
-    // data['tagihan'] = this.tagihan;
+    data['tagihan'] = this.tagihan;
     data['status'] = this.status;
     return data;
   }

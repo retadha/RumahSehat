@@ -61,6 +61,7 @@ public class MultiHttpSecurityConfig {
             // We don't need CSRF for this example
             httpSecurity
                     .antMatcher("/api/**")
+                    .cors().and()
                     .csrf().disable()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                     .and()
