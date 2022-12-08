@@ -30,7 +30,7 @@ build:
   stage: build
   script:
     - echo "Compiling the code..."
-    - cd $CI_PROJECT_DIR/belajarbelajar
+    - cd $CI_PROJECT_DIR/rumahsehat/rumahsehat
     - sh gradlew clean assemble
   artifacts:
     paths:
