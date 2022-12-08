@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rumahsehat/model/PasienModel.dart';
-import 'package:flutter_rumahsehat/page/topup-saldo.dart';
+import 'package:flutter_rumahsehat/page/topup_saldo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,11 +25,8 @@ class _ProfilPasienPage extends State<ProfilPasienPage> {
     };
     final response1 = await http.get(Uri.parse(url1), headers: headers);
     final response2 = await http.get(Uri.parse(url2), headers: headers);
-    print(response1.body);
-    print(response2.body);
     var data = jsonDecode(response1.body);
     data.addAll(jsonDecode(response2.body));
-    print(data);
 
     PasienModel pasien = PasienModel.fromJson(data);
 
@@ -128,7 +125,7 @@ class _ProfilPasienPage extends State<ProfilPasienPage> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          snapshot.data.saldo.toString(),
+                          'Rp' + snapshot.data.saldo.toString(),
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 18,
