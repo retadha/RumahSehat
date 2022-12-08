@@ -12,10 +12,9 @@
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2>Daftar Dokter</h2>
+                <a class="btn btn-outline-primary" th:href="@{/users}">Kembali</a>
                 <br>
-                <a th:href="@{/users/doctors/add}" class="btn btn-primary">Tambah Dokter</a>
-                <br>
+                <h2 style="text-align: center" >Daftar Dokter</h2>
                 <br>
                 <table class="table">
                     <thead>
@@ -34,7 +33,7 @@
                         <td th:text="${dokter.user.email}"></td>
                         <td th:text="${dokter.tarif}"></td>
                         <td>
-                            <a class="btn btn-danger" th:href="@{/users/doctors/delete/} + ${dokter.user.uuid}">Delete Dokter</a>
+                            <a class="btn btn-danger" th:href="@{/users/doctors/delete/} + ${dokter.user.uuid}">Hapus</a>
                         </td>
                     </tbody>
                 </table>

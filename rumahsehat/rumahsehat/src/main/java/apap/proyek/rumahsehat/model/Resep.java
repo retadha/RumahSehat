@@ -42,4 +42,3 @@ public class Resep {
     private List<Jumlah> listJumlah;
 }
 
-

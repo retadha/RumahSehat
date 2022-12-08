@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
+@CrossOrigin(value = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -70,19 +72,42 @@ public class UserController {
     }
 
     @PostMapping(value = "/doctors/add")
-    private String addDoctorSubmitPage(@ModelAttribute UserModel user, @RequestParam(value = "tarif") Integer tarif, Model model) {
-        UserModel savedUser = userService.addUser(user);
+    private String addDoctorSubmitPage(@ModelAttribute UserModel user,
+                                       @RequestParam(value = "username") String username,
+                                       @RequestParam(value = "nama") String name,
+                                       @RequestParam(value = "email") String email,
+                                       @RequestParam(value = "password") String password,
+                                       @RequestParam(value = "tarif") Integer tarif, Model model) {
 
-        Dokter dokter = new Dokter();
-        Dokter savedDokter = dokterService.addDokter(dokter, savedUser, tarif);
 
-        model.addAttribute("role", savedUser.getRole());
-        model.addAttribute("nama", savedUser.getNama());
-        model.addAttribute("username", savedUser.getUsername());
+        boolean validInput = userService.validateCredentials(username, name, email, password);
 
-        return "/user/add-web-user";
+        if (validInput) {
+            UserModel savedUser = userService.addUser(user);
+
+            Dokter dokter = new Dokter();
+            Dokter savedDokter = dokterService.addDokter(dokter, savedUser, tarif);
+
+            model.addAttribute("role", savedUser.getRole());
+            model.addAttribute("nama", savedUser.getNama());
+            model.addAttribute("username", savedUser.getUsername());
+
+            return "user/add-web-user";
+        }
+
+        HashMap<String, Boolean> credentialsStatus = userService.credentialsStatus(username, name, email, password);
+
+        model.addAttribute("userExists", credentialsStatus.get("userExists"));
+        model.addAttribute("validUsername", credentialsStatus.get("validUsername"));
+        model.addAttribute("validName", credentialsStatus.get("validName"));
+        model.addAttribute("validEmail", credentialsStatus.get("validEmail"));
+        model.addAttribute("validPassword", credentialsStatus.get("validPassword"));
+
+        return "user/form-add-doctor";
 
     }
+
+
 
     @GetMapping(value = "/doctors/delete/{id}")
     private ModelAndView deleteDokter(@PathVariable String id) {
@@ -109,17 +134,39 @@ public class UserController {
     }
 
     @PostMapping(value = "/apoteker/add")
-    private String addApotekerSubmitPage(@ModelAttribute UserModel user, Model model) {
-        UserModel savedUser = userService.addUser(user);
+    private String addApotekerSubmitPage(@ModelAttribute UserModel user,
+                                         @RequestParam(value = "username") String username,
+                                         @RequestParam(value = "nama") String name,
+                                         @RequestParam(value = "email") String email,
+                                         @RequestParam(value = "password") String password,
+                                         Model model) {
 
-        Apoteker apoteker = new Apoteker();
-        apotekerService.addApoteker(apoteker, savedUser);
+        boolean validInput = userService.validateCredentials(username, name, email, password);
 
-        model.addAttribute("role", savedUser.getRole());
-        model.addAttribute("nama", savedUser.getNama());
-        model.addAttribute("username", savedUser.getUsername());
+        if (validInput) {
+            UserModel savedUser = userService.addUser(user);
 
-        return "user/add-web-user";
+            Apoteker apoteker = new Apoteker();
+            apotekerService.addApoteker(apoteker, savedUser);
+
+            model.addAttribute("role", savedUser.getRole());
+            model.addAttribute("nama", savedUser.getNama());
+            model.addAttribute("username", savedUser.getUsername());
+
+            return "user/add-web-user";
+        }
+
+        HashMap<String, Boolean> credentialsStatus = userService.credentialsStatus(username, name, email, password);
+
+        model.addAttribute("userExists", credentialsStatus.get("userExists"));
+        model.addAttribute("validUsername", credentialsStatus.get("validUsername"));
+        model.addAttribute("validName", credentialsStatus.get("validName"));
+        model.addAttribute("validEmail", credentialsStatus.get("validEmail"));
+        model.addAttribute("validPassword", credentialsStatus.get("validPassword"));
+
+        return "user/form-add-apoteker";
+
+
 
     }
 
