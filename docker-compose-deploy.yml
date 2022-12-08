@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: apap-registry.cs.ui.ac.id/retadha.rumi/apap-050
+    image: apap-registry.cs.ui.ac.id/retadha.rumi/apap-tk-050
     restart: always
     ports:
       - "10050:8080"
