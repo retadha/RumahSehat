@@ -3,12 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../model/Pasien.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/main.dart';
 import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
-
-
 
 class DetailTagihanPage extends StatefulWidget {
   final String kode;
@@ -16,12 +13,9 @@ class DetailTagihanPage extends StatefulWidget {
 
   @override
   _DetailTagihanPage createState() => _DetailTagihanPage();
-
 }
 
 class _DetailTagihanPage extends State<DetailTagihanPage> {
-  int totalTagihan = 0;
-  int saldo=0;
   TextStyle _style(){
     return TextStyle(
       fontWeight: FontWeight.bold
@@ -34,39 +28,37 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     Future<TagihanElement> futureTagihan = fetchTagihan(kode);
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.blue),
-            onPressed: () => Navigator.of(context).pop(),
-          ), 
-          title: const Text('Detail Tagihan', style: TextStyle(color:Colors.black)),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                ),
-                child: Padding(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.blue),
+          onPressed: () => Navigator.of(context).pop(),
+        ), 
+        title: const Text('Detail Tagihan', style: TextStyle(color:Colors.black)),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(),
+              child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  "Detail Tagihan",
+                child: Text("Detail Tagihan",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                )
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+              )
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -77,14 +69,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: Text("Appointment:", style: _style())
-              ),
-              SizedBox(height: 10),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: Text("Appointment:", style: _style())
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -95,14 +87,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: Text("Jumlah Tagihan:", style:_style())
-              ),
-              SizedBox(height: 10),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: Text("Jumlah Tagihan:", style:_style())
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -115,14 +107,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: Text("Tanggal Tagihan:", style:_style())
-              ),
-              SizedBox(height: 10),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: Text("Tanggal Tagihan:", style:_style())
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -137,14 +129,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: Text("Status:", style:_style())
-              ),
-              SizedBox(height: 10),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: Text("Status:", style:_style())
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -161,14 +153,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: Text("Tanggal Bayar:", style : _style())
-              ),
-              SizedBox(height: 10),
-              Container(
-                child: FutureBuilder<TagihanElement>(
+            ),
+            SizedBox(height: 20),
+            Container(
+              child: Text("Tanggal Bayar:", style : _style())
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -183,12 +175,12 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                height: 100,
-                padding: const EdgeInsets.fromLTRB(60, 10, 60, 5),
-                child: FutureBuilder<TagihanElement>(
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: 100,
+              padding: const EdgeInsets.fromLTRB(60, 10, 60, 5),
+              child: FutureBuilder<TagihanElement>(
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -200,33 +192,32 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                 },
               ),
             ),
-            ]
-          )
+          ]
         )
-      );
+      )
+    );
   }
    
   buttonConditionFalse(BuildContext context, String kode){
-      return ElevatedButton(
-                child: const Text('Bayar'),
-                onPressed: () {
-                  showConfirmDialog(context, kode);
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    textStyle: const TextStyle(
-                    color: Colors.white,
-                    )
-                )
-            );
-    }
+    return ElevatedButton(
+      child: const Text('Bayar'),
+      onPressed: () {
+        showConfirmDialog(context, kode);
+      },
+      style: ElevatedButton.styleFrom(
+        primary: Colors.green,
+        textStyle: const TextStyle(
+          color: Colors.white,
+        )
+      )
+    );
+  }
 
   showConfirmDialog(BuildContext context, String kode){
-    // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Batal"),
       onPressed: () {
-      Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
@@ -237,7 +228,6 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: Text("Apakah Anda yakin ingin membayar tagihan ini?"),
       actions: [
@@ -246,11 +236,10 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
-    return alert;
+        return alert;
       },
     );
   }
@@ -260,36 +249,35 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     var token = sharedPreferences.getString("token");
     var url = 'http://localhost:8080/api/bayar-tagihan/' + kode;
     final response = await http.get(Uri.parse(url),
-      headers: <String, String>{'Authorization': 'Bearer $token'},
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        "content-type": "application/json",
+        "accept": "application/json",
+      },
     );
     Map<String, dynamic> data = jsonDecode(response.body);
-    print(data["status"]);
     if (data["status"] == "berhasil"){
       showSuccess(context, kode);
     } else {
       if (data["statusSaldo"] == "kurang"){
-         showFailedSaldo(context, kode);
+        showFailedSaldo(context, kode);
       }
       else if (data["statusStok"] == "kurang"){
         showFailedStok(context, kode);
-
       }
     }
 
   }
 
   showFailedSaldo(BuildContext context, String kode) {
-    // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Kembali"),
       onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-
-      Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
   
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: Text("Maaf, saldo Anda tidak mencukupi. Silakan Top up terlebih dahulu."),
       actions: [
@@ -297,7 +285,6 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -307,17 +294,14 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
   }
 
   showFailedStok(BuildContext context, String kode) {
-    // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Kembali"),
       onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-
-      Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
   
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: Text("Maaf, Stok tidak mencukupi. Silakan menunggu ketersediaan obat"),
       actions: [
@@ -325,7 +309,6 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -336,21 +319,18 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
 
 
   showSuccess(BuildContext context, String kode) {
-    // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Kembali"),
       onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-
-              Navigator.of(context, rootNavigator: true).pop();
-Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
-                          (Route<dynamic> route) => false
-                  );        
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => RumahSehatApp()),
+            (Route<dynamic> route) => false
+        );        
       }
     );
   
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: Text("Selamat, Pembayaran Anda Sukses!"),
       actions: [
@@ -358,7 +338,6 @@ Navigator.of(context).pushAndRemoveUntil(
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -374,23 +353,13 @@ Navigator.of(context).pushAndRemoveUntil(
       var token = sharedPreferences.getString("token");
         var url = 'http://localhost:8080/api/tagihan/' + kode;
         final response = await http.get(Uri.parse(url),
-        headers: <String, String>{'Authorization': 'Bearer $token'},);
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          "content-type": "application/json",
+          "accept": "application/json",
+          });
         Map<String, dynamic> data = jsonDecode(response.body);
-        totalTagihan = data["jumlahTagihan"];
-        print(data);
         return TagihanElement.fromJson(jsonDecode(response.body));
-    }
-
-    Future<Pasien> fetchPasien(String kode) async {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      var token = sharedPreferences.getString("token");
-        var url = 'http://localhost:8080/api/pasien-tagihan/' + kode;
-        final response = await http.get(Uri.parse(url),
-        headers: <String, String>{'Authorization': 'Bearer $token'},);
-        Map<String, dynamic> data = jsonDecode(response.body);
-        saldo = data["saldo"];
-        print(data);
-        return Pasien.fromJson(jsonDecode(response.body));
     }
 }
 
