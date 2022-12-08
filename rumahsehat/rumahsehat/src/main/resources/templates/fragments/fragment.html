@@ -17,8 +17,8 @@
         </head>
     </head>
     <body>
-        <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand font-weight-bold text-primary" href="#">RumahSehat</a>
+        <nav sec:authorize="!hasAuthority('Pasien')" th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand font-weight-bold text-primary" href="/">RumahSehat</a>
             <button
                     class="navbar-toggler"
                     type="button"
@@ -32,8 +32,8 @@
             </button>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">User</a>
+                    <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+                        <a class="nav-link" th:href="@{/users}">Manajemen User</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/appointment">Appointment</a>
@@ -47,13 +47,48 @@
                 </ul>
 
                 <ul class="navbar-nav pull-right">
-                    <a class="nav-item nav-link text-text-secondary" th:href="@{/}">Update Password</a>
-                </ul>
-                <ul class="navbar-nav pull-right">
                     <a class="nav-item nav-link text-text-secondary" th:href="@{/logout-sso}">Logout</a>
                 </ul>
             </div>
         </nav>
+
+        <div th:fragment="user-basic-data">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required>
+
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" required>
+
+            <label>E-mail</label>
+            <input type="text" name="email" class="form-control" required>
+
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <div th:fragment="user-validation">
+            <br><br>
+
+            <div th:if="${userExists} == true" class="alert alert-danger" role="alert">
+                Username sudah digunakan
+            </div>
+
+            <div th:if="${validUsername} == false" class="alert alert-danger" role="alert">
+                Username harus 6 - 30 karakter, boleh mengandung huruf, angka, dan underscore saja
+            </div>
+
+            <div th:if="${validName} == false" class="alert alert-danger" role="alert">
+                Nama minimal memiliki 2 karakter dan alfabetik
+            </div>
+
+            <div th:if="${validEmail} == false" class="alert alert-danger" role="alert">
+                Email tidak valid
+            </div>
+
+            <div th:if="${validPassword} == false" class="alert alert-danger" role="alert">
+                Password minimal 8 karakter alfanumerik, mengandung uppercase dan lowercase, dan karakter spesial
+            </div>
+        </div>
 
     </body>
 </html>

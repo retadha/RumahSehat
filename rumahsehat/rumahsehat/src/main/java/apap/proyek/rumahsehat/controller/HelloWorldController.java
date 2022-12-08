@@ -22,6 +22,10 @@ public class HelloWorldController {
 	@RequestMapping({ "/api/hello2" })
 	public String hello(@RequestHeader("Authorization") String token) {
 		Map<String, String> decodedToken = decode(token);
+		String uuid = decodedToken.get("uuid");
+
+
+
 		String result = "";
 		if (decodedToken.get("role").equals("Dokter")) {
 			result = "Halo Dokter";
