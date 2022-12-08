@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-    image: localhost:15000/denny/apap-001
+    image: apap-tk-50_web
     restart: always
     ports:
       - "10050:8080"
