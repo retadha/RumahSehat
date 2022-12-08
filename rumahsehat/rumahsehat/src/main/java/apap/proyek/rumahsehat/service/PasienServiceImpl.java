@@ -60,4 +60,9 @@ public class PasienServiceImpl implements PasienService {
     public List<Pasien> findAll() {
         return pasienDb.findAll();
     }
+
+    @Override
+    public Pasien topUpSaldo(Pasien pasien) {
+        return pasienDb.save(pasien);
+    }
 }

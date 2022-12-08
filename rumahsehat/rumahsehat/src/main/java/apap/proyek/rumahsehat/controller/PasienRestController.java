@@ -7,15 +7,19 @@ import apap.proyek.rumahsehat.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.Base64;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/profil")
 public class PasienRestController {
     @Autowired
     private PasienService pasienService;
@@ -51,6 +55,17 @@ public class PasienRestController {
         Gson gson = new Gson();
         Map<String, String> decodedToken = gson.fromJson(payload, new TypeToken<Map<String, String>>() {}.getType());
         return decodedToken;
+    }
+
+    @PostMapping(value = "/topupsaldo")
+    private Pasien topUpSaldo(@RequestHeader("Authorization") String token, @RequestBody Pasien pasien) {
+        Map<String, String> decodedToken = decode(token);
+        String uuid = decodedToken.get("uuid");
+        Pasien pasienlama = pasienService.getPasienById(uuid);
+        pasienlama.setSaldo(pasienlama.getSaldo()+pasien.getSaldo());
+        pasien = pasienlama;
+        pasienService.topUpSaldo(pasien);
+        return pasien;
     }
 
 }
