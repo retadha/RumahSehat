@@ -96,6 +96,8 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/login-sso", "/validate-ticket").permitAll()
                     .antMatchers("/users/**").hasAuthority("Admin")
                     .antMatchers("/").hasAnyAuthority("Admin", "Apoteker", "Dokter")
+                    .antMatchers("/obat/viewall").hasAnyAuthority("Admin", "Apoteker")
+                    .antMatchers("/obat/update-stok/**").hasAuthority("Apoteker")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()

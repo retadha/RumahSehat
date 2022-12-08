@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Obat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Update Stok Obat</h2>
+                <br>
+                <form th:action="@{/obat/update-stok}" th:object="${obat}" method="POST">
+
+                    <input type="hidden" th:field="*{idObat}" />
+                    <input type="hidden" th:field="*{harga}" />
+                    <input type="hidden" th:field="*{namaObat}" />
+
+
+                    Stok Obat: <br>
+                    <input class="form-control" type="number" name="stok" th:value="*{stok}"/>
+                    <br><br>
+
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <a class="btn btn-primary" href="/obat/viewall">Kembali</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
