@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 Appointment appointmentFromJson(String str) => Appointment.fromJson(json.decode(str));
 String appointmentToJson(Appointment data) => json.encode(data.toJson());
 
@@ -20,13 +22,13 @@ class Appointment {
 }
 
 class AppointmentElement {
-  String? dokter;
-  String? id;
-  String? pasien;
-  String? waktuAwal;
+  String dokter;
+  String id;
+  String pasien;
+  String waktuAwal;
   int? resep;
   String? tagihan;
-  bool? status;
+  bool status;
 
   AppointmentElement(
       { required this.dokter,
@@ -37,15 +39,15 @@ class AppointmentElement {
         this.tagihan,
         required this.status});
 
-  AppointmentElement.fromJson(Map<String, dynamic> json) {
-    dokter = json['dokter'];
-    id = json['id'];
-    pasien = json['pasien'];
-    waktuAwal = json['waktuAwal'];
-    resep = json['resep'];
-    tagihan = json['tagihan'];
-    status = json['status'];
-  }
+  factory AppointmentElement.fromJson(Map<String, dynamic> json) => AppointmentElement(
+    dokter: json["dokter"],
+    id: json["id"],
+    pasien: json["pasien"],
+    waktuAwal: json["waktuAwal"],
+    resep: json["resep"] ?? null,
+    tagihan: json["tagihan"] ?? null,
+    status: json["status"],
+  );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
