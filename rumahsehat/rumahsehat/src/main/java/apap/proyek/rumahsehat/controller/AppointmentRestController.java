@@ -1,8 +1,12 @@
 package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.Appointment;
+import apap.proyek.rumahsehat.model.Pasien;
+import apap.proyek.rumahsehat.model.Dokter;
 import apap.proyek.rumahsehat.service.AppointmentRestService;
 import apap.proyek.rumahsehat.service.AppointmentService;
+import apap.proyek.rumahsehat.service.DokterService;
+import apap.proyek.rumahsehat.service.PasienService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -25,6 +28,12 @@ public class AppointmentRestController {
     private AppointmentService appointmentService;
     @Autowired
     private AppointmentRestService appointmentRestService;
+
+    @Autowired
+    private PasienService pasienService;
+
+    @Autowired
+    private DokterService dokterService;
 
     //viewall appointment
     @GetMapping(value = "/appointment")
@@ -47,12 +56,18 @@ public class AppointmentRestController {
 
     //create appointment
     @PostMapping(value = "/create-appointment")
-    private Appointment createAppointment(@Valid @RequestBody Appointment appointment, BindingResult bindingResult) {
+    private Appointment createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody Appointment appointment, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
             );
         } else {
+            //pasien
+            Map<String, String> decodedToken = decode(token);
+            String uuid = decodedToken.get("uuid");
+            Pasien pasien = pasienService.getPasienById(uuid);
+            appointment.setPasien(pasien);
+            //dokter
             return appointmentRestService.createAppointment(appointment);
         }
     }
