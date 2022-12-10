@@ -66,7 +66,7 @@ class _DetailResepPage extends State<DetailResepPage> {
                   if (snapshot.hasData) {
                     int idInt = snapshot.data!.id;
                     String idStr = idInt.toString();
-                    return Text('ID: ' + idStr, style:_style());
+                    return Text('ID Resep :  ' + idStr, style:_style());
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -161,10 +161,10 @@ class _DetailResepPage extends State<DetailResepPage> {
               Container(
                 child: Text("Daftar Obat", style: TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.bold,
                   ),)
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Container(
                 child: FutureBuilder<Resep>(
                 future: futureResep,
@@ -174,8 +174,16 @@ class _DetailResepPage extends State<DetailResepPage> {
                     return Container(
                       child: DataTable(
                         columns:[
-                          DataColumn(label: Text("Nama Obat")),
-                          DataColumn(label: Text("Jumlah"))
+                          DataColumn(label: Text("Nama Obat", 
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            )
+                          )),
+                          DataColumn(label: Text("Kuantitas", 
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            )
+                          ))
                         ],
                         rows:snapshot.data!.listObat.map((obat)=> 
                           DataRow(
