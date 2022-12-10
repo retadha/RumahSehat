@@ -1,12 +1,19 @@
 
 import 'package:flutter/material.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 =======
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
 
 >>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
+=======
+import 'package:flutter_rumahsehat/page/detail_resep.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rumahsehat/auth/login.dart';
+
+>>>>>>> bbe7cb6a1b0bbdb69db3b176a3b27fe77a804079
 
 void main() {
   runApp(MyApp());
@@ -16,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
 <<<<<<< HEAD
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -35,6 +43,11 @@ class MyApp extends StatelessWidget {
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
 >>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
+=======
+
+      title: 'Rumah Sehat App',
+      home: RumahSehatApp(),
+>>>>>>> bbe7cb6a1b0bbdb69db3b176a3b27fe77a804079
     );
   }
 }
@@ -68,7 +81,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  List<Widget> bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
