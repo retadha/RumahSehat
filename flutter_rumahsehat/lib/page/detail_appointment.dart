@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-// import '../model/Pasien.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/main.dart';
 import 'package:flutter_rumahsehat/page/daftar_appointment.dart';
@@ -153,23 +152,40 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             ),
             //DETAIL RESEP
             SizedBox(height: 20),
-            // TextButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(builder: (context) => DetailResepPage(data.resep.id))
-            //       );
-            //     },
-            //     child: const Text('Detail Resep'),
-            //     style: ElevatedButton.styleFrom(
-            //         primary: Colors.green,
-            //         textStyle: const TextStyle(
-            //           color: Colors.white)
-            //     ),
-            // ),
+            Container(
+              child: FutureBuilder<AppointmentElement>(
+                future: futureAppointment,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    int idResep = snapshot.data!.resep ?? 0;
+                    if (idResep != 0) {
+                      return buttonDetailResep(context, idResep.toString());
+                    }
+                  }
+                  return Container();
+                }
+              )
+            )
           ],
         )
       )
+    );
+  }
+
+  buttonDetailResep(BuildContext context, String id) {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailResepPage(id))
+        );
+      },
+      child: const Text('Detail Resep'),
+      style: ElevatedButton.styleFrom(
+          primary: Colors.green,
+          textStyle: const TextStyle(
+              color: Colors.white)
+      ),
     );
   }
 
