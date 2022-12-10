@@ -76,11 +76,14 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             ),
             SizedBox(height: 20),
             Container(
+                child: Text("Waktu Awal", style:_style())
+            ),
+            Container(
               child: FutureBuilder<AppointmentElement>(
                 future: futureAppointment,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text('Waktu Awal Appointment: ' + snapshot.data!.waktuAwal, style:_style());
+                    return Text(snapshot.data!.waktuAwal);
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -90,7 +93,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             ),
             SizedBox(height: 20),
             Container(
-                child: Text("Status:", style:_style())
+                child: Text("Status", style:_style())
             ),
             SizedBox(height: 10),
             Container(
@@ -149,10 +152,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
               ),
             ),
             //DETAIL RESEP
-            // SizedBox(height: 20),
-            // Container(
-            //
-            // )
+            SizedBox(height: 20),
             // TextButton(
             //     onPressed: () {
             //       Navigator.push(
