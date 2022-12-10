@@ -1,10 +1,12 @@
 package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.Resep;
+import apap.proyek.rumahsehat.model.ResepDto;
 import apap.proyek.rumahsehat.service.ResepRestService;
 import apap.proyek.rumahsehat.service.ResepService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +20,18 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api")
 public class ResepRestController {
     @Autowired
-    private ResepRestService resepService;
+    private ResepRestService resepRestService;
 
     @GetMapping(value = "/resep/{idResep}")
-    private Map retrieveResep(@PathVariable("idResep") Long idResep){
+    private ResponseEntity retrieveResep(@PathVariable("idResep") Long idResep){
+        ResponseEntity responseEntity;
         try{
-            return resepService.getResepById(idResep);
+            ResepDto resep = resepRestService.getResepById(idResep);
+            responseEntity = ResponseEntity.ok(resep);
         } catch (NoSuchElementException e){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Resep dengan ID " + idResep + " not found"
-            );
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
         }
+        return responseEntity;
     }
 
 }

@@ -1,12 +1,15 @@
 package apap.proyek.rumahsehat.model;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Builder
 @AllArgsConstructor
@@ -17,8 +20,14 @@ import java.time.LocalDateTime;
 @Table(name = "tagihan")
 public class Tagihan {
     @Id
-    @Size(max = 255)
-    @Column(name = "kode", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tagihan_seq")
+    @GenericGenerator(
+            name = "tagihan_seq",
+            strategy = "apap.proyek.rumahsehat.model.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "BILL-"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") })
     private String kode;
 
     @Column(name = "tanggalTerbuat")
