@@ -1,14 +1,18 @@
 package apap.proyek.rumahsehat.controller;
 
+import apap.proyek.rumahsehat.model.TagihanDto;
 import apap.proyek.rumahsehat.service.TagihanRestService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api")
@@ -17,14 +21,28 @@ public class TagihanRestController {
     private TagihanRestService tagihanRestService;
 
     @GetMapping(value = "/list-tagihan")
-    private Map retrieveListTagihan(@RequestHeader("Authorization") String token){
+    private ResponseEntity retrieveListTagihan(@RequestHeader("Authorization") String token){
         Map<String, String> decodedToken = decode(token);
-        return tagihanRestService.getListTagihan(decodedToken.get("uuid"));
+        ResponseEntity responseEntity;
+        try{
+            Map<String, List<TagihanDto>> listTagihan = tagihanRestService.getListTagihan(decodedToken.get("uuid"));
+            responseEntity = ResponseEntity.ok(listTagihan);
+        } catch (NoSuchElementException e){
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        }
+        return responseEntity;
     }
 
     @GetMapping(value = "/tagihan/{kode}")
-    private Map detailTagihan(@PathVariable("kode") String kode){
-        return tagihanRestService.getDetailTagihan(kode);
+    private ResponseEntity detailTagihan(@PathVariable("kode") String kode){
+        ResponseEntity responseEntity;
+        try{
+            TagihanDto tagihan = tagihanRestService.getDetailTagihan(kode);
+            responseEntity = ResponseEntity.ok(tagihan);
+        } catch (NoSuchElementException e){
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        }
+        return responseEntity;
     }
 
     @GetMapping(value = "/bayar-tagihan/{kode}")

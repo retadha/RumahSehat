@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.service;
 
 
+import apap.proyek.rumahsehat.model.TagihanDto;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import apap.proyek.rumahsehat.model.Pasien;
@@ -28,36 +29,32 @@ public class TagihanRestServiceImpl implements TagihanRestService{
     @Autowired
     private JumlahService jumlahService;
 
-
-
     @Override
-    public Map getListTagihan(String uuid) {
+    public Map<String, List<TagihanDto>> getListTagihan(String uuid) {
         List<Tagihan> listTagihan = tagihanDb.findByUuid(uuid);
-        Map<String, Object> map = new HashMap<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-
-        List<Object> list = new ArrayList<>();
+        Map<String, List<TagihanDto>> map= new HashMap<>();
+        List<TagihanDto> list = new ArrayList<>();
         for(Tagihan tagihan: listTagihan){
-            Map<String, Object> map2 = new HashMap<>();
-            map2.put("kode", tagihan.getKode());
-            map2.put("tanggalDibuat", tagihan.getTanggalTerbuat().format(dateTimeFormatter));
-            map2.put("status", tagihan.getIsPaid());
+            TagihanDto tagihanDto = new TagihanDto();
+            tagihanDto.setKode(tagihan.getKode());
+            tagihanDto.setTanggalDibuat(tagihan.getTanggalTerbuat().format(dateTimeFormatter));
+            tagihanDto.setStatus(tagihan.getIsPaid());
             if (tagihan.getTanggalBayar()!=null){
-                map2.put("tanggalBayar", tagihan.getTanggalBayar().format(dateTimeFormatter));
+                tagihanDto.setTanggalBayar(tagihan.getTanggalBayar().format(dateTimeFormatter));
             } else {
-                map2.put("tanggalBayar", tagihan.getTanggalBayar());
-
+                tagihanDto.setTanggalBayar(null);
             }
-            map2.put("jumlahTagihan", tagihan.getJumlahTagihan());
-            map2.put("appointment", tagihan.getKodeAppointment().getId());
-            list.add(map2);
+            tagihanDto.setJumlahTagihan(tagihan.getJumlahTagihan());
+            tagihanDto.setAppointment(tagihan.getKodeAppointment().getId());
+            list.add(tagihanDto);
         }
         map.put("tagihan", list);
         return map;
     }
 
     @Override
-    public Map getDetailTagihan(String kode) {
+    public TagihanDto getDetailTagihan(String kode) {
         Optional<Tagihan> tagihanOptional = tagihanDb.findById(kode);
         Tagihan tagihan = null;
         if (tagihanOptional.isPresent()){
@@ -65,19 +62,20 @@ public class TagihanRestServiceImpl implements TagihanRestService{
         } else {
             throw new NoSuchElementException();
         }
+
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-        Map<String, Object> map = new HashMap<>();
-        map.put("kode", tagihan.getKode());
-        map.put("tanggalDibuat", tagihan.getTanggalTerbuat().format(dateTimeFormatter));
-        map.put("status", tagihan.getIsPaid());
+        TagihanDto tagihanDto = new TagihanDto();
+        tagihanDto.setKode(tagihan.getKode());
+        tagihanDto.setTanggalDibuat(tagihan.getTanggalTerbuat().format(dateTimeFormatter));
+        tagihanDto.setStatus(tagihan.getIsPaid());
         if (tagihan.getTanggalBayar()!=null){
-            map.put("tanggalBayar", tagihan.getTanggalBayar().format(dateTimeFormatter));
+            tagihanDto.setTanggalBayar(tagihan.getTanggalBayar().format(dateTimeFormatter));
         } else {
-            map.put("tanggalBayar", tagihan.getTanggalBayar());
+            tagihanDto.setTanggalBayar(null);
         }
-        map.put("jumlahTagihan", tagihan.getJumlahTagihan());
-        map.put("appointment", tagihan.getKodeAppointment().getId());
-        return map;
+        tagihanDto.setJumlahTagihan(tagihan.getJumlahTagihan());
+        tagihanDto.setAppointment(tagihan.getKodeAppointment().getId());
+        return tagihanDto;
     }
 
     @Override
