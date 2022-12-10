@@ -14,4 +14,5 @@ public interface PasienService {
     Map getPasienByTagihan(String kode);
 
     List<Pasien> findAll();
+    Pasien topUpSaldo(Pasien pasien);
 }
