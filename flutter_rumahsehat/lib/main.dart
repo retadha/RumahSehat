@@ -1,28 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_rumahsehat/auth/login.dart';
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> obat
-import 'package:flutter_rumahsehat/page/detail_resep.dart';
 import '/page/daftar_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
-<<<<<<< HEAD
 import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
 import 'page/profil_pasien.dart';
-=======
-
->>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
-=======
-import 'package:flutter_rumahsehat/page/detail_resep.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_rumahsehat/auth/login.dart';
-
->>>>>>> bbe7cb6a1b0bbdb69db3b176a3b27fe77a804079
->>>>>>> obat
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -32,36 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< HEAD
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home page'),
-=======
-      title: 'Rumah Sehat App',
-      home: RumahSehatApp(),
->>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
-=======
-
-      title: 'Rumah Sehat App',
-      home: RumahSehatApp(),
->>>>>>> bbe7cb6a1b0bbdb69db3b176a3b27fe77a804079
->>>>>>> obat
     );
   }
 }
@@ -95,11 +48,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-<<<<<<< HEAD
   List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), Container(color: Colors.blue), Container(color: Colors.yellow)];
-=======
-  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
->>>>>>> obat
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
