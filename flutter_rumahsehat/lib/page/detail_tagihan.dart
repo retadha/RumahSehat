@@ -62,7 +62,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
                 future: futureTagihan,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text('Kode Tagihan: ' + snapshot.data!.kode, style:_style());
+                    return Text('Kode Tagihan  :  ' + snapshot.data!.kode, style:_style());
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -72,7 +72,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Appointment:", style: _style())
+              child: Text("Appointment", style: _style())
             ),
             SizedBox(height: 10),
             Container(
@@ -90,7 +90,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Jumlah Tagihan:", style:_style())
+              child: Text("Jumlah Tagihan", style:_style())
             ),
             SizedBox(height: 10),
             Container(
@@ -110,7 +110,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Tanggal Tagihan:", style:_style())
+              child: Text("Tanggal Tagihan", style:_style())
             ),
             SizedBox(height: 10),
             Container(
@@ -132,7 +132,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Status:", style:_style())
+              child: Text("Status", style:_style())
             ),
             SizedBox(height: 10),
             Container(
@@ -156,7 +156,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Tanggal Bayar:", style : _style())
+              child: Text("Tanggal Bayar", style : _style())
             ),
             SizedBox(height: 10),
             Container(

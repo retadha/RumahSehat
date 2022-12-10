@@ -111,11 +111,11 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  Text(data.kode, style: TextStyle(fontSize: 20)),
+                  Text(data.kode, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                   Container(
                     padding: const EdgeInsets.fromLTRB(25, 30, 7, 10),
                     alignment: Alignment.centerLeft,
-                    child: Text('Total Tagihan : Rp ' + data.jumlahTagihan.toString(),
+                    child: Text('Total Tagihan         : Rp ' + data.jumlahTagihan.toString(),
                       style: TextStyle(
                       height: 1,
                       )
@@ -124,7 +124,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
                     alignment: Alignment.centerLeft,
-                    child: Text('Tanggal Terbuat : ' + data.tanggalDibuat,
+                    child: Text('Tanggal Terbuat    : ' + data.tanggalDibuat,
                       style: TextStyle(
                       height: 1,
                       )
@@ -133,7 +133,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(25, 10, 7, 10),
                     alignment: Alignment.centerLeft,
-                    child: Text('Status : ' + statusStr, style: TextStyle(height: 1))
+                    child: Text('Status                     : ' + statusStr, style: TextStyle(height: 1))
                   ),
                   Container(
                     alignment: Alignment.center,
