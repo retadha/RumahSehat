@@ -199,7 +199,7 @@ class _DetailResepPage extends State<DetailResepPage> {
 
 Future<Resep> fetchResep(String id) async {
   String idResep = id;
-  var url = 'http://localhost:8080/api/resep/' + idResep;
+  var url = 'https://apap-050.cs.ui.ac.id/api/resep/' + idResep;
   final response = await http.get(Uri.parse(url));
   Map<String, dynamic> data = jsonDecode(response.body);
   print(data);

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en" xmlns:th="http://thymeleaf.org">
+=======
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>>>>>>> dev
 <head>
     <title>403 Forbidden</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
@@ -10,9 +14,18 @@
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
+<<<<<<< HEAD
                 <h2 th:text="'Anda tidak memiliki akses untuk membuka halaman ini'"></h2>
                 <br>
                 <a class="btn btn-primary" href="/">Home</a>
+=======
+                <h2 sec:authorize="!hasAuthority('Pasien')" th:text="'Anda tidak memiliki akses untuk membuka halaman ini'"></h2>
+                <br>
+                <h2 sec:authorize="hasAuthority('Pasien')" th:text="'Pasien tidak dapat mengakses aplikasi web'"></h2>
+                <br>
+                <a sec:authorize="!hasAuthority('Pasien')" class="btn btn-primary" href="/">Home</a>
+                <a sec:authorize="hasAuthority('Pasien')" class="btn btn-primary" th:href="@{/logout-sso}">Logout</a>
+>>>>>>> dev
             </div>
         </div>
     </div>

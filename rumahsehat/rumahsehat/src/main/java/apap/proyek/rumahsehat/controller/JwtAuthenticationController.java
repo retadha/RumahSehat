@@ -1,10 +1,12 @@
 package apap.proyek.rumahsehat.controller;
 
 
+import apap.proyek.rumahsehat.security.JwtUserDetailsServiceImpl;
 import apap.proyek.rumahsehat.security.jwt.JwtRequest;
 import apap.proyek.rumahsehat.security.jwt.JwtResponse;
 import apap.proyek.rumahsehat.security.jwt_config.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,8 +28,10 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
+	@Qualifier("jwtUserDetailsServiceImpl")
 	@Autowired
-	private UserDetailsService jwtInMemoryUserDetailsService;
+	private JwtUserDetailsServiceImpl jwtInMemoryUserDetailsService;
+
 
 	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
