@@ -37,9 +37,27 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
                     })
                   );
                 } else {
-                  return Container(
-                    alignment: Alignment.center,
-                    child: Text("Anda belum memiliki tagihan.", )
+                  return Column(
+                    children: const [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60.0,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Saat Ini Anda Belum Memiliki Tagihan',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   );
                 }
               } else if (snapshot.hasError) {
