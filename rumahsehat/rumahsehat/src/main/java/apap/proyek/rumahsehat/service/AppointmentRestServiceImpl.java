@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Appointment;
+import apap.proyek.rumahsehat.model.AppointmentDto;
 import apap.proyek.rumahsehat.model.Resep;
 import apap.proyek.rumahsehat.repository.AppointmentDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,32 +18,35 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     private AppointmentDb appointmentDb;
 
     @Override
-    public Map getListAppointment(String uuid) {
+    public Map<String, List<AppointmentDto>> getListAppointment(String uuid) {
         List<Appointment> listAppointment = appointmentDb.findByUuid(uuid);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, List<AppointmentDto>> map = new HashMap<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
-        List<Object> list = new ArrayList<>();
+        List<AppointmentDto> list = new ArrayList<>();
         for (Appointment appointment : listAppointment) {
-            Map<String, Object> map2 = new HashMap<>();
-            map2.put("dokter", appointment.getDokter().getUser().getNama());
-            map2.put("waktuAwal", appointment.getWaktuAwal().format(dateTimeFormatter));
-            map2.put("status", appointment.getIsDone());
+            AppointmentDto appointmentDto = new AppointmentDto();
+            appointmentDto.setId(appointment.getId());
+            appointmentDto.setDokter(appointment.getDokter().getUser().getNama());
+            appointmentDto.setPasien(appointment.getPasien().getUser().getNama());
+            appointmentDto.setWaktuAwal(appointment.getWaktuAwal().format(dateTimeFormatter));
+            appointmentDto.setStatus(appointment.getIsDone());
             if (appointment.getResep() == null) {
-                map2.put("resep", null);
+                appointmentDto.setResep(null);
             }
             else {
-                map2.put("resep", appointment.getResep().getId());
+                appointmentDto.setResep(appointment.getResep().getId());
             }
-            list.add(map2);
+            appointmentDto.setTagihan(appointment.getTagihan().getKode());
+            list.add(appointmentDto);
         }
-        map.put("appointment", list);
 
+        map.put("appointment", list);
         return map;
     }
 
     @Override
-    public Map getAppointmentById(String id) {
+    public AppointmentDto getAppointmentById(String id) {
         Optional<Appointment> appointment = appointmentDb.findById(id);
         Appointment appointmentPilihan = null;
         if (appointment.isPresent()) {
@@ -51,19 +55,20 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
             throw new NoSuchElementException();
         }
 
-        Map<String, Object> map = new HashMap<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-        map.put("id", appointmentPilihan.getId());
-        map.put("waktuAwal", appointmentPilihan.getWaktuAwal().format(dateTimeFormatter));
-        map.put("status", appointmentPilihan.getIsDone());
-        map.put("dokter", appointmentPilihan.getDokter().getUser().getNama());
-        map.put("pasien", appointmentPilihan.getPasien().getUser().getNama());
+        AppointmentDto appointmentDto = new AppointmentDto();
+        appointmentDto.setId(appointmentPilihan.getId());
+        appointmentDto.setWaktuAwal(appointmentPilihan.getWaktuAwal().format(dateTimeFormatter));
+        appointmentDto.setStatus(appointmentPilihan.getIsDone());
+        appointmentDto.setDokter(appointmentPilihan.getDokter().getUser().getNama());
+        appointmentDto.setPasien(appointmentPilihan.getPasien().getUser().getNama());
         if (appointmentPilihan.getResep() == null) {
-            map.put("resep", null);
+            appointmentDto.setResep(null);
         } else {
-            map.put("resep", appointmentPilihan.getResep().getId());
+            appointmentDto.setResep(appointmentPilihan.getResep().getId());
         }
-        return map;
+        appointmentDto.setTagihan(appointmentPilihan.getTagihan().getKode());
+        return appointmentDto;
     }
 
     @Override

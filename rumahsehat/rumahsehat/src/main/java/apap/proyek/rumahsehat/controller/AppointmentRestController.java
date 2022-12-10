@@ -1,6 +1,7 @@
 package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.Appointment;
+import apap.proyek.rumahsehat.model.AppointmentDto;
 import apap.proyek.rumahsehat.model.Pasien;
 import apap.proyek.rumahsehat.model.Dokter;
 import apap.proyek.rumahsehat.service.AppointmentRestService;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -42,21 +44,25 @@ public class AppointmentRestController {
         Map<String, String> decodedToken = decode(token);
         ResponseEntity responseEntity;
         try {
-            
+            Map<String, List<AppointmentDto>> listAppointment = appointmentRestService.getListAppointment(decodedToken.get("uuid"));
+            responseEntity = ResponseEntity.ok(listAppointment);
+        } catch (NoSuchElementException e) {
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
         }
-        return appointmentRestService.getListAppointment(decodedToken.get("uuid"));
+        return  responseEntity;
     }
 
     //view detail appointment
     @GetMapping(value = "/appointment/{id}")
-    private Map retrieveDetailAppointment(@PathVariable("id") String id) {
+    private ResponseEntity retrieveDetailAppointment(@PathVariable("id") String id) {
+        ResponseEntity responseEntity;
         try {
-            return appointmentRestService.getAppointmentById(id);
+            AppointmentDto appointment = appointmentRestService.getAppointmentById(id);
+            responseEntity = ResponseEntity.ok(appointment);
         } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Appointment dengan ID " + id + " not found"
-            );
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
         }
+        return responseEntity;
     }
 
     //create appointment
