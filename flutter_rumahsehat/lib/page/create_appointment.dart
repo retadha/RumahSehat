@@ -50,7 +50,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                     //waktu awal appointment
                     TextField(
                         controller: dateinput,
-                        decoration: InputDecoration(
+                        decoration: new InputDecoration(
                             icon: Icon(Icons.calendar_today),
                             labelText: "Waktu Awal"
                         ),
@@ -65,8 +65,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
 
                           if (pickedDate != null) {
                             print(pickedDate);
-                            String formattedDate = DateFormat('dd MMMM yyyy')
-                                .format(pickedDate);
+                            String formattedDate = DateFormat('dd MMMM yyyy').format(pickedDate);
                             print(formattedDate);
 
                             setState(() {
@@ -79,7 +78,10 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                         }
                     ),
                     //dokter - tarif
-
+                    // DropdownButtonFormField(
+                    //     items: items,
+                    //     onChanged: onChanged
+                    // ),
                     //submit button
                     ElevatedButton(
                       child: Text("Submit"),
@@ -89,7 +91,9 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                               color: Colors.white)
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          // showConfirm(context, waktuAwal, dokter)
+                        }
                       },
                     ),
                   ],
@@ -99,7 +103,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
     );
   }
 
-  showSuccess(BuildContext context, String id) {
+  showSuccess(BuildContext context, String waktuAwal, String dokter) {
     Widget cancelButton = TextButton(
         child: Text("Kembali"),
         onPressed: () {
@@ -113,6 +117,24 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
           );
         }
     );
+  }
+
+  showConfirm(context, String waktuAwal, String dokter) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Batal"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: Text("Buat"),
+      onPressed: () {
+        createAppointment(context, waktuAwal, dokter);
+      },
+    );
+  }
 
     Future<http.Response> createAppointment(context, String waktuAwal, String dokter) async {
       SharedPreferences sharedPreferences = await SharedPreferences
@@ -134,12 +156,25 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
           body: body
       );
       if (response.statusCode == 200) {
-        // showSuccess(context, id);
+        showSuccess(context, waktuAwal, dokter);
       }
       print(data);
       print("${response.statusCode}");
       print("${response.body}");
       return response;
     }
+
+  Future<Appointment> fetchAppointment() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString("token");
+    var url = 'http://localhost:8080/api/appointment/';
+    final response = await http.get(Uri.parse(url),
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Access-Control-Allow-Origin': '*'
+        });
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(data);
+    return Appointment.fromJson(jsonDecode(response.body));
   }
 }
