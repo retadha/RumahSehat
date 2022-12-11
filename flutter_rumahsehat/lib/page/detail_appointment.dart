@@ -34,7 +34,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             onPressed: () => Navigator.of(context).pop(),
             icon: new Icon(Icons.arrow_back, color: Colors.blue),
         ),
-        title: const Text('Detail Tagihan', style: TextStyle(color:Colors.black)),
+        title: const Text('Detail Appointment', style: TextStyle(color:Colors.black)),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),

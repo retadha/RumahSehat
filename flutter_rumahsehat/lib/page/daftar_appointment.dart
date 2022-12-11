@@ -79,7 +79,7 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
       statusStr = "Selesai";
     }
     return Padding(
-        padding: const EdgeInsets.fromLTRB(60,20, 60, 20  ),
+        padding: const EdgeInsets.fromLTRB(60,20, 60, 20),
         child: Column(
             children: <Widget>[
               Card(
