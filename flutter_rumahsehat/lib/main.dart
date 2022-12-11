@@ -49,7 +49,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue)];
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -99,10 +99,6 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
             const BottomNavigationBarItem(
               icon: Icon(Icons.timer),
               label: 'Appointment',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.medical_information),
-              label: 'Resep',
             ),
           ],
         ),

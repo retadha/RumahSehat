@@ -216,7 +216,13 @@ Future<Resep> fetchResep(String id) async {
   var token = sharedPreferences.getString("token");
 
   var url = 'http://localhost:8080/api/resep/' + idResep;
-  final response = await http.get(Uri.parse(url), headers: <String, String>{'Authorization': 'Bearer $token'});
+  final response = await http.get(Uri.parse(url), 
+    headers: <String, String>{
+      'Authorization': 'Bearer $token',
+      "content-type": "application/json",
+      "accept": "application/json",
+      'Access-Control-Allow-Origin': '*'
+    });
   Map<String, dynamic> data = jsonDecode(response.body);
   print(data);
   return Resep.fromJson(jsonDecode(response.body));
