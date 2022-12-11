@@ -2,6 +2,7 @@ package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 public class ResepController {
     @Qualifier("resepServiceImpl")
@@ -53,6 +55,7 @@ public class ResepController {
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
+        log.info("api get detail resep");
         try{
             String role = "";
             if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
@@ -65,6 +68,7 @@ public class ResepController {
             model.addAttribute("role", role);
             return "resep/detail-resep";
         } catch (NoSuchElementException e){
+            log.error("Error in get detail reesp!");
             return "resep/resep-not-found";
         }
 
