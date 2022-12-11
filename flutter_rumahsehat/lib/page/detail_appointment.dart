@@ -173,7 +173,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
   }
 
   buttonDetailResep(BuildContext context, String id) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: () {
         Navigator.push(
             context,
@@ -184,8 +184,9 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
       style: ElevatedButton.styleFrom(
           primary: Colors.green,
           textStyle: const TextStyle(
-              color: Colors.white)
-      ),
+              color: Colors.white
+          )
+      )
     );
   }
 
