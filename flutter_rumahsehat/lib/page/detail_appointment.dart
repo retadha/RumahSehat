@@ -32,7 +32,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
         backgroundColor: Colors.white,
         leading: new IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: new Icon(Icons.arrow_back, color: Colors.blue),
+            icon: new Icon(Icons.arrow_back, color: Colors.green),
         ),
         title: const Text('Detail Appointment', style: TextStyle(color:Colors.black)),
       ),
