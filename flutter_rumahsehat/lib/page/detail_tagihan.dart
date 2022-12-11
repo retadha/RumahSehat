@@ -253,16 +253,17 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
         'Authorization': 'Bearer $token',
         "content-type": "application/json",
         "accept": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
     );
     Map<String, dynamic> data = jsonDecode(response.body);
     if (data["status"] == "berhasil"){
       showSuccess(context, kode);
     } else {
-      if (data["statusSaldo"] == "kurang"){
+      if (data["status"] == "saldoKurang"){
         showFailedSaldo(context, kode);
       }
-      else if (data["statusStok"] == "kurang"){
+      else if (data["status"] == "stokKurang"){
         showFailedStok(context, kode);
       }
     }
@@ -317,7 +318,6 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     );
   }
 
-
   showSuccess(BuildContext context, String kode) {
     Widget cancelButton = TextButton(
         child: Text("Kembali"),
@@ -346,6 +346,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     );
   }
 
+<<<<<<< HEAD
 
 
   Future<TagihanElement> fetchTagihan(String kode) async {
@@ -362,3 +363,20 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
     return TagihanElement.fromJson(jsonDecode(response.body));
   }
 }
+=======
+  Future<TagihanElement> fetchTagihan(String kode) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString("token");
+      var url = 'http://localhost:8080/api/tagihan/' + kode;
+      final response = await http.get(Uri.parse(url),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        "content-type": "application/json",
+        "accept": "application/json",
+        });
+      Map<String, dynamic> data = jsonDecode(response.body);
+      return TagihanElement.fromJson(jsonDecode(response.body));
+  }
+}
+
+>>>>>>> pasien

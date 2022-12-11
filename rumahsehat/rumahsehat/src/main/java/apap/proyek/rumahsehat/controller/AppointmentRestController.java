@@ -12,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,8 +33,8 @@ public class AppointmentRestController {
     @Autowired
     private PasienService pasienService;
 
-    @Autowired
-    private DokterService dokterService;
+//    @Autowired
+//    private DokterService dokterService;
 
     //viewall appointment
     @GetMapping(value = "/appointment")
@@ -66,9 +65,9 @@ public class AppointmentRestController {
 
     //create appointment
     @PostMapping(value = "/create-appointment")
-    private ResponseEntity createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody Appointment appointment, BindingResult bindingResult) {
+    private ResponseEntity createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody Appointment appointment) {
         Map<String, String> decodedToken = decode(token);
-        ResponseEntity responseEntity = null;
+        ResponseEntity responseEntity;
 
         try {
             //cek apakah waktu appointment tabrakan atau tidak
@@ -89,7 +88,8 @@ public class AppointmentRestController {
                 //status
                 appointment.setIsDone(false);
                 //pasien
-                Pasien pasien = pasienService.getPasienById(decodedToken.get("uuid"));
+                String uuid = decodedToken.get("uuid");
+                Pasien pasien = pasienService.getPasienById(decodedToken.get(uuid));
                 appointment.setPasien(pasien);
                 //tagihan
                 appointment.setTagihan(null);
@@ -100,9 +100,7 @@ public class AppointmentRestController {
             }
             //tabrakan
             else {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Test"
-                );
+                responseEntity = ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
             }
         }
         catch (Exception e) {
