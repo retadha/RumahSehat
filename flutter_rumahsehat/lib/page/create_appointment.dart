@@ -34,7 +34,12 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Buat Appointment"),
+          backgroundColor: Colors.white,
+          leading: new IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: new Icon(Icons.arrow_back, color: Colors.green),
+          ),
+          title: const Text('Buat Appointment', style: TextStyle(color:Colors.black)),
         ),
         body: Form(
             key: _formKey,
