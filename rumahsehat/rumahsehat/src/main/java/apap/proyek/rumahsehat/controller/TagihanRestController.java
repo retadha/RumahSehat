@@ -4,6 +4,7 @@ import apap.proyek.rumahsehat.model.TagihanDto;
 import apap.proyek.rumahsehat.service.TagihanRestService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
@@ -25,11 +27,14 @@ public class TagihanRestController {
     private ResponseEntity retrieveListTagihan(@RequestHeader("Authorization") String token){
         Map<String, String> decodedToken = decode(token);
         ResponseEntity responseEntity;
+        log.info("api get all tagihan");
+
         try{
             Map<String, List<TagihanDto>> listTagihan = tagihanRestService.getListTagihan(decodedToken.get("uuid"));
             responseEntity = ResponseEntity.ok(listTagihan);
-        } catch (NoSuchElementException e){
-            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            log.error("Error in add book!");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
@@ -37,18 +42,31 @@ public class TagihanRestController {
     @GetMapping(value = "/tagihan/{kode}")
     private ResponseEntity detailTagihan(@PathVariable("kode") String kode){
         ResponseEntity responseEntity;
+        log.info("api get detail tagihan");
+
         try{
             TagihanDto tagihan = tagihanRestService.getDetailTagihan(kode);
             responseEntity = ResponseEntity.ok(tagihan);
-        } catch (NoSuchElementException e){
-            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            log.error("Error in get detail tagihan!");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
 
     @GetMapping(value = "/bayar-tagihan/{kode}")
-    private Map postBayarTagihan(@PathVariable("kode") String kode){
-        return tagihanRestService.bayarTagihan(kode);
+    private ResponseEntity postBayarTagihan(@PathVariable("kode") String kode){
+        ResponseEntity responseEntity;
+        log.info("api get bayar tagihan");
+
+        try{
+            Map statusMap = tagihanRestService.bayarTagihan(kode);
+            responseEntity = ResponseEntity.ok(statusMap);
+        } catch (Exception e) {
+            log.error("Error in payment process!");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 
     private Map<String, String> decode(String token) {
