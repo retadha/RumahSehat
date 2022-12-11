@@ -90,13 +90,13 @@ public class TagihanRestServiceImpl implements TagihanRestService{
         Map<String, Object> map = new HashMap<>();
         Pasien pasien = tagihan.getKodeAppointment().getPasien();
         boolean stokCukup = jumlahService.checkStok(tagihan.getKodeAppointment().getResep().getId());
-        if (pasien.getSaldo()< tagihan.getJumlahTagihan()){
-            map.put("statusSaldo", "kurang");
-        }else if (!stokCukup) {
-            map.put("statusStok", "kurang");
-        } else if (tagihan.getIsPaid()){
-            map.put("statusTagihan", "lunas");
-        }else {
+        if (tagihan.getIsPaid() ){
+            map.put("status", "lunas");
+        } else if (!stokCukup) {
+            map.put("status", "stokKurang");
+        } else if (pasien.getSaldo()< tagihan.getJumlahTagihan()){
+            map.put("status", "saldoKurang");
+        } else {
             tagihan.setIsPaid(true);
             tagihan.setTanggalBayar(LocalDateTime.now());
             pasien.setSaldo(pasien.getSaldo()-tagihan.getJumlahTagihan());
