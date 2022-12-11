@@ -28,11 +28,6 @@ public class PasienRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/pasien-tagihan/{kode}")
-    private Map getPasienByTagihan(@PathVariable("kode") String kode){
-        return pasienService.getPasienByTagihan(kode);
-    }
-
     @GetMapping(value = "/user" )
     private UserModel getUserById(@RequestHeader("Authorization") String token) {
         Map<String, String> decodedToken = decode(token);
