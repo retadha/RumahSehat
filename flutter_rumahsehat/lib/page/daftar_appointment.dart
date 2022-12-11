@@ -12,8 +12,6 @@ class DaftarAppointmentPage extends StatefulWidget {
 
   @override
   _DaftarAppointmentPage createState() => _DaftarAppointmentPage();
-
-
 }
 
 // class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
