@@ -152,6 +152,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             //DETAIL RESEP
             SizedBox(height: 20),
             Container(
+              alignment: Alignment.center,
               child: FutureBuilder<AppointmentElement>(
                 future: futureAppointment,
                 builder: (context, snapshot) {
