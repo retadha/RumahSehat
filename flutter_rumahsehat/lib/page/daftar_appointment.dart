@@ -16,43 +16,106 @@ class DaftarAppointmentPage extends StatefulWidget {
 
 }
 
+// class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     Future<Appointment> futureAppointment = fetchAppointment();
+//
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Container(
+//           child:
+//             FutureBuilder<Appointment>(
+//               future: futureAppointment,
+//               builder: (context, snapshot) {
+//                 if (snapshot.hasData) {
+//                   if (snapshot.data!.appointment.length!=0) {
+//                     return Container(
+//                       child: ListView.builder(
+//                         physics: NeverScrollableScrollPhysics(),
+//                         shrinkWrap: true,
+//                         itemCount: snapshot.data!.appointment.length,
+//                         itemBuilder: (BuildContext context, int index) {
+//                           return buildCard(snapshot.data!.appointment[index]);
+//                         })
+//                     );
+//                   } else {
+//                     return Container(
+//                       alignment: Alignment.center,
+//                       child: Text("Anda belum memiliki appointment.")
+//                     );
+//                   }
+//                 } else if (snapshot.hasError) {
+//                   return Text('${snapshot.error}');
+//                 }
+//                 return const CircularProgressIndicator();
+//               },
+//             )
+//         ),
+//       )
+//     );
+//   }
+
 class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
   @override
   Widget build(BuildContext context) {
     Future<Appointment> futureAppointment = fetchAppointment();
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
+        body: SingleChildScrollView(
           child:
-            FutureBuilder<Appointment>(
-              future: futureAppointment,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.appointment.length!=0) {
-                    return Container(
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.appointment.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildCard(snapshot.data!.appointment[index]);
-                        })
-                    );
-                  } else {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Text("Anda belum memiliki appointment.")
-                    );
-                  }
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const CircularProgressIndicator();
-              },
+            Column(
+              children: [
+                Container(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                        child: const Text('Buat Appointment'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CreateAppointmentPage()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            )
+                        )
+                    )
+                ),
+                Container(
+                    child:
+                    FutureBuilder<Appointment>(
+                      future: futureAppointment,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.appointment.length!=0) {
+                            return Container(
+                                child: ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data!.appointment.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return buildCard(snapshot.data!.appointment[index]);
+                                    })
+                            );
+                          } else {
+                            return Container(
+                                alignment: Alignment.center,
+                                child: Text("Anda belum memiliki appointment.")
+                            );
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    )
+                ),
+              ],
             )
-        ),
-      )
+        )
     );
   }
 
