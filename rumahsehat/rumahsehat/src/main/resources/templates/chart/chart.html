@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chart</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+</head>
+
+<body>
+  <nav th:replace="fragments/fragment :: navbar"></nav>
+
+  <div class="container mb-5 pb-5">
+    <div class="card m-4 p-4">
+      <div class="card-title">
+        <h3>Pendapatan Dokter Tahun Ini</h3>
+      </div>
+      <div class="card-body">
+        <canvas id="all-chart"></canvas>
+      </div>
+    </div>
+    <div class="card m-4 p-4">
+      <div class="card-title">
+        <h3>Chart Pendapatan Dokter</h3>
+      </div>
+      <div class="card-body">
+        <form class="form-line-chart">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="dokter_line_chart_1">Dokter 1</label>
+              <select class="custom-select" id="dokter_line_chart_1" required name="dokter_line_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_line_chart_2">Dokter 2</label>
+              <select class="custom-select" id="dokter_line_chart_2" required name="dokter_line_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_line_chart_3">Dokter 3</label>
+              <select class="custom-select" id="dokter_line_chart_3" required name="dokter_line_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_line_chart_4">Dokter 4</label>
+              <select class="custom-select" id="dokter_line_chart_4" required name="dokter_line_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_line_chart_5">Dokter 5</label>
+              <select class="custom-select" id="dokter_line_chart_5" required name="dokter_line_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="jenis_periode">Jenis Periode</label>
+              <select class="custom-select" id="jenis_periode" required name="jenis_periode">
+                <option selected value="">-- Pilih Jenis Periode --</option>
+                <option value="bulanan">Bulanan</option>
+                <option value="tahunan">Tahunan</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 d-none">
+              <label for="bulan-line-chart">Bulan</label>
+              <select class="custom-select" id="bulan-line-chart" required name="bulan-line-chart" disabled>
+                <option selected value="">-- Pilih Bulan --</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 d-none">
+              <label for="tahun-line-chart">Tahun</label>
+              <select class="custom-select" id="tahun-line-chart" required name="tahun-line-chart" disabled>
+                <option selected value="">-- Pilih Tahun --</option>
+                <option th:each="i: ${#numbers.sequence(2022, 2000)}" th:text="${i}" th:value="${i}"></option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 w-100 d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary button-line-chart" disabled>Generate Chart</button>
+            </div>
+          </div>
+        </form>
+        <canvas id="line-chart"></canvas>
+      </div>
+    </div>
+    <div class="card m-4 p-4">
+      <div class="card-title">
+        <h3>Chart Kumulatif</h3>
+      </div>
+      <div class="card-body">
+        <form class="form-cumulative-chart">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_1">Dokter 1</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_1" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_2">Dokter 2</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_2" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_3">Dokter 3</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_3" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_4">Dokter 4</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_4" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_5">Dokter 5</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_5" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_6">Dokter 6</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_6" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_7">Dokter 7</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_7" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="dokter_cumulative_bar_chart_8">Dokter 8</label>
+              <select class="custom-select" id="dokter_cumulative_bar_chart_8" required name="dokter_cumulative_bar_chart">
+                <option selected value="">-- Pilih Dokter --</option>
+                <option th:each="option : ${listDokter}" th:value="${option.user.uuid}" th:text="${option.user.nama}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 w-100 d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary button-cumulative-chart" disabled>Generate Chart</button>
+            </div>
+          </div>
+        </form>
+        <canvas id="cumulative-chart"></canvas>
+        <canvas id="quantity-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const bulan = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ];
+    
+    fetch('/chart/api/all')
+      .then(response => response.json())
+      .then(result => {
+
+
+        const datasets = result.map((dokter, index) => {
+          return {
+            label: dokter.nama,
+            data: dokter.amount,
+          };
+        });
+
+        const data = {
+          labels: bulan,
+          datasets: datasets,
+        };
+
+        const config = {
+          type: "line",
+          data: data,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Pendapatan Dokter Tahun " + new Date().getFullYear(),
+              },
+            },
+          },
+        };
+        new Chart(document.querySelector('#all-chart'), config);
+      })
+
+      const jenisPeriode   = document.querySelector('select[name=jenis_periode]')
+      const bulanLineChart = document.querySelector('select[name=bulan-line-chart]')
+      const tahunLineChart = document.querySelector('select[name=tahun-line-chart]')
+      const buttonLineChart = document.querySelector('.button-line-chart')
+      const dokterLineChart = document.querySelectorAll('select[name=dokter_line_chart]')
+      const formLineChart = document.querySelector('.form-line-chart')
+
+      function checkDokterList(){
+        let check = true
+        dokterLineChart.forEach(el=>{
+            if (el.value == '') {
+              check = false
+              return check
+            } 
+        })
+        return check
+      }
+
+      if(jenisPeriode){
+        jenisPeriode.addEventListener('change',function(){
+          bulanLineChart.parentElement.classList.add('d-none')
+          tahunLineChart.parentElement.classList.add('d-none')
+          bulanLineChart.setAttribute('disabled','')
+          tahunLineChart.setAttribute('disabled','')
+          buttonLineChart.setAttribute('disabled','')
+          if(this.value == 'bulanan'){
+            bulanLineChart.parentElement.classList.remove('d-none')
+            tahunLineChart.parentElement.classList.remove('d-none')
+            bulanLineChart.removeAttribute('disabled')
+            tahunLineChart.removeAttribute('disabled')
+            if(checkDokterList() && bulanLineChart.value != '' && tahunLineChart.value != ''){
+              buttonLineChart.removeAttribute('disabled')
+            }
+          } else if(this.value == 'tahunan'){
+            tahunLineChart.parentElement.classList.remove('d-none')
+            tahunLineChart.removeAttribute('disabled')
+             if(checkDokterList()&& tahunLineChart.value != ''){
+              buttonLineChart.removeAttribute('disabled')
+             }
+          }
+        })
+      }
+
+      if(bulanLineChart){
+        bulanLineChart.addEventListener('change',function(){
+          buttonLineChart.setAttribute('disabled','')
+          if(checkDokterList()&& bulanLineChart.value != '' && tahunLineChart.value != ''){
+            buttonLineChart.removeAttribute('disabled')
+          }
+        })
+      }
+
+      if(tahunLineChart){
+        tahunLineChart.addEventListener('change',function(){
+          buttonLineChart.setAttribute('disabled','')
+          if(checkDokterList() && tahunLineChart.value != ''){
+            buttonLineChart.removeAttribute('disabled')
+          }
+        })
+      }
+
+      dokterLineChart.forEach(el=>{
+        el.addEventListener('change', function(){
+          buttonLineChart.setAttribute('disabled', '')
+          if(checkDokterList()){
+            if(jenisPeriode.value!=''){
+              if(jenisPeriode.value=='bulanan' && bulanLineChart.value!=''&&tahunLineChart.value!=''){
+                buttonLineChart.removeAttribute('disabled')
+              }else if(jenisPeriode.value=='tahunan' &&tahunLineChart.value!=''){
+                buttonLineChart.removeAttribute('disabled')
+              }
+            }
+          }
+        })
+      })
+
+      let lineChart = undefined
+
+      if(formLineChart){
+        formLineChart.addEventListener('submit', async function(e){
+          e.preventDefault()
+          let queryString = ''
+          dokterLineChart.forEach((el,index)=>{
+            queryString += 'id=' + el.value + '&'
+          })
+
+          if(jenisPeriode.value == 'bulanan'){
+            queryString += `bulan=${bulanLineChart.value}&tahun=${tahunLineChart.value}`
+            fetch(`/chart/api/line-chart-bulanan?`+ queryString).then(response=>response.json())
+            .then((result)=>{
+              let labelBulanan = []
+                const datasets = result.map((dokter, index) => {
+                  labelBulanan = Array(dokter.amount.length).fill(0).map((_, index) => {
+                    return index + 1;
+                  })
+                  return {
+                    label: dokter.nama,
+                    data: dokter.amount,
+                  }
+                })
+
+              const data = {
+                labels: labelBulanan,
+                datasets: datasets,
+              };
+
+              const config = {
+                type: "line",
+                data: data,
+                options: {
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "top",
+                    },
+                    title: {
+                      display: true,
+                      text: "Pendapatan Dokter Bulan " + bulan[parseInt(bulanLineChart.value) - 1] + ' Tahun ' +
+                      tahunLineChart.value,
+                    },
+                  },
+                },
+              };
+              if(lineChart==undefined){
+                lineChart =  new Chart(document.querySelector('#line-chart'), config);
+              }else{
+                lineChart.data = data
+                lineChart.options.plugins.title.text = "Pendapatan Dokter Bulan " + bulan[parseInt(bulanLineChart.value) - 1] + ' Tahun ' + tahunLineChart.value
+                lineChart.update()
+              }
+            })
+          } else {
+            queryString += `tahun=${tahunLineChart.value}`
+            fetch(`/chart/api/line-chart-tahunan?`+ queryString).then(response=>response.json())
+            .then((result)=>{
+              const datasets = result.map((dokter, index) => {
+                return {
+                  label: dokter.nama,
+                  data: dokter.amount,
+                };
+              });
+
+              const data = {
+                labels: bulan,
+                datasets: datasets,
+              };
+
+              const config = {
+                type: "line",
+                data: data,
+                options: {
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "top",
+                    },
+                    title: {
+                      display: true,
+                      text: "Pendapatan Dokter Tahun " + tahunLineChart.value,
+                    },
+                  },
+                },
+              };
+              if(lineChart==undefined){
+                lineChart =  new Chart(document.querySelector('#line-chart'), config);
+              }else{
+                lineChart.data = data
+                lineChart.options.plugins.title.text = "Pendapatan Dokter Tahun " + tahunLineChart.value
+                lineChart.update()
+              }
+            })
+          }
+        })
+      }        
+
+      const dokterCumulativeBarChart = document.querySelectorAll('select[name=dokter_cumulative_bar_chart]')
+      const buttonCumulativeBarChart = document.querySelector('.button-cumulative-chart')
+      const formCumulativeBarChart = document.querySelector('.form-cumulative-chart')
+
+      function checkDokterCumulative(){
+        let check = true
+        dokterCumulativeBarChart.forEach(el=>{
+          if (el.value == '') {
+            check = false
+            return check
+          }
+          })
+        return check
+      }
+      
+      dokterCumulativeBarChart.forEach(el=>{
+          el.addEventListener('change', function(){
+            buttonCumulativeBarChart.setAttribute('disabled', '')
+            if(checkDokterCumulative()){
+              buttonCumulativeBarChart.removeAttribute('disabled')
+            }
+          })
+        })
+      
+      let chartCumulative = undefined
+      let chartQuantity = undefined
+      const color = [
+        [0, 0, 255],
+        [255, 0, 0],
+        [255, 255, 0],
+        [255, 165, 0],
+        [128, 128, 128],
+        [128, 0, 128],
+        [128, 0, 0],
+        [0, 0, 0],
+      ]
+      if(formCumulativeBarChart){
+        formCumulativeBarChart.addEventListener('submit', async function(e){
+          e.preventDefault()
+          let queryString = ''
+          dokterCumulativeBarChart.forEach((el,index)=>{
+            queryString += 'id=' + el.value + '&'
+          })
+          fetch(`/chart/api/kumulatif-chart?`+ queryString).then(response=>response.json())
+          .then((result)=>{
+            const datasetsCumulative = []
+            const datasetsQuantity = []
+
+            result.map((dokter, index)=>{
+              datasetsCumulative.push({
+                label:dokter.nama,
+                data: [dokter.totalAmount],
+                backgroundColor: `rgba(${color[index][0]}, ${color[index][1]},
+                ${color[index][2]}, 0.5)`,
+                borderColor: `rgba(${color[index][0]}, ${color[index][1]}, ${color[index][2]})`,
+                borderWidth: 1,
+                borderRadius: 50,
+              })
+
+              datasetsQuantity.push({
+                label:dokter.nama,
+                data: [dokter.totalAppointment],
+                backgroundColor: `rgba(${color[index][0]}, ${color[index][1]},
+                ${color[index][2]}, 0.5)`,
+                borderColor: `rgba(${color[index][0]}, ${color[index][1]}, ${color[index][2]})`,
+                borderWidth: 1,
+                borderRadius: 50,
+              })
+            })
+
+            const dataCumulative = {
+                labels: ['Pendapatan Kumulatif'],
+                datasets:datasetsCumulative
+            }
+
+            const dataQuantity = {
+                labels: ['Total Appointment Selesai'],
+                datasets:datasetsQuantity
+            }
+
+            const configCumulative = {
+              type: 'bar',
+              data: dataCumulative,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'right',
+                  },
+                title: {
+                  display: true,
+                  text: 'Pendapatan Kumulatif Dokter'
+                  }
+                }
+              },
+            };
+
+            const configQuantity = {
+              type: 'bar',
+              data: dataQuantity,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'right',
+                  },
+                title: {
+                  display: true,
+                  text: 'Total Appointment Selesai'
+                  }
+                }
+              },
+            };
+
+            if(chartCumulative == undefined){
+              chartCumulative = new Chart(document.querySelector('#cumulative-chart'), configCumulative);
+            }else{
+              chartCumulative.data = dataCumulative
+              chartCumulative.update()
+            }
+
+            if(chartQuantity == undefined){
+              chartQuantity = new Chart(document.querySelector('#quantity-chart'), configQuantity);
+            }else{
+              chartQuantity.data = dataQuantity
+              chartQuantity.update()
+            }
+          })
+        })
+      }        
+
+
+</script>
+</body>
+
+</html>
