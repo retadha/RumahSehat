@@ -42,7 +42,7 @@
                         <a class="nav-link" href="/daftar-resep">Resep</a>
                     </li>
                     <li class="nav-item">
-                        <a sec:authorize="hasAnyAuthority('Admin', 'Apoteker')" th:href="@{/obat/viewall}">Obat</a>
+                        <a class="nav-link" sec:authorize="hasAnyAuthority('Admin', 'Apoteker')" th:href="@{/obat/viewall}">Obat</a>
                     </li>
                 </ul>
 
