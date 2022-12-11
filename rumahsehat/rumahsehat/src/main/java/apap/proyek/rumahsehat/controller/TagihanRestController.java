@@ -25,9 +25,9 @@ public class TagihanRestController {
 
     @GetMapping(value = "/list-tagihan")
     private ResponseEntity retrieveListTagihan(@RequestHeader("Authorization") String token){
+        log.info("api get all tagihan");
         Map<String, String> decodedToken = decode(token);
         ResponseEntity responseEntity;
-        log.info("api get all tagihan");
 
         try{
             Map<String, List<TagihanDto>> listTagihan = tagihanRestService.getListTagihan(decodedToken.get("uuid"));
@@ -41,8 +41,8 @@ public class TagihanRestController {
 
     @GetMapping(value = "/tagihan/{kode}")
     private ResponseEntity detailTagihan(@PathVariable("kode") String kode){
-        ResponseEntity responseEntity;
         log.info("api get detail tagihan");
+        ResponseEntity responseEntity;
 
         try{
             TagihanDto tagihan = tagihanRestService.getDetailTagihan(kode);
@@ -56,8 +56,8 @@ public class TagihanRestController {
 
     @GetMapping(value = "/bayar-tagihan/{kode}")
     private ResponseEntity postBayarTagihan(@PathVariable("kode") String kode){
+        log.info("api get status bayar tagihan");
         ResponseEntity responseEntity;
-        log.info("api get bayar tagihan");
 
         try{
             Map statusMap = tagihanRestService.bayarTagihan(kode);
