@@ -74,22 +74,13 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
   Future<Tagihan> fetchTagihan() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-<<<<<<< HEAD
     var url = 'http://localhost:8080/api/list-tagihan/';
     final response = await http.get(Uri.parse(url),
         headers: <String, String>{
           'Authorization': 'Bearer $token',
           "content-type": "application/json",
           "accept": "application/json",
-=======
-      var url = 'http://localhost:8080/api/list-tagihan/';
-      final response = await http.get(Uri.parse(url),
-      headers: <String, String>{
-        'Authorization': 'Bearer $token',
-        "content-type": "application/json",
-        "accept": "application/json",
-        'Access-Control-Allow-Origin': '*'
->>>>>>> pasien
+          'Access-Control-Allow-Origin': '*'
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return Tagihan.fromJson(jsonDecode(response.body));

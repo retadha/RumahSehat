@@ -100,28 +100,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-  intl:
-    dependency: "direct dev"
-=======
   intl:
     dependency: "direct main"
->>>>>>> dabc39fc3b61b22cd6a8470d1fc5595fe9de921a
     description:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.15.7"
-=======
->>>>>>> 97e64667e59d1c234ed99cb4e63d0517810a2f4c
-=======
     version: "0.17.0"
->>>>>>> dabc39fc3b61b22cd6a8470d1fc5595fe9de921a
->>>>>>> pasien
   js:
     dependency: transitive
     description:
