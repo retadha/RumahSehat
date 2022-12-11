@@ -4,8 +4,6 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '/main.dart';
-import 'package:flutter_rumahsehat/page/daftar_appointment.dart';
 import '/page/detail_resep.dart';
 
 class DetailAppointmentPage extends StatefulWidget {
