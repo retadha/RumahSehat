@@ -75,6 +75,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
             Container(
                 child: Text("Waktu Awal", style:_style())
             ),
+            SizedBox(height: 10),
             Container(
               child: FutureBuilder<AppointmentElement>(
                 future: futureAppointment,

@@ -51,7 +51,7 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
                 return const CircularProgressIndicator();
               },
             )
-        )
+        ),
       )
     );
   }
