@@ -45,6 +45,7 @@ class Register extends StatelessWidget {
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
           "username" : username,
