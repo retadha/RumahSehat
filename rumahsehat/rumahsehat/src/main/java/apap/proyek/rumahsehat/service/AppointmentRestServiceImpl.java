@@ -37,7 +37,6 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
             else {
                 appointmentDto.setResep(appointment.getResep().getId());
             }
-            appointmentDto.setTagihan(appointment.getTagihan().getKode());
             list.add(appointmentDto);
         }
 
@@ -67,7 +66,6 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
         } else {
             appointmentDto.setResep(appointmentPilihan.getResep().getId());
         }
-        appointmentDto.setTagihan(appointmentPilihan.getTagihan().getKode());
         return appointmentDto;
     }
 

@@ -3,7 +3,6 @@ package apap.proyek.rumahsehat.controller;
 import apap.proyek.rumahsehat.model.Appointment;
 import apap.proyek.rumahsehat.model.AppointmentDto;
 import apap.proyek.rumahsehat.model.Pasien;
-import apap.proyek.rumahsehat.model.Dokter;
 import apap.proyek.rumahsehat.service.AppointmentRestService;
 import apap.proyek.rumahsehat.service.AppointmentService;
 import apap.proyek.rumahsehat.service.DokterService;
@@ -67,20 +66,49 @@ public class AppointmentRestController {
 
     //create appointment
     @PostMapping(value = "/create-appointment")
-    private Appointment createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody Appointment appointment, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
-            );
-        } else {
-            //pasien
-            Map<String, String> decodedToken = decode(token);
-            String uuid = decodedToken.get("uuid");
-            Pasien pasien = pasienService.getPasienById(uuid);
-            appointment.setPasien(pasien);
-            //dokter
-            return appointmentRestService.createAppointment(appointment);
+    private ResponseEntity createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody Appointment appointment, BindingResult bindingResult) {
+        Map<String, String> decodedToken = decode(token);
+        ResponseEntity responseEntity = null;
+
+        try {
+            //cek apakah waktu appointment tabrakan atau tidak
+            boolean statusDokter = false;
+            for (Appointment i : appointment.getDokter().getListAppointment()) {
+                if (appointment.getWaktuAwal().isBefore(i.getWaktuAwal().plusHours(1)) && appointment.getWaktuAwal().isAfter(i.getWaktuAwal())) {
+                    statusDokter = true;
+                }
+                else {
+                    statusDokter = false;
+                }
+            }
+            //tidak tabrakan
+            if (statusDokter == true) {
+                //id
+                int jumlahAppointment = appointmentRestService.getListAppointment(decodedToken.get("uuid")).size() + 1;
+                appointment.setId("APT-" + Integer.toString(jumlahAppointment));
+                //status
+                appointment.setIsDone(false);
+                //pasien
+                Pasien pasien = pasienService.getPasienById(decodedToken.get("uuid"));
+                appointment.setPasien(pasien);
+                //tagihan
+                appointment.setTagihan(null);
+                //resep
+                appointment.setResep(null);
+                appointmentRestService.createAppointment(appointment);
+                responseEntity = ResponseEntity.ok().build();
+            }
+            //tabrakan
+            else {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Test"
+                );
+            }
         }
+        catch (Exception e) {
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 
     private Map<String, String> decode(String token) {
