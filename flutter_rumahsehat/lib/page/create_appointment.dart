@@ -80,9 +80,31 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                     // SizedBox(height: 15),
                     // SizedBox(
                     //   width: 550,
-                    //   child: DropdownButton(
-                    //     value: dokter,
-                    //
+                    //   child: FutureBuilder<Dokter>(
+                    //     future: futureDokterAppointment,
+                    //     builder: (context, snapshot) {
+                    //       List<String> listDokter = [];
+                    //       String? nilaiDokter;
+                    //       if (snapshot.hasData) {
+                    //         for (var i in snapshot.data!.dokter) {
+                    //           listDokter.add(i.nama! + " " + i.tarif.toString());
+                    //         }
+                    //       }
+                    //       return DropdownButton(
+                    //         value: dokter,
+                    //         onChanged: (String ? value) {
+                    //           nilaiDokter = listDokter.indexOf(value??"");
+                    //         },
+                    //         items: listDokter.map(
+                    //             (String value) {
+                    //               return DropdownMenuItem(
+                    //                 child: Text(value),
+                    //                 value: value,
+                    //               );
+                    //             }
+                    //         ).toList(),
+                    //       );
+                    //     }
                     //   )
                     // ),
                     //button simpan
