@@ -1,7 +1,9 @@
 package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Jumlah;
+import apap.proyek.rumahsehat.model.ObatDto;
 import apap.proyek.rumahsehat.model.Resep;
+import apap.proyek.rumahsehat.model.ResepDto;
 import apap.proyek.rumahsehat.repository.ResepDb;
 import apap.proyek.rumahsehat.setting.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class ResepRestServiceImpl implements ResepRestService{
     private JumlahService jumlahService;
 
     @Override
-    public Map getResepById(Long idResep) {
+    public ResepDto getResepById(Long idResep) {
         Optional<Resep> resep = resepDb.findById(idResep);
         Resep selectedResep = null;
         if (resep.isPresent()){
@@ -31,26 +33,29 @@ public class ResepRestServiceImpl implements ResepRestService{
         } else {
             throw new NoSuchElementException();
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", selectedResep.getId());
-        map.put("dokter", selectedResep.getKodeAppointment().getDokter().getUser().getNama());
-        map.put("pasien", selectedResep.getKodeAppointment().getPasien().getUser().getNama());
-        map.put("status", selectedResep.getIsDone());
+
+        ResepDto resepDto = new ResepDto();
+        resepDto.setId(selectedResep.getId());
+        resepDto.setDokter(selectedResep.getKodeAppointment().getDokter().getUser().getNama());
+        resepDto.setPasien(selectedResep.getKodeAppointment().getPasien().getUser().getNama());
+        resepDto.setStatus(selectedResep.getIsDone());
         if(selectedResep.getConfirmerUuid()== null){
-            map.put("apoteker", null);
+            resepDto.setApoteker(null);
         } else {
-            map.put("apoteker", selectedResep.getConfirmerUuid().getUser().getNama());
+            resepDto.setApoteker(selectedResep.getConfirmerUuid().getUser().getNama());
         }
 
         List<Jumlah> jumlah = jumlahService.findByResep(idResep);
-        ArrayList<Object> listObat = new ArrayList<>();
+
+        ArrayList<ObatDto> listObat = new ArrayList<>();
         for(Jumlah j: jumlah){
-            Map<String, Object> map2 = new HashMap<>();
-            map2.put("namaObat", j.getObat().getNamaObat());
-            map2.put("kuantitas", j.getKuantitas());
-            listObat.add(map2);
+            ObatDto obatDto = new ObatDto();
+            obatDto.setNamaObat(j.getObat().getNamaObat());
+            obatDto.setKuantitas(j.getKuantitas());
+            listObat.add(obatDto);
         }
-        map.put("listObat", listObat);
-        return map;
+
+        resepDto.setListObat(listObat);
+        return resepDto;
     }
 }

@@ -2,8 +2,10 @@ package apap.proyek.rumahsehat.controller;
 
 import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,13 +13,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 public class ResepController {
     @Qualifier("resepServiceImpl")
@@ -50,16 +55,26 @@ public class ResepController {
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
-        String role = "";
-        if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
-            role="Apoteker";
+        log.info("web get detail resep");
+        try{
+            String role = "";
+            if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
+                role="Apoteker";
+            } else if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Pasien"))){
+                return "error/403.html";
+            }
+            Resep resep = resepService.getResepById(idResep);
+            List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
+            model.addAttribute("resep", resep);
+            model.addAttribute("listJumlah", listJumlah);
+            model.addAttribute("role", role);
+            return "resep/detail-resep";
+        } catch (NoSuchElementException e){
+            log.error("Error in get detail resep!");
+            return "resep/resep-not-found";
         }
-        Resep resep = resepService.getResepById(idResep);
-        List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
-        model.addAttribute("resep", resep);
-        model.addAttribute("listJumlah", listJumlah);
-        model.addAttribute("role", role);
-        return "resep/detail-resep";
+
+
     }
 
     @PostMapping("/resep/{idResep}")
@@ -82,7 +97,6 @@ public class ResepController {
             appointmentService.save(appointment);
 
             Tagihan tagihan = new Tagihan();
-            tagihan.setKode("BILL-");
             tagihan.setTanggalTerbuat(LocalDateTime.now());
             tagihan.setIsPaid(false);
             tagihan.setKodeAppointment(appointment);
@@ -92,10 +106,12 @@ public class ResepController {
             List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
             model.addAttribute("listJumlah", listJumlah);
             model.addAttribute("resep", resep);
-            return "resep/detail-resep";
+            redirectAttrs.addFlashAttribute("sukses",
+                    String.format("Konfirmasi berhasil dilakukan!"));
+            return "redirect:/resep/{idResep}";
         }
         redirectAttrs.addFlashAttribute("gagal",
-                String.format("Konfirmasi gagal dilakukan karena stok obat tidak mencukupi"));
+                String.format("Konfirmasi gagal dilakukan karena stok obat tidak mencukupi!"));
 
         return "redirect:/resep/{idResep}";
     }

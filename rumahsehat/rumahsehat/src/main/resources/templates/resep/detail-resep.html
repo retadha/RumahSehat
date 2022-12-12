@@ -11,6 +11,7 @@
   <div class="card m-4 p-4 shadow p-3 mb-5 bg-white rounded">
     <div class="card-body">
       <div class="alert alert-danger" role="alert" th:text="${gagal}" th:if="${gagal}"></div>
+      <div class="alert alert-success" role="alert" th:text="${sukses}" th:if="${sukses}"></div>
       <div class="justify-content-center">
         <form th:action="@{/resep/} + ${resep.id}" method="post">
           <div class="row">
