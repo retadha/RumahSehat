@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '../model/Appointment.dart';
+import '../model/Dokter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
@@ -30,7 +31,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<Appointment> futureAppointment = fetchAppointment();
+    Future<Dokter> futureDokterAppointment = fetchDokterAppointment();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -147,17 +148,13 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
       return response.statusCode;
     }
 
-  Future<Appointment> fetchAppointment() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/appointment';
+  Future<Dokter> fetchDokterAppointment() async {
+    var url = 'http://localhost:8080/api/dokter-appointment';
     final response = await http.get(Uri.parse(url),
         headers: <String, String>{
-          'Authorization': 'Bearer $token',
           'Access-Control-Allow-Origin': '*'
         });
     Map<String, dynamic> data = jsonDecode(response.body);
-    print(data);
-    return Appointment.fromJson(jsonDecode(response.body));
+    return Dokter.fromJson(jsonDecode(response.body));
   }
 }
