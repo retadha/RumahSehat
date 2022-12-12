@@ -1,12 +1,19 @@
 
 import 'package:flutter/material.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 =======
+=======
+>>>>>>> f2ae642f116d745884463bb9ddd8603c55aeff5d
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
+import 'package:flutter_rumahsehat/page/detail_resep.dart';
 
+<<<<<<< HEAD
 >>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
+=======
+>>>>>>> f2ae642f116d745884463bb9ddd8603c55aeff5d
 
 void main() {
   runApp(MyApp());
@@ -16,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
 <<<<<<< HEAD
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -35,6 +43,10 @@ class MyApp extends StatelessWidget {
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
 >>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
+=======
+      title: 'Rumah Sehat App',
+      home: RumahSehatApp(),
+>>>>>>> f2ae642f116d745884463bb9ddd8603c55aeff5d
     );
   }
 }
@@ -72,21 +84,26 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
             actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: () {
-                  sharedPreferences.clear();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                          (Route<dynamic> route) => false
-                  );
-                },
-                child: Text("Logout"),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black
+                    ),
+                    onPressed: () {
+                      sharedPreferences.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                              (Route<dynamic> route) => false
+                      );
+                    },
+                    child: Text("Logout"),
 
+                  ),
               ),
             ],
           title: Text("Rumah Sehat",

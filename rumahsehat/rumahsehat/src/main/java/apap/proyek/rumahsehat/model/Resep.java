@@ -36,9 +36,7 @@ public class Resep {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kodeAppointment")
     private Appointment kodeAppointment;
-
+    
     @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
     private List<Jumlah> listJumlah;
 }
-
-

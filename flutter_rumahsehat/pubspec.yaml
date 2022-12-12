@@ -41,11 +41,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 <<<<<<< HEAD
+<<<<<<< HEAD
   http: ^0.13.4
 =======
   http: ^0.13.5
   shared_preferences: any
 >>>>>>> 9551ecbc9733d44faebc695a3c7a46c7373d54a5
+=======
+  http: ^0.13.5
+  shared_preferences: ^2.0.15
+  regexpattern: ^2.0.1
+>>>>>>> f2ae642f116d745884463bb9ddd8603c55aeff5d
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
