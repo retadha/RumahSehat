@@ -48,13 +48,20 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     }
 
     @Override
-    public Map<String, Integer> getListDokterTarif() {
+    public Map<String, List<DokterDto>> getListDokterTarif() {
         List<Dokter> listDokter = dokterDb.findAll();
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, List<DokterDto>> map = new HashMap<>();
 
+        List<DokterDto> list = new ArrayList<>();
         for (Dokter dokter : listDokter) {
-            map.put(dokter.getUser().getNama(), dokter.getTarif());
+            DokterDto dokterDto = new DokterDto();
+            if (dokterDto.getNama() != dokter.getUser().getNama()) {
+                dokterDto.setNama(dokter.getUser().getNama());
+                dokterDto.setTarif(dokter.getTarif());
+                list.add(dokterDto);
+            }
         }
+        map.put("dokter", list);
         return map;
     }
 

@@ -1,9 +1,6 @@
 package apap.proyek.rumahsehat.controller;
 
-import apap.proyek.rumahsehat.model.Appointment;
-import apap.proyek.rumahsehat.model.AppointmentDto;
-import apap.proyek.rumahsehat.model.Dokter;
-import apap.proyek.rumahsehat.model.Pasien;
+import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.service.AppointmentRestService;
 import apap.proyek.rumahsehat.service.AppointmentService;
 import apap.proyek.rumahsehat.service.DokterService;
@@ -57,7 +54,7 @@ public class AppointmentRestController {
     private ResponseEntity retrieveListDokterTarif() {
         ResponseEntity responseEntity;
         try {
-            Map<String, Integer> listDokterTarif = appointmentRestService.getListDokterTarif();
+            Map<String, List<DokterDto>> listDokterTarif = appointmentRestService.getListDokterTarif();
             responseEntity = ResponseEntity.ok(listDokterTarif);
         } catch (NoSuchElementException e) {
             responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
