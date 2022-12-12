@@ -212,6 +212,7 @@ class _DetailResepPage extends State<DetailResepPage> {
 
 Future<Resep> fetchResep(String id) async {
   String idResep = id;
+
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var token = sharedPreferences.getString("token");
 
@@ -223,6 +224,7 @@ Future<Resep> fetchResep(String id) async {
       "accept": "application/json",
       'Access-Control-Allow-Origin': '*'
     });
+
   Map<String, dynamic> data = jsonDecode(response.body);
   print(data);
   return Resep.fromJson(jsonDecode(response.body));

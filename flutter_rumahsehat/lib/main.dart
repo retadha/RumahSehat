@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
     );
@@ -53,21 +52,26 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
             actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                ),
-                onPressed: () {
-                  sharedPreferences.clear();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                          (Route<dynamic> route) => false
-                  );
-                },
-                child: Text("Logout"),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black
+                    ),
+                    onPressed: () {
+                      sharedPreferences.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                              (Route<dynamic> route) => false
+                      );
+                    },
+                    child: Text("Logout"),
 
+                  ),
               ),
             ],
           title: Text("Rumah Sehat",

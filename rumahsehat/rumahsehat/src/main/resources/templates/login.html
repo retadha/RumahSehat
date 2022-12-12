@@ -1,44 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <title>Login</title>
   <object th:include="fragments/fragment :: css" th:remove="tag"></object>
   <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-  <div class="container-fluid text-center">
-    <br>
-    <h2>Hello !</h2>
-    <br>
 
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Log In
-          </div>
-          <div class="card-body">
-            <div th:if="${param.error}">
-              <span style="color:red">Invalid username and password</span>
+    <div class="container-fluid text-center">
+      <br>
+      <h1 class="mb-3 text-primary">Rumah Sehat</h1>
+      <br>
+
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="card border-primary">
+            <div class="card-header border-primary bg-primary">
+              <p style="margin: 0" class="text-white">Log In</p>
             </div>
-            <br>
-            <form th:action="@{/login}" method="POST">
-              <div class="row form-group">
-                <label class="col-sm-4">Username:</label>
-                <input type="text" class="col-sm-8 form-control input-sm" name="username">
+            <div class="card-body border-primary">
+              <div th:if="${param.error}">
+                <span style="color:red">Invalid username and password</span>
               </div>
-              <div class="row form-group">
-                <label class="col-sm-4">Password:</label>
-                <input type="password" class="col-sm-8 form-control input-sm" name="password">
-              </div>
-              <div class="row form-group justify-content-center">
-                <button type="submit" class="btn btn-primary">Sign In</button>
-              </div>
-              <div class="row form-group justify-content-center">
-                atau <a th:href="@{/login-sso}">Masuk sebagai Admin (SSO UI)</a>
-              </div>
+              <br>
+              <form th:action="@{/login}" method="POST">
+                <div>
+                  <div class="row form-group" style="width: 400px">
+                    <label class="col-sm-4 text-primary">Username:</label>
+                    <input type="text" class="col-sm-8 form-control input-sm border-primary" name="username">
+                  </div>
+                  <div class="row form-group" style="width: 400px">
+                    <label class="col-sm-4 text-primary">Password:</label>
+                    <input type="password" class="col-sm-8 form-control input-sm border-primary" name="password">
+                  </div>
+                </div>
 
-            </form>
+                <div class="row form-group justify-content-center">
+                  <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+                <div class="row form-group justify-content-center">
+
+                  <a th:href="@{/login-sso}" class="btn btn-outline-primary">Masuk sebagai Admin (SSO UI)</a>
+                </div>
+
+              </form>
+            </div>
+
           </div>
 
         </div>
@@ -46,8 +53,6 @@
       </div>
 
     </div>
-
-  </div>
 
 </body>
 </html>

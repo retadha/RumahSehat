@@ -1,5 +1,6 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Pasien {
     private String uuid;
 
     @MapsId
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "uuid", nullable = false)
     private UserModel user;
@@ -28,6 +30,7 @@ public class Pasien {
     @Column(name = "umur")
     private Integer umur;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pasien")
     private List<Appointment> listAppointment;
 
