@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 
-import '../model/Appointment.dart';
 import '../model/Dokter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:core';
@@ -8,7 +7,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '/page/daftar_appointment.dart';
 
 class CreateAppointmentPage extends StatefulWidget {
   @override
