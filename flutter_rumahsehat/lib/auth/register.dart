@@ -90,7 +90,7 @@ class RegisterState extends State<Register> {
                                   String email,
                                   String password,
                                   String umur) async {
-    final String apiUrl = 'https://apap-050.cs.ui.ac.id/api/users/pasien/register';
+    final String apiUrl = 'http://localhost:8080/api/users/pasien/register';
     var res = await http.post(
         Uri.parse(apiUrl),
         headers: {

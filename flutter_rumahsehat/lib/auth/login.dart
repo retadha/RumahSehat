@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
   );
 
   Future<String?> attemptLogIn(String username, String password) async {
-    final String apiUrl = 'https://apap-050.cs.ui.ac.id/api/authenticate';
+    final String apiUrl = 'http://localhost:8080/api/authenticate';
     var res = await http.post(
         Uri.parse(apiUrl),
         headers: {
