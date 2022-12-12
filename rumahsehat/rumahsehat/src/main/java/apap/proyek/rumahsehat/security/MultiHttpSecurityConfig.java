@@ -106,6 +106,8 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/").hasAnyAuthority("Admin", "Apoteker", "Dokter")
                     .antMatchers("/obat/viewall").hasAnyAuthority("Admin", "Apoteker")
                     .antMatchers("/obat/update-stok/**").hasAuthority("Apoteker")
+                    .antMatchers("/create-resep/**").hasAuthority("Dokter")
+                    .antMatchers("/daftar-resep").hasAnyAuthority("Admin", "Apoteker")
 //                    .antMatchers("/chart/**").hasAuthority("Admin")
                     .anyRequest().authenticated()
                     .and()
