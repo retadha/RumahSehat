@@ -31,24 +31,49 @@ public class ChartRestController {
         return responseEntity;
     }
 
-    @GetMapping("/chart/line-chart-bulanan")
-    private List<PendapatanBulanan> getMonthlySalary(
+    @RequestMapping(value = "/chart/line-chart-bulanan", method = RequestMethod.GET)
+    private ResponseEntity getMonthlySalary(
             @RequestParam(value = "id") List<String> values,
             @RequestParam(value = "bulan") String month,
             @RequestParam(value = "tahun") String year) {
-        return chartService.getMonthlySalary(values, Integer.parseInt(month), Integer.parseInt(year));
+        log.info("api get salary bulan");
+        ResponseEntity responseEntity = null;
+        try {
+            responseEntity = ResponseEntity.ok(chartService.getMonthlySalary(values, Integer.parseInt(month), Integer.parseInt(year)));
+        } catch (Exception e) {
+            log.error("error in get salary bulan");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 
-    @GetMapping("/chart/line-chart-tahunan")
-    private List<PendapatanTahunan> getYearlySalary(
+    @RequestMapping(value = "/chart/line-chart-tahunan", method = RequestMethod.GET)
+    private ResponseEntity getYearlySalary(
             @RequestParam(value = "id") List<String> values,
             @RequestParam(value = "tahun") String year) {
-        return chartService.getYearlySalary(values, Integer.parseInt(year));
+        log.info("api get salary tahun");
+        ResponseEntity responseEntity = null;
+        try {
+            responseEntity = ResponseEntity.ok(chartService.getYearlySalary(values, Integer.parseInt(year)));
+        } catch (Exception e) {
+            log.error("error in get salary tahun");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+        return responseEntity;
     }
 
-    @GetMapping("/chart/kumulatif-chart")
-    private List<PendapatanKumulatif> getCumulativeSalary(
+    @RequestMapping(value="/chart/kumulatif-chart", method = RequestMethod.GET)
+    private ResponseEntity getCumulativeSalary(
             @RequestParam(value = "id") List<String> values) {
-        return chartService.getCumulativeSalary(values);
+        log.info("api get salary cumulatif");
+        ResponseEntity responseEntity = null;
+        try {
+            responseEntity = ResponseEntity.ok(chartService.getCumulativeSalary(values));
+        } catch (Exception e) {
+            log.error("error in get salary bulan");
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 }
