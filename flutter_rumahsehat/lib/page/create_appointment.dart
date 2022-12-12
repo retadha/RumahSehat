@@ -23,6 +23,9 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  var waktuAwal;
+  var dokter;
+
   TextEditingController dateinput = TextEditingController();
 
   @override
@@ -65,7 +68,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                           validator: (value) {
                             if (pickedDate != null) {
                               String formattedDate = DateFormat('dd MMMM yyyy').format(pickedDate);
-                              String waktuAwal = formattedDate;
+                              waktuAwal = formattedDate;
                             }
                             else {
                               print("Tanggal belum dipilih");
