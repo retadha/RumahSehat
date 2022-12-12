@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rumahsehat/page/daftar_appointment.dart';
 import '/page/daftar_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
@@ -48,7 +49,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), Container(color: Colors.blue)];
+  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), DaftarAppointmentPage()];
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
