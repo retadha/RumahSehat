@@ -42,13 +42,17 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
             child: Container(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
-                  children: [
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
                     //waktu awal appointment
-                    TextField(
+                    SizedBox(
+                      width: 550,
+                      child: TextField(
                         controller: dateinput,
-                        decoration: new InputDecoration(
-                            icon: Icon(Icons.calendar_today),
-                            labelText: "Waktu Awal"
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.calendar_today),
+                          labelText: "Waktu Awal"
                         ),
                         readOnly: true,
                         onTap: () async {
@@ -58,38 +62,57 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2101)
                           );
-                          String waktuAwal = "";
-
-                          if (pickedDate != null) {
-                            print(pickedDate);
-                            String formattedDate = DateFormat('dd MMMM yyyy').format(pickedDate);
-                            print(formattedDate);
-                            waktuAwal = formattedDate;
-                          }
-                          else {
-                            print("Tanggal belum dipilih");
-                          }
+                          validator: (value) {
+                            if (pickedDate != null) {
+                              String formattedDate = DateFormat('dd MMMM yyyy').format(pickedDate);
+                              String waktuAwal = formattedDate;
+                            }
+                            else {
+                              print("Tanggal belum dipilih");
+                            }
+                          };
                         },
+                      )
                     ),
                     //dokter - tarif
-                    // DropdownButtonFormField(
-                    //     items: items,
-                    //     onChanged: onChanged
+                    // SizedBox(height: 15),
+                    // SizedBox(
+                    //   width: 550,
+                    //   child:
                     // ),
-                    //submit button
-                    ElevatedButton(
-                      child: Text("Buat"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          textStyle: const TextStyle(
-                              color: Colors.white)
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // showConfirm(context, waktuAwal, dokter)
-                        }
-                      },
-                    ),
+                    //button simpan
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 80,
+                      height: 30,
+                      child: TextButton(
+                        onPressed: () async {
+                          final isValid = _formKey.currentState!.validate();
+                          if (isValid) {
+                            _formKey.currentState!.save();
+                            SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+                            var response = await createAppointment(context, waktuAwal, dokter);
+
+                            if (response == 200) {
+                              displayDialog(context, "Appointment berhasil dibuat");
+                              _formKey.currentState!.reset();
+                            }
+
+                            else if (response == 400) {
+                              displayDialog(context, "Buat appointment gagal, pastikan data diisi dengan benar!");
+                            }
+                          }
+                        },
+                        child: Text("Simpan"),
+                          style: TextButton.styleFrom(
+                              primary: Colors.green,
+                              textStyle: const TextStyle(
+                                  color: Colors.white
+                              )
+                          )
+                      )
+                    )
                   ],
                 )
             )
@@ -97,49 +120,16 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
     );
   }
 
-  showSuccess(BuildContext context, String waktuAwal, String dokter) {
-    Widget cancelButton = TextButton(
-        child: Text("Kembali"),
-        onPressed: () {
-          Navigator.of(context, rootNavigator: true).pop();
+  void displayDialog(context, title) => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(title: Text(title)),
+  );
 
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) => DaftarAppointmentPage()),
-                  (Route<dynamic> route) => false
-          );
-        }
-    );
-  }
-
-  showConfirm(context, String waktuAwal, String dokter) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Batal"),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
-
-    Widget continueButton = TextButton(
-      child: Text("Simpan"),
-      onPressed: () {
-        createAppointment(context, waktuAwal, dokter);
-      },
-    );
-  }
-
-    Future<http.Response> createAppointment(context, String waktuAwal, String dokter) async {
+    Future<int?> createAppointment(context, String waktuAwal, String dokter) async {
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
       var token = sharedPreferences.getString("token");
-      String url = "http://localhost:8080/api/create-appointment";
-      Map data = {
-        'waktuAwal': waktuAwal,
-        'dokter': dokter,
-      };
-      var body = json.encode(data);
+      final String url = "http://localhost:8080/api/create-appointment";
       var response = await http.post(
           Uri.parse(url),
           headers: <String, String>{
@@ -147,21 +137,17 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
             "Authorization": "Bearer $token",
             "Access-Control-Allow-Origin": "*"
           },
-          body: body
-      );
-      if (response.statusCode == 200) {
-        showSuccess(context, waktuAwal, dokter);
-      }
-      print(data);
-      print("${response.statusCode}");
-      print("${response.body}");
-      return response;
+          body: jsonEncode({
+            'waktuAwal': waktuAwal,
+            'dokter': dokter,
+          }));
+      return response.statusCode;
     }
 
   Future<Appointment> fetchAppointment() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/appointment/';
+    var url = 'http://localhost:8080/api/appointment';
     final response = await http.get(Uri.parse(url),
         headers: <String, String>{
           'Authorization': 'Bearer $token',
