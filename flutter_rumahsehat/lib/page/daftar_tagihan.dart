@@ -61,7 +61,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
     }
 
     Future<Tagihan> fetchTagihan(String username) async {
-        var url = 'http://localhost:8080/api/list-tagihan/' + username;
+        var url = 'https://apap-050.cs.ui.ac.id/api/list-tagihan/' + username;
         final response = await http.get(Uri.parse(url));
         Map<String, dynamic> data = jsonDecode(response.body);
         print(data);
