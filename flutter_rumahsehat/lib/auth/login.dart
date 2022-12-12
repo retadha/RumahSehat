@@ -113,7 +113,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   width: 80,
-                  height: 30,
+                  height: 40,
                   child: TextButton(
                       onPressed: () async {
                         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
