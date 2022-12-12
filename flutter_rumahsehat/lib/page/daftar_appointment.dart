@@ -64,6 +64,7 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
           child:
             Column(
               children: [
+                SizedBox(height: 20),
                 Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
@@ -82,6 +83,7 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
                         )
                     )
                 ),
+                SizedBox(height: 20),
                 Container(
                     child:
                     FutureBuilder<Appointment>(
