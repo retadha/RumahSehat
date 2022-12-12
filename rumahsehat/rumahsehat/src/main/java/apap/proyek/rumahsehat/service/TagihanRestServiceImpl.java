@@ -91,7 +91,7 @@ public class TagihanRestServiceImpl implements TagihanRestService{
         Pasien pasien = tagihan.getKodeAppointment().getPasien();
         boolean stokCukup = jumlahService.checkStok(tagihan.getKodeAppointment().getResep().getId());
         if (tagihan.getIsPaid() ){
-            map.put("status", "lunas");
+            map.put("status", "sudahLunas");
         } else if (!stokCukup) {
             map.put("status", "stokKurang");
         } else if (pasien.getSaldo()< tagihan.getJumlahTagihan()){

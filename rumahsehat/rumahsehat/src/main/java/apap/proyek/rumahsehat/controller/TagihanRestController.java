@@ -40,7 +40,7 @@ public class TagihanRestController {
     }
 
     @GetMapping(value = "/tagihan/{kode}")
-    private ResponseEntity detailTagihan(@PathVariable("kode") String kode){
+    private ResponseEntity retrieveDetailTagihan(@PathVariable("kode") String kode){
         log.info("api get detail tagihan");
         ResponseEntity responseEntity;
 
@@ -55,7 +55,7 @@ public class TagihanRestController {
     }
 
     @GetMapping(value = "/bayar-tagihan/{kode}")
-    private ResponseEntity postBayarTagihan(@PathVariable("kode") String kode){
+    private ResponseEntity bayarTagihan(@PathVariable("kode") String kode){
         log.info("api get status bayar tagihan");
         ResponseEntity responseEntity;
 
