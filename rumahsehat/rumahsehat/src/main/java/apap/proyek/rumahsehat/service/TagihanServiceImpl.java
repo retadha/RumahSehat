@@ -16,6 +16,7 @@ public class TagihanServiceImpl implements TagihanService{
     public List<Tagihan> getListTagihan() {
         return tagihanDb.findAll();
     }
+
     @Override
     public void saveTagihan(Tagihan tagihan) {
         tagihanDb.save(tagihan);

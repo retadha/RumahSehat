@@ -28,7 +28,6 @@ public class JwtTokenUtil implements Serializable {
 	@Value("proyekapaprumahsehatapap50springbootflutter")
 	private String secret;
 
-
 	@Autowired
 	private UserService userService;
 

@@ -14,11 +14,7 @@ public interface PasienService {
     void deletePasien(Pasien pasien);
     Pasien getPasienById(String id);
     Map getPasienByTagihan(String kode);
-
     List<Pasien> findAll();
-
-    Pasien addPasien(Pasien pasien, UserModel user, Integer saldo, Integer umur);
-
     Pasien topUpSaldo(Pasien pasien);
-
+    Pasien addPasien(Pasien pasien, UserModel user, Integer saldo, Integer umur);
 }
