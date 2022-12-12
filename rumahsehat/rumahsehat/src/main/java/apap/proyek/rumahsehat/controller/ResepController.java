@@ -60,6 +60,8 @@ public class ResepController {
             String role = "";
             if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
                 role="Apoteker";
+            } else if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Pasien"))){
+                return "error/403.html";
             }
             Resep resep = resepService.getResepById(idResep);
             List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
