@@ -41,5 +41,3 @@ public class Resep {
     @OneToMany(mappedBy = "resep", cascade = CascadeType.REMOVE)
     private List<Jumlah> listJumlah;
 }
-
-

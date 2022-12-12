@@ -1,18 +1,25 @@
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
+import '/page/daftar_tagihan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rumahsehat/auth/login.dart';
+import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
+import 'page/profil_pasien.dart';
+
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(home: MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
     );
@@ -48,7 +55,9 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue)];
+
+  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), Container(color: Colors.blue)];
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -94,7 +103,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
           items: <BottomNavigationBarItem>[
             const BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profil',
+              label: 'Profil'
             ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.monetization_on),

@@ -12,4 +12,5 @@ public interface PasienDb extends JpaRepository<Pasien, String> {
 
     @Override
     List<Pasien> findAll();
+
 }

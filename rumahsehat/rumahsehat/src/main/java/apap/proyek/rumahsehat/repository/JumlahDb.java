@@ -15,3 +15,4 @@ public interface JumlahDb extends JpaRepository<Jumlah, JumlahId> {
 
 
 }
+
