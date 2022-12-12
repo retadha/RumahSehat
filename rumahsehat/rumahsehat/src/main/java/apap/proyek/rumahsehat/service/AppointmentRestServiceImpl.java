@@ -1,13 +1,12 @@
 package apap.proyek.rumahsehat.service;
 
-import apap.proyek.rumahsehat.model.Appointment;
-import apap.proyek.rumahsehat.model.AppointmentDto;
-import apap.proyek.rumahsehat.model.Resep;
+import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.repository.AppointmentDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -70,7 +69,22 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     }
 
     @Override
-    public Appointment createAppointment(Appointment appointment) {
+    public Appointment createAppointment(Appointment appointment, LocalDateTime waktuAwal, Pasien pasien, Dokter dokter) {
+        //set id
+        int jumlahAppointment = appointmentDb.findAll().size() + 1;
+        appointment.setId("APT-" + Integer.toString(jumlahAppointment));
+        //set waktuAwal
+        appointment.setWaktuAwal(waktuAwal);
+        //set isDone
+        appointment.setIsDone(false);
+        //set pasien
+        appointment.setPasien(pasien);
+        //set dokter
+        appointment.setDokter(dokter);
+        //tagihan
+        appointment.setTagihan(null);
+        //resep
+        appointment.setResep(null);
         return appointmentDb.save(appointment);
     }
 }
