@@ -53,12 +53,12 @@ public class AppointmentRestController {
         return  responseEntity;
     }
 
-    @GetMapping(value = "/all-appointment")
-    private ResponseEntity retrieveAllListAppointment() {
+    @GetMapping(value = "/dokter-appointment")
+    private ResponseEntity retrieveListDokterTarif() {
         ResponseEntity responseEntity;
         try {
-            Map<String, List<AppointmentDto>> listAppointment = appointmentRestService.getAllListAppointment();
-            responseEntity = ResponseEntity.ok(listAppointment);
+            Map<String, Integer> listDokterTarif = appointmentRestService.getListDokterTarif();
+            responseEntity = ResponseEntity.ok(listDokterTarif);
         } catch (NoSuchElementException e) {
             responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
         }

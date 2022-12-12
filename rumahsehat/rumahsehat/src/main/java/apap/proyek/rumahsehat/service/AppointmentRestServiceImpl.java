@@ -2,6 +2,7 @@ package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.*;
 import apap.proyek.rumahsehat.repository.AppointmentDb;
+import apap.proyek.rumahsehat.repository.DokterDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ import java.util.*;
 public class AppointmentRestServiceImpl implements AppointmentRestService {
     @Autowired
     private AppointmentDb appointmentDb;
+
+    @Autowired
+    private DokterDb dokterDb;
 
     @Override
     public Map<String, List<AppointmentDto>> getListAppointment(String uuid) {
@@ -44,29 +48,13 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     }
 
     @Override
-    public Map<String, List<AppointmentDto>> getAllListAppointment() {
-        List<Appointment> listAppointment = appointmentDb.findAll();
-        Map<String, List<AppointmentDto>> map = new HashMap<>();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+    public Map<String, Integer> getListDokterTarif() {
+        List<Dokter> listDokter = dokterDb.findAll();
+        Map<String, Integer> map = new HashMap<>();
 
-        List<AppointmentDto> list = new ArrayList<>();
-        for (Appointment appointment : listAppointment) {
-            AppointmentDto appointmentDto = new AppointmentDto();
-            appointmentDto.setId(appointment.getId());
-            appointmentDto.setDokter(appointment.getDokter().getUser().getNama());
-            appointmentDto.setPasien(appointment.getPasien().getUser().getNama());
-            appointmentDto.setWaktuAwal(appointment.getWaktuAwal().format(dateTimeFormatter));
-            appointmentDto.setStatus(appointment.getIsDone());
-            if (appointment.getResep() == null) {
-                appointmentDto.setResep(null);
-            }
-            else {
-                appointmentDto.setResep(appointment.getResep().getId());
-            }
-            list.add(appointmentDto);
+        for (Dokter dokter : listDokter) {
+            map.put(dokter.getUser().getNama(), dokter.getTarif());
         }
-
-        map.put("appointment", list);
         return map;
     }
 
