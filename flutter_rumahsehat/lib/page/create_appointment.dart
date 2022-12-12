@@ -79,11 +79,14 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                       )
                     ),
                     //dokter - tarif
-                    // SizedBox(height: 15),
-                    // SizedBox(
-                    //   width: 550,
-                    //   child:
-                    // ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 550,
+                      child: DropdownButton(
+                        value: dokter,
+                        
+                      )
+                    ),
                     //button simpan
                     SizedBox(height: 15),
                     SizedBox(
