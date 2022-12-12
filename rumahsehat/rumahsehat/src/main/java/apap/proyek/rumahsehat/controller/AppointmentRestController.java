@@ -69,6 +69,7 @@ public class AppointmentRestController {
     //create appointment
     @PostMapping(value = "/create-appointment")
     private ResponseEntity<String> createAppointment(@RequestHeader("Authorization") String token, @Valid @RequestBody String appointment) {
+        Map<String, String> decodedToken = decode(token);
         Gson gson = new Gson();
         Map<String, String> appointmentMap = gson.fromJson(appointment, new TypeToken<Map<String, String>>() {}.getType());
 
@@ -83,7 +84,7 @@ public class AppointmentRestController {
             String dokterStr = appointmentMap.get("dokter");
             Dokter dokter = dokterService.getDokterById(dokterStr);
             for (Appointment i : dokter.getListAppointment()) {
-                if (waktuAwal.isBefore(i.getWaktuAwal().plusHours(1)) && waktuAwal.isAfter(i.getWaktuAwal())) {
+                if (waktuAwal.isAfter(i.getWaktuAwal().plusHours(1)) && waktuAwal.isBefore(i.getWaktuAwal())) {
                     statusDokter = true;
                 }
                 else {
@@ -92,13 +93,16 @@ public class AppointmentRestController {
             }
             //tidak tabrakan
             if (statusDokter == true) {
+                //new appointment
                 Appointment appointmentNew = new Appointment();
                 //id
-                String id = appointmentMap.get("id");
+                String oldId = appointmentMap.get("id");
+                int jumlahAppointment = appointmentRestService.getListAppointment(decodedToken.get("uuid")).size() + 1;
+                String id = "APT-" + Integer.toString(jumlahAppointment);
                 //pasien
-                String pasienStr = appointmentMap.get("pasien");
-                Pasien pasien = pasienService.getPasienById(pasienStr);
-                appointmentRestService.createAppointment(appointmentNew, waktuAwal, pasien, dokter);
+                Pasien pasien = pasienService.getPasienById(decodedToken.get("uuid"));
+                //create appointment
+                appointmentRestService.createAppointment(appointmentNew, id, waktuAwal, pasien, dokter);
                 return ResponseEntity.ok("Appointment dengan ID " + id + " berhasil dibuat");
             }
             //tabrakan

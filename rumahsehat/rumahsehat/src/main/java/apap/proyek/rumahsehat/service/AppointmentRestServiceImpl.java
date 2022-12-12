@@ -69,10 +69,9 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     }
 
     @Override
-    public Appointment createAppointment(Appointment appointment, LocalDateTime waktuAwal, Pasien pasien, Dokter dokter) {
+    public Appointment createAppointment(Appointment appointment, String id, LocalDateTime waktuAwal, Pasien pasien, Dokter dokter) {
         //set id
-        int jumlahAppointment = appointmentDb.findAll().size() + 1;
-        appointment.setId("APT-" + Integer.toString(jumlahAppointment));
+        appointment.setId(id);
         //set waktuAwal
         appointment.setWaktuAwal(waktuAwal);
         //set isDone
