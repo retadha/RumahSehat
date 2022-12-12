@@ -61,12 +61,12 @@ public class MultiHttpSecurityConfig {
             // We don't need CSRF for this example
             httpSecurity
                     .antMatcher("/api/**")
-                    .cors().and()
                     .csrf().disable()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                     .and()
                     .authorizeRequests()
                     .antMatchers("/api/authenticate").permitAll()
+                    .antMatchers("/api/users/pasien/register").permitAll()
                     .antMatchers("/api/**").hasAuthority("Pasien")
                     .anyRequest().authenticated()
                     .and()
@@ -96,6 +96,8 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/login-sso", "/validate-ticket").permitAll()
                     .antMatchers("/users/**").hasAuthority("Admin")
                     .antMatchers("/").hasAnyAuthority("Admin", "Apoteker", "Dokter")
+                    .antMatchers("/obat/viewall").hasAnyAuthority("Admin", "Apoteker")
+                    .antMatchers("/obat/update-stok/**").hasAuthority("Apoteker")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()

@@ -32,6 +32,14 @@ public class PasienServiceImpl implements PasienService {
     }
 
     @Override
+    public Pasien addPasien(Pasien pasien, UserModel user, Integer saldo, Integer umur) {
+        pasien.setUser(user);
+        pasien.setSaldo(saldo);
+        pasien.setUmur(umur);
+        return pasienDb.save(pasien);
+    }
+
+    @Override
     public Pasien getPasienById(String id) {
         return pasienDb.findByUuid(id);
     }
