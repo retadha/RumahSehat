@@ -55,7 +55,8 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
         List<DokterDto> list = new ArrayList<>();
         for (Dokter dokter : listDokter) {
             DokterDto dokterDto = new DokterDto();
-            if (dokterDto.getNama() != dokter.getUser().getNama()) {
+            if (dokterDto.getUuid() != dokter.getUuid()) {
+                dokterDto.setUuid(dokter.getUuid());
                 dokterDto.setNama(dokter.getUser().getNama());
                 dokterDto.setTarif(dokter.getTarif());
                 list.add(dokterDto);

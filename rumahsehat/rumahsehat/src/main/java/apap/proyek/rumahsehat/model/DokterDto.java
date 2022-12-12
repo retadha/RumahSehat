@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DokterDto {
+    String uuid;
     String nama;
     int tarif;
 }
