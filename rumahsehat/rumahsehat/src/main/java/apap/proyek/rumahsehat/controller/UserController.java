@@ -167,7 +167,6 @@ public class UserController {
         return "user/form-add-apoteker";
 
 
-
     }
 
     @GetMapping(value = "/apoteker/delete/{id}")

@@ -41,6 +41,7 @@ public class MultiHttpSecurityConfig {
     @Bean
     public static BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+
     }
 
     @Configuration
@@ -49,18 +50,22 @@ public class MultiHttpSecurityConfig {
 
         @Autowired
         private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
         @Autowired
         private JwtRequestFilter jwtRequestFilter;
+
         @Bean
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
         }
+
         @Override
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             // We don't need CSRF for this example
             httpSecurity
                     .antMatcher("/api/**")
+                    .cors().and()
                     .csrf().disable()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                     .and()
@@ -76,6 +81,7 @@ public class MultiHttpSecurityConfig {
 
             // Add a filter to validate the tokens with every request
 //            httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
         }
 
     }
@@ -109,6 +115,7 @@ public class MultiHttpSecurityConfig {
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+
 
         }
     }

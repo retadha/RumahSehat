@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
 import 'package:flutter_rumahsehat/page/detail_resep.dart';
 
-
 void main() {
   runApp(MyApp());
 }

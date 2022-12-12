@@ -34,6 +34,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsServiceImpl jwtInMemoryUserDetailsService;
 
+
 	@RequestMapping(value = "/api/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
 			throws Exception {

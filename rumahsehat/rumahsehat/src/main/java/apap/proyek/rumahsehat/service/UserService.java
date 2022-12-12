@@ -2,7 +2,6 @@ package apap.proyek.rumahsehat.service;
 
 import apap.proyek.rumahsehat.model.Dokter;
 import apap.proyek.rumahsehat.model.UserModel;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +32,7 @@ public interface UserService {
     boolean validateCredentials(String username, String name, String email, String password);
 
     HashMap<String, Boolean> credentialsStatus(String username, String name, String email, String password);
+
 
 
 }

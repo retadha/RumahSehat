@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 
 @Service
@@ -59,6 +58,7 @@ public class UserServiceImpl implements UserService {
         UserModel user = getUserByUsername(username);
         return user.getRole().equals("Admin");
     }
+
 
     @Override
     public boolean userExists(String username) {
