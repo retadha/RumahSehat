@@ -55,7 +55,7 @@ public class ResepController {
 
     @GetMapping("/resep/{idResep}")
     public String viewDetailResep(@PathVariable long idResep, Model model, Authentication authentication){
-        log.info("api get detail resep");
+        log.info("web get detail resep");
         try{
             String role = "";
             if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("Apoteker"))){
@@ -68,7 +68,7 @@ public class ResepController {
             model.addAttribute("role", role);
             return "resep/detail-resep";
         } catch (NoSuchElementException e){
-            log.error("Error in get detail reesp!");
+            log.error("Error in get detail resep!");
             return "resep/resep-not-found";
         }
 
@@ -104,10 +104,12 @@ public class ResepController {
             List<Jumlah> listJumlah = jumlahService.findByResep(idResep);
             model.addAttribute("listJumlah", listJumlah);
             model.addAttribute("resep", resep);
-            return "resep/detail-resep";
+            redirectAttrs.addFlashAttribute("sukses",
+                    String.format("Konfirmasi berhasil dilakukan!"));
+            return "redirect:/resep/{idResep}";
         }
         redirectAttrs.addFlashAttribute("gagal",
-                String.format("Konfirmasi gagal dilakukan karena stok obat tidak mencukupi"));
+                String.format("Konfirmasi gagal dilakukan karena stok obat tidak mencukupi!"));
 
         return "redirect:/resep/{idResep}";
     }

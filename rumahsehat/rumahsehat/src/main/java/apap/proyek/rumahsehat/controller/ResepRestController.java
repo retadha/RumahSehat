@@ -25,7 +25,7 @@ public class ResepRestController {
     private ResepRestService resepRestService;
 
     @GetMapping(value = "/resep/{idResep}")
-    private ResponseEntity retrieveResep(@PathVariable("idResep") Long idResep){
+    private ResponseEntity retrieveDetailResep(@PathVariable("idResep") Long idResep){
         log.info("api get detail resep");
         ResponseEntity responseEntity;
         try{
