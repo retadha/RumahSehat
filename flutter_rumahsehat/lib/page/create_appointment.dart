@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/page/daftar_appointment.dart';
 
@@ -25,13 +26,8 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
   TextEditingController dateinput = TextEditingController();
 
   @override
-  void initState() {
-    dateinput.text = "";
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Future<Appointment> futureAppointment = fetchAppointment();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -62,20 +58,18 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2101)
                           );
+                          String waktuAwal = "";
 
                           if (pickedDate != null) {
                             print(pickedDate);
                             String formattedDate = DateFormat('dd MMMM yyyy').format(pickedDate);
                             print(formattedDate);
-
-                            setState(() {
-                              dateinput.text = formattedDate;
-                            });
+                            waktuAwal = formattedDate;
                           }
                           else {
                             print("Tanggal belum dipilih");
                           }
-                        }
+                        },
                     ),
                     //dokter - tarif
                     // DropdownButtonFormField(
@@ -84,7 +78,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
                     // ),
                     //submit button
                     ElevatedButton(
-                      child: Text("Submit"),
+                      child: Text("Buat"),
                       style: ElevatedButton.styleFrom(
                           primary: Colors.green,
                           textStyle: const TextStyle(
@@ -129,7 +123,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
     );
 
     Widget continueButton = TextButton(
-      child: Text("Buat"),
+      child: Text("Simpan"),
       onPressed: () {
         createAppointment(context, waktuAwal, dokter);
       },
