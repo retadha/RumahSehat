@@ -355,6 +355,7 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
         'Authorization': 'Bearer $token',
         "content-type": "application/json",
         "accept": "application/json",
+        'Access-Control-Allow-Origin': '*'
         });
       Map<String, dynamic> data = jsonDecode(response.body);
       return TagihanElement.fromJson(jsonDecode(response.body));
