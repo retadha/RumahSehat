@@ -22,7 +22,6 @@ class RegisterState extends State<Register> {
   var nama;
   var email;
   var password;
-  var saldo;
   var umur;
 
   void displayDialog(context, title, text) => showDialog(
@@ -90,7 +89,6 @@ class RegisterState extends State<Register> {
                                   String nama,
                                   String email,
                                   String password,
-                                  String saldo,
                                   String umur) async {
     final String apiUrl = 'http://localhost:8080/api/users/pasien/register';
     var res = await http.post(
@@ -106,7 +104,7 @@ class RegisterState extends State<Register> {
           "email" : email,
           "role" : "Pasien",
           "password" : password,
-          "saldo" : saldo,
+          "saldo" : "0",
           "umur" : umur
         }));
     return res.statusCode;
@@ -237,36 +235,6 @@ class RegisterState extends State<Register> {
                     SizedBox(
                       width: 550,
                       child: TextFormField(
-
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        keyboardType: TextInputType.number,
-                        // controller: _saldoController,
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15)
-                            ),
-                            labelText: 'Saldo'
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Mohon isi saldo';
-                          }
-
-                          return null;
-                        },
-                        onSaved: (value) {
-                          saldo = value;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 550,
-                      child: TextFormField(
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         keyboardType: TextInputType.number,
                         // controller: _umurController,
@@ -305,7 +273,7 @@ class RegisterState extends State<Register> {
                               _formKey.currentState!.save();
                               SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                              var response = await attemptRegister(username, nama, email, password, saldo, umur);
+                              var response = await attemptRegister(username, nama, email, password, umur);
 
                               if (response == 200) {
                                 displayDialog(context, "Registrasi berhasil", 'Pasien dengan username $username berhasil dibuat');
