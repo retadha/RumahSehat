@@ -21,10 +21,12 @@ class Dokter {
 }
 
 class DokterElement {
-  String nama;
-  int tarif;
+  String? uuid;
+  String? nama;
+  int? tarif;
 
   DokterElement({
+    required this.uuid,
     required this.nama,
     required this.tarif
   });
@@ -36,6 +38,7 @@ class DokterElement {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['uuid'] = this.uuid;
     data['nama'] = this.nama;
     data['tarif'] = this.tarif;
     return data;
