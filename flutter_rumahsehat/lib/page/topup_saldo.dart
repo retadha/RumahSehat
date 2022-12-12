@@ -77,7 +77,8 @@ class _TopUpSaldoPage extends State<TopUpSaldoPage> {
         Uri.parse(url),
         headers: <String, String>{
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
+          "Authorization": "Bearer $token",
+          "Access-Control-Allow-Origin": "*"
         },
         body: body
     );
