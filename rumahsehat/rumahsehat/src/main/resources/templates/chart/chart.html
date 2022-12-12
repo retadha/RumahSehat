@@ -215,7 +215,7 @@
       "Desember"
     ];
     
-    fetch('/chart/api/all')
+    fetch('/api/chart/all')
       .then(response => response.json())
       .then(result => {
 
@@ -336,10 +336,9 @@
           dokterLineChart.forEach((el,index)=>{
             queryString += 'id=' + el.value + '&'
           })
-
           if(jenisPeriode.value == 'bulanan'){
             queryString += `bulan=${bulanLineChart.value}&tahun=${tahunLineChart.value}`
-            fetch(`/chart/api/line-chart-bulanan?`+ queryString).then(response=>response.json())
+            fetch(`/api/chart/line-chart-bulanan?`+ queryString).then(response=>response.json())
             .then((result)=>{
               let labelBulanan = []
                 const datasets = result.map((dokter, index) => {
@@ -384,7 +383,7 @@
             })
           } else {
             queryString += `tahun=${tahunLineChart.value}`
-            fetch(`/chart/api/line-chart-tahunan?`+ queryString).then(response=>response.json())
+            fetch(`/api/chart/line-chart-tahunan?`+ queryString).then(response=>response.json())
             .then((result)=>{
               const datasets = result.map((dokter, index) => {
                 return {
@@ -469,7 +468,7 @@
           dokterCumulativeBarChart.forEach((el,index)=>{
             queryString += 'id=' + el.value + '&'
           })
-          fetch(`/chart/api/kumulatif-chart?`+ queryString).then(response=>response.json())
+          fetch(`/api/chart/kumulatif-chart?`+ queryString).then(response=>response.json())
           .then((result)=>{
             const datasetsCumulative = []
             const datasetsQuantity = []
