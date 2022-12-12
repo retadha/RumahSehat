@@ -15,10 +15,4 @@ public interface UserDb extends JpaRepository<UserModel, String> {
 
     @Query("select u from UserModel u where u.username = ?1 and u.role = ?2")
     UserModel findByUsernameAndRole(String username, String role);
-
-
-
-
-
-
 }

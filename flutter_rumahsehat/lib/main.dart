@@ -1,25 +1,21 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_rumahsehat/page/detail_resep.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_rumahsehat/auth/login.dart';
+import 'package:flutter_rumahsehat/page/daftar_appointment.dart';
 import '/page/daftar_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
 import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
 import 'page/profil_pasien.dart';
+import 'page/daftar_appointment.dart';
 
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
-
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       title: 'Rumah Sehat App',
       home: RumahSehatApp(),
     );
@@ -55,66 +51,59 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-
-  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), Container(color: Colors.blue)];
-
+  List<Widget> bodies = [ProfilPasienPage(), DaftarTagihanPage(), DaftarAppointmentPage()];
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-            actions: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.black
-                    ),
-                    onPressed: () {
-                      sharedPreferences.clear();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                              (Route<dynamic> route) => false
-                      );
-                    },
-                    child: Text("Logout"),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.black,
+            ),
+            onPressed: () {
+              sharedPreferences.clear();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                      (Route<dynamic> route) => false
+              );
+            },
+            child: Text("Logout"),
 
-                  ),
-              ),
-            ],
-          title: Text("Rumah Sehat",
-            style: TextStyle(color: Colors.black)
           ),
-
+        ],
+        title: Text("Rumah Sehat",
+            style: TextStyle(color: Colors.black)
         ),
-        body: bodies[index],
-        bottomNavigationBar: BottomNavigationBar(
 
-          selectedItemColor: Colors.black,
-          currentIndex: index,
-          onTap: (val) {
-            setState(() {
-              index = val;
-            });
-          }, //(item) => onSelected(context, item),
+      ),
+      body: bodies[index],
+      bottomNavigationBar: BottomNavigationBar(
 
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            const BottomNavigationBarItem(
+        selectedItemColor: Colors.black,
+        currentIndex: index,
+        onTap: (val) {
+          setState(() {
+            index = val;
+          });
+        }, //(item) => onSelected(context, item),
+
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Profil'
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.monetization_on),
-              label: 'Tagihan',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.timer),
-              label: 'Appointment',
-            ),
-          ],
-        ),
-      );
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.monetization_on),
+            label: 'Tagihan',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.timer),
+            label: 'Appointment',
+          ),
+        ],
+      ),
+    );
   }
 }

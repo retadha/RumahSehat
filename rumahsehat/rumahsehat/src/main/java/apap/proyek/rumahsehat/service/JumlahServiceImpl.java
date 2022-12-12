@@ -60,6 +60,4 @@ public class JumlahServiceImpl implements JumlahService{
            obatDb.save(obat);
         }
     }
-
-
 }

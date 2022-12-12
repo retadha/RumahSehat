@@ -1,6 +1,4 @@
 package apap.proyek.rumahsehat.security.jwt_config;
-
-
 import apap.proyek.rumahsehat.security.JwtUserDetailsServiceImpl;
 import apap.proyek.rumahsehat.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,18 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
 
 	@Qualifier("jwtUserDetailsServiceImpl")
 	@Autowired
 	private UserDetailsService jwtUserDetailsService;
-
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;

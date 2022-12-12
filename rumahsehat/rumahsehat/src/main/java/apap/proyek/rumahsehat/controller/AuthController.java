@@ -103,5 +103,4 @@ public class AuthController {
     private String pasienForbidden() {
         return "user/pasien-forbidden";
     }
-
 }

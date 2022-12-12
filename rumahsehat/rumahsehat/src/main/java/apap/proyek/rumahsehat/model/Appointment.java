@@ -1,5 +1,6 @@
 package apap.proyek.rumahsehat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,9 +39,11 @@ public class Appointment {
     @JoinColumn(name = "dokter", nullable = false, referencedColumnName = "uuid")
     private Dokter dokter;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "kodeAppointment")
     private Tagihan tagihan;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "kodeAppointment")
     private Resep resep;
 
