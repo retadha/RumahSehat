@@ -74,7 +74,7 @@ class RegisterState extends State<Register> {
   String? validateUsername(String? username) {
 
     if (username!.isEmpty) {
-      return 'Mohon isi password';
+      return 'Mohon isi username';
     } else {
       if (!username.isUsername()) {
         return "Mohon isi username dengan format yang benar";
