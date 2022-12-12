@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -19,8 +20,9 @@ public class ResepServiceImpl implements ResepService {
         if (resep.isPresent()){
             return resep.get();
         }
-        return null;
-
+        else {
+            throw new NoSuchElementException();
+        }
     }
 
 //    @Override
