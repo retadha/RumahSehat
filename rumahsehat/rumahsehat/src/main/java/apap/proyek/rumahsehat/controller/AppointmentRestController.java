@@ -53,6 +53,18 @@ public class AppointmentRestController {
         return  responseEntity;
     }
 
+    @GetMapping(value = "/all-appointment")
+    private ResponseEntity retrieveAllListAppointment() {
+        ResponseEntity responseEntity;
+        try {
+            Map<String, List<AppointmentDto>> listAppointment = appointmentRestService.getAllListAppointment();
+            responseEntity = ResponseEntity.ok(listAppointment);
+        } catch (NoSuchElementException e) {
+            responseEntity = ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        }
+        return  responseEntity;
+    }
+
     //view detail appointment
     @GetMapping(value = "/appointment/{id}")
     private ResponseEntity retrieveDetailAppointment(@PathVariable("id") String id) {

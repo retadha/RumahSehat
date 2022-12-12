@@ -44,6 +44,33 @@ public class AppointmentRestServiceImpl implements AppointmentRestService {
     }
 
     @Override
+    public Map<String, List<AppointmentDto>> getAllListAppointment() {
+        List<Appointment> listAppointment = appointmentDb.findAll();
+        Map<String, List<AppointmentDto>> map = new HashMap<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+
+        List<AppointmentDto> list = new ArrayList<>();
+        for (Appointment appointment : listAppointment) {
+            AppointmentDto appointmentDto = new AppointmentDto();
+            appointmentDto.setId(appointment.getId());
+            appointmentDto.setDokter(appointment.getDokter().getUser().getNama());
+            appointmentDto.setPasien(appointment.getPasien().getUser().getNama());
+            appointmentDto.setWaktuAwal(appointment.getWaktuAwal().format(dateTimeFormatter));
+            appointmentDto.setStatus(appointment.getIsDone());
+            if (appointment.getResep() == null) {
+                appointmentDto.setResep(null);
+            }
+            else {
+                appointmentDto.setResep(appointment.getResep().getId());
+            }
+            list.add(appointmentDto);
+        }
+
+        map.put("appointment", list);
+        return map;
+    }
+
+    @Override
     public AppointmentDto getAppointmentById(String id) {
         Optional<Appointment> appointment = appointmentDb.findById(id);
         Appointment appointmentPilihan = null;

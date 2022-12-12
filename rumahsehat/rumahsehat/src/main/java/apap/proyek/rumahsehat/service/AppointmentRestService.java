@@ -11,6 +11,7 @@ import java.util.Map;
 
 public interface AppointmentRestService {
     Map<String, List<AppointmentDto>> getListAppointment(String uuid);
+    Map<String, List<AppointmentDto>> getAllListAppointment();
     AppointmentDto getAppointmentById(String id);
     Appointment createAppointment(Appointment appointment, String id, LocalDateTime waktuAwal, Pasien pasien, Dokter dokter);
 }
