@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
+
+import 'package:flutter_rumahsehat/page/detail_resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
-import 'package:flutter_rumahsehat/page/detail_resep.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,7 +48,7 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
 
   @override
   int index = 0;
-  List<Widget> bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  final bodies = [Container(color: Colors.cyan), Container(color: Colors.red), Container(color: Colors.blue)];
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -102,10 +103,6 @@ class _RumahSehatAppState extends State<RumahSehatApp> {
             const BottomNavigationBarItem(
               icon: Icon(Icons.timer),
               label: 'Appointment',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.medical_information),
-              label: 'Resep',
             ),
           ],
         ),
