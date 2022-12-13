@@ -79,7 +79,7 @@
                         <a class="btn btn-warning" th:href="@{/create-resep/} + ${appointment.id}" th:if="${appointment.resep == null} and ${appointment.isDone == false} and ${role == 'Dokter'}">Create Resep</a>
                     </td>
                     <td>
-                        <a class="btn btn-primary" th:href="@{/}">Back</a>
+                        <a class="btn btn-primary" th:href="@{/appointment}">Back</a>
                     </td>
                 </form>
             </div>

@@ -212,7 +212,6 @@ class _DetailResepPage extends State<DetailResepPage> {
 
 Future<Resep> fetchResep(String id) async {
   String idResep = id;
-
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var token = sharedPreferences.getString("token");
 

@@ -41,7 +41,6 @@ public class MultiHttpSecurityConfig {
     @Bean
     public static BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-
     }
 
     @Configuration
@@ -83,7 +82,6 @@ public class MultiHttpSecurityConfig {
 
             // Add a filter to validate the tokens with every request
 //            httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
         }
 
     }
@@ -108,7 +106,7 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/obat/update-stok/**").hasAuthority("Apoteker")
                     .antMatchers("/create-resep/**").hasAuthority("Dokter")
                     .antMatchers("/daftar-resep").hasAnyAuthority("Admin", "Apoteker")
-//                    .antMatchers("/chart/**").hasAuthority("Admin")
+                    .antMatchers("/chart/**").hasAuthority("Admin")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
@@ -120,8 +118,6 @@ public class MultiHttpSecurityConfig {
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-
-
         }
     }
 }
