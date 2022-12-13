@@ -18,6 +18,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,7 +39,7 @@ public class AuthController {
 
     private WebClient webClient = WebClient.builder().build();
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
@@ -54,32 +55,34 @@ public class AuthController {
                 )
         ).retrieve().bodyToMono(ServiceResponse.class).block();
 
-        Attributes attributes = serviceResponse.getAuthenticationSuccess().getAttributes();
-        String username = serviceResponse.getAuthenticationSuccess().getUser();
+        if (serviceResponse != null) {
+            Attributes attributes = serviceResponse.getAuthenticationSuccess().getAttributes();
+            String username = serviceResponse.getAuthenticationSuccess().getUser();
 
-        UserModel user = userService.getUserByUsername(username);
-
-
-        if (user==null) {
-            user = new UserModel();
-            user.setEmail(username+"@ui.ac.id");
-            user.setNama(attributes.getNama());
-            user.setPassword("rumahsehat");
-            user.setUsername(username);
-            user.setRole("Admin");
-
-            UserModel savedUser = userService.addUser(user);
-            adminService.addAdmin(new Admin(), savedUser);
+            UserModel user = userService.getUserByUsername(username);
 
 
+            if (user==null) {
+                user = new UserModel();
+                user.setEmail(username+"@ui.ac.id");
+                user.setNama(attributes.getNama());
+                user.setPassword("rumahsehat");
+                user.setUsername(username);
+                user.setRole("Admin");
+
+                UserModel savedUser = userService.addUser(user);
+                adminService.addAdmin(new Admin(), savedUser);
+
+
+            }
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username,"rumahsehat");
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+
+            HttpSession httpSession = request.getSession(true);
+            httpSession.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
         }
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username,"rumahsehat");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-
-        HttpSession httpSession = request.getSession(true);
-        httpSession.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
         return new ModelAndView("redirect:/");
     }
