@@ -184,7 +184,7 @@ public class ResepController {
             params = {"deleteRow"}
     )
     private String deleteRowMultiple(@PathVariable String idAppointment, @ModelAttribute Resep resep, @RequestParam("deleteRow") Integer row, Model model) {
-        final Integer rowId = Integer.valueOf(row);
+        final Integer rowId = row;
         resep.getListJumlah().remove(rowId.intValue());
 
         List<Obat> listObat = obatService.getListObat();

@@ -21,7 +21,6 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
 	@Autowired
