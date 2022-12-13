@@ -65,7 +65,7 @@ public class MultiHttpSecurityConfig {
             httpSecurity
                     .antMatcher("/api/**")
                     .cors().and()
-                    .csrf().and()
+                    .csrf().disable()
                     .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                     .and()
                     .authorizeRequests()
