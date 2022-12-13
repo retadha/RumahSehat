@@ -54,32 +54,34 @@ public class AuthController {
                 )
         ).retrieve().bodyToMono(ServiceResponse.class).block();
 
-        Attributes attributes = serviceResponse.getAuthenticationSuccess().getAttributes();
-        String username = serviceResponse.getAuthenticationSuccess().getUser();
+        if (serviceResponse != null) {
+            Attributes attributes = serviceResponse.getAuthenticationSuccess().getAttributes();
+            String username = serviceResponse.getAuthenticationSuccess().getUser();
 
-        UserModel user = userService.getUserByUsername(username);
-
-
-        if (user==null) {
-            user = new UserModel();
-            user.setEmail(username+"@ui.ac.id");
-            user.setNama(attributes.getNama());
-            user.setPassword("rumahsehat");
-            user.setUsername(username);
-            user.setRole("Admin");
-
-            UserModel savedUser = userService.addUser(user);
-            adminService.addAdmin(new Admin(), savedUser);
+            UserModel user = userService.getUserByUsername(username);
 
 
+            if (user==null) {
+                user = new UserModel();
+                user.setEmail(username+"@ui.ac.id");
+                user.setNama(attributes.getNama());
+                user.setPassword("rumahsehat");
+                user.setUsername(username);
+                user.setRole("Admin");
+
+                UserModel savedUser = userService.addUser(user);
+                adminService.addAdmin(new Admin(), savedUser);
+
+
+            }
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username,"rumahsehat");
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+
+            HttpSession httpSession = request.getSession(true);
+            httpSession.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
         }
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username,"rumahsehat");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-
-        HttpSession httpSession = request.getSession(true);
-        httpSession.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
         return new ModelAndView("redirect:/");
     }
