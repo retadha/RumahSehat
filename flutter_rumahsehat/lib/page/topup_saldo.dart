@@ -78,7 +78,7 @@ class _TopUpSaldoPage extends State<TopUpSaldoPage> {
         headers: <String, String>{
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
-          "Access-Control-Allow-Origin": "*"
+
         },
         body: body
     );

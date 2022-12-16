@@ -22,7 +22,7 @@ class _ProfilPasienPage extends State<ProfilPasienPage> {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
-      'Access-Control-Allow-Origin': '*'
+
     };
     final response1 = await http.get(Uri.parse(url1), headers: headers);
     final response2 = await http.get(Uri.parse(url2), headers: headers);

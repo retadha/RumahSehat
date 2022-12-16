@@ -80,7 +80,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
         'Authorization': 'Bearer $token',
         "content-type": "application/json",
         "accept": "application/json",
-        'Access-Control-Allow-Origin': '*'
+
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return Tagihan.fromJson(jsonDecode(response.body));

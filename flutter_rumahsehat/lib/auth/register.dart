@@ -96,7 +96,7 @@ class RegisterState extends State<Register> {
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
-          'Access-Control-Allow-Origin': '*'
+
 
         },
         body: jsonEncode({

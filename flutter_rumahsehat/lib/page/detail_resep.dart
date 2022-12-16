@@ -221,7 +221,7 @@ Future<Resep> fetchResep(String id) async {
       'Authorization': 'Bearer $token',
       "content-type": "application/json",
       "accept": "application/json",
-      'Access-Control-Allow-Origin': '*'
+
     });
 
   Map<String, dynamic> data = jsonDecode(response.body);

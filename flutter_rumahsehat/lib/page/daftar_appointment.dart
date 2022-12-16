@@ -124,7 +124,7 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
     final response = await http.get(Uri.parse(url),
     headers: <String, String>{
       'Authorization': 'Bearer $token',
-      'Access-Control-Allow-Origin': '*'
+
     });
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data);

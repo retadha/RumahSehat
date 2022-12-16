@@ -140,7 +140,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
           headers: <String, String>{
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
-            "Access-Control-Allow-Origin": "*"
+
           },
           body: jsonEncode({
             'waktuAwal': waktuAwal,
@@ -153,7 +153,7 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
     var url = 'https://apap-050.cs.ui.ac.id/api/dokter-appointment';
     final response = await http.get(Uri.parse(url),
         headers: <String, String>{
-          'Access-Control-Allow-Origin': '*'
+
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return Dokter.fromJson(jsonDecode(response.body));
