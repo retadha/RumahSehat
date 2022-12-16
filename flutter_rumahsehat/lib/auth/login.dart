@@ -20,13 +20,13 @@ class LoginPage extends StatelessWidget {
   );
 
   Future<String?> attemptLogIn(String username, String password) async {
-    final String apiUrl = 'http://localhost:8080/api/authenticate';
+    final String apiUrl = 'https://apap-050.cs.ui.ac.id/api/authenticate';
     var res = await http.post(
         Uri.parse(apiUrl),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
-          'Access-Control-Allow-Origin': '*'
+
         },
         body: jsonEncode({
           "username": username,
@@ -113,7 +113,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   width: 80,
-                  height: 30,
+                  height: 40,
                   child: TextButton(
                       onPressed: () async {
                         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

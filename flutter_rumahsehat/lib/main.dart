@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rumahsehat/auth/login.dart';
 import 'package:flutter_rumahsehat/page/daftar_tagihan.dart';
 import 'page/profil_pasien.dart';
+import 'page/daftar_appointment.dart';
+
 
 void main() {
   runApp(MaterialApp(home: MyApp()));

@@ -44,7 +44,11 @@
                     <li class="nav-item">
                         <a class="nav-link" sec:authorize="hasAnyAuthority('Admin', 'Apoteker')" th:href="@{/obat/viewall}">Obat</a>
                     </li>
+                    <li class="nav-item" sec:authorize="hasAnyAuthority('Admin')">
+                        <a class="nav-link" th:href="@{/chart}">Chart</a>
+                    </li>
                 </ul>
+
 
                 <ul class="navbar-nav pull-right">
                     <a class="nav-item nav-link text-text-secondary" th:href="@{/logout-sso}">Logout</a>

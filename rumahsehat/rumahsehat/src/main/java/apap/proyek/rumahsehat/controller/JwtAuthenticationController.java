@@ -5,6 +5,7 @@ import apap.proyek.rumahsehat.security.JwtUserDetailsServiceImpl;
 import apap.proyek.rumahsehat.security.jwt.JwtRequest;
 import apap.proyek.rumahsehat.security.jwt.JwtResponse;
 import apap.proyek.rumahsehat.security.jwt_config.JwtTokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+@Slf4j
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
 	@Autowired
@@ -51,10 +52,12 @@ public class JwtAuthenticationController {
 		Objects.requireNonNull(password);
 
 		try {
+			log.info("api mobile login");
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
+			log.error("mobile login gagal");
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}

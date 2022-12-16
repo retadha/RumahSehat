@@ -51,6 +51,7 @@ public class JumlahServiceImpl implements JumlahService{
     public Jumlah addJumlah(Jumlah jumlah) {
         return jumlahDb.save(jumlah);
     }
+
     public void minusStock(Long idResep) {
         List<Jumlah> jumlahList = jumlahDb.findJumlahByResep(idResep);
         for (Jumlah jumlah: jumlahList){
@@ -59,5 +60,4 @@ public class JumlahServiceImpl implements JumlahService{
            obatDb.save(obat);
         }
     }
-
 }

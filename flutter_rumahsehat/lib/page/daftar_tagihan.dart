@@ -74,17 +74,18 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
   Future<Tagihan> fetchTagihan() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/list-tagihan/';
-    final response = await http.get(Uri.parse(url),
-        headers: <String, String>{
-          'Authorization': 'Bearer $token',
-          "content-type": "application/json",
-          "accept": "application/json",
-          'Access-Control-Allow-Origin': '*'
+      var url = 'https://apap-050.cs.ui.ac.id/api/list-tagihan/';
+      final response = await http.get(Uri.parse(url),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        "content-type": "application/json",
+        "accept": "application/json",
+
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return Tagihan.fromJson(jsonDecode(response.body));
   }
+
 
   Widget buildCard(data) {
     bool statusBool = data.status;
@@ -93,6 +94,7 @@ class _DaftarTagihanPage extends State<DaftarTagihanPage> {
       statusStr = "Belum Lunas";
     } else {
       statusStr = "Lunas";
+
     }
     return Padding(
       padding: const EdgeInsets.fromLTRB(60,20, 60, 20  ),

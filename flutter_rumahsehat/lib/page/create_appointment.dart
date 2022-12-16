@@ -156,13 +156,13 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
       var token = sharedPreferences.getString("token");
-      final String url = "http://localhost:8080/api/create-appointment";
+      final String url = "https://apap-050.cs.ui.ac.id/api/create-appointment";
       var response = await http.post(
           Uri.parse(url),
           headers: <String, String>{
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
-            "Access-Control-Allow-Origin": "*"
+
           },
           body: jsonEncode({
             'waktuAwal': waktuAwal,
@@ -172,10 +172,10 @@ class _CreateAppointmentPage extends State<CreateAppointmentPage> {
     }
 
   Future<Dokter> fetchDokterAppointment() async {
-    var url = 'http://localhost:8080/api/dokter-appointment';
+    var url = 'https://apap-050.cs.ui.ac.id/api/dokter-appointment';
     final response = await http.get(Uri.parse(url),
         headers: <String, String>{
-          'Access-Control-Allow-Origin': '*'
+
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return Dokter.fromJson(jsonDecode(response.body));

@@ -122,11 +122,11 @@ class _DaftarAppointmentPage extends State<DaftarAppointmentPage> {
   Future<Appointment> fetchAppointment() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/appointment/';
+    var url = 'https://apap-050.cs.ui.ac.id/api/appointment/';
     final response = await http.get(Uri.parse(url),
     headers: <String, String>{
       'Authorization': 'Bearer $token',
-      'Access-Control-Allow-Origin': '*'
+
     });
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data);

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(value = "*", maxAge = 3600)
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -165,7 +165,6 @@ public class UserController {
         model.addAttribute("validPassword", credentialsStatus.get("validPassword"));
 
         return "user/form-add-apoteker";
-
 
 
     }

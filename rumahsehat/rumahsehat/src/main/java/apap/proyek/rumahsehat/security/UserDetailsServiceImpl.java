@@ -3,7 +3,6 @@ package apap.proyek.rumahsehat.security;
 import apap.proyek.rumahsehat.model.UserModel;
 import apap.proyek.rumahsehat.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

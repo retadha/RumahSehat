@@ -16,13 +16,13 @@ class _ProfilPasienPage extends State<ProfilPasienPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
     String url1 =
-        "http://localhost:8080/api/profil/user";
+        "https://apap-050.cs.ui.ac.id/api/profil/user";
     String url2 =
-        "http://localhost:8080/api/profil/pasien";
+        "https://apap-050.cs.ui.ac.id/api/profil/pasien";
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
-      'Access-Control-Allow-Origin': '*'
+
     };
     final response1 = await http.get(Uri.parse(url1), headers: headers);
     final response2 = await http.get(Uri.parse(url2), headers: headers);

@@ -247,13 +247,13 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
   bayar(context, kode) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/bayar-tagihan/' + kode;
+    var url = 'https://apap-050.cs.ui.ac.id/api/bayar-tagihan/' + kode;
     final response = await http.get(Uri.parse(url),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         "content-type": "application/json",
         "accept": "application/json",
-        'Access-Control-Allow-Origin': '*'
+
       },
     );
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -349,12 +349,13 @@ class _DetailTagihanPage extends State<DetailTagihanPage> {
   Future<TagihanElement> fetchTagihan(String kode) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/tagihan/' + kode;
-    final response = await http.get(Uri.parse(url),
-        headers: <String, String>{
-          'Authorization': 'Bearer $token',
-          "content-type": "application/json",
-          "accept": "application/json",
+      var url = 'https://apap-050.cs.ui.ac.id/api/tagihan/' + kode;
+      final response = await http.get(Uri.parse(url),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        "content-type": "application/json",
+        "accept": "application/json",
+
         });
     Map<String, dynamic> data = jsonDecode(response.body);
     return TagihanElement.fromJson(jsonDecode(response.body));

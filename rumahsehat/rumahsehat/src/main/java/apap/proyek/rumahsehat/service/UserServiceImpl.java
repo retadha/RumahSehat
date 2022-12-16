@@ -3,12 +3,12 @@ package apap.proyek.rumahsehat.service;
 import apap.proyek.rumahsehat.model.UserModel;
 import apap.proyek.rumahsehat.repository.PasienDb;
 import apap.proyek.rumahsehat.repository.UserDb;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 
 @Service
@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
         return user.getRole().equals("Admin");
     }
 
+
     @Override
     public boolean userExists(String username) {
         UserModel user = getUserByUsername(username);
@@ -81,8 +82,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean validateEmailFormat(String email) {
-        String validEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        return email.matches(validEmail);
+//        String validEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return EmailValidator.getInstance().isValid(email);
     }
 
     // Password minimal 8 karakter, alfanumerik, mengandung huruf besar dan huruf kecil, dan karakter spesial

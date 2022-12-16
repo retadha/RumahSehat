@@ -6,6 +6,7 @@ import apap.proyek.rumahsehat.service.PasienService;
 import apap.proyek.rumahsehat.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,8 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
@@ -30,12 +32,14 @@ public class UserRestController {
 
     @PostMapping(value = "/pasien/register")
     private ResponseEntity<String> createPasien(@RequestBody String userData, BindingResult bindingResult){
+        log.info("api add pasien", userData);
         Gson gson = new Gson();
         Map<String, String> userDataMap = gson.fromJson(userData, new TypeToken<Map<String, String>>() {}.getType());
 
 
         String username = userDataMap.get("username");
         if (userService.userExists(username)) {
+            log.warn("username pasien sudah terdaftar! ");
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT, "Username telah digunakan"
             );
@@ -64,6 +68,7 @@ public class UserRestController {
             return ResponseEntity.ok("Pasien dengan username " + username + " berhasil dibuat");
 
         } catch (Exception e) {
+            log.error("Error in add pasien!");
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
             );

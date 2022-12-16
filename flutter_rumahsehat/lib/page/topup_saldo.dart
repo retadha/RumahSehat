@@ -68,7 +68,7 @@ class _TopUpSaldoPage extends State<TopUpSaldoPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
     String url =
-        "http://localhost:8080/api/profil/topupsaldo";
+        "https://apap-050.cs.ui.ac.id/api/profil/topupsaldo";
     Map data = {
       'saldo': saldo
     };
@@ -78,7 +78,7 @@ class _TopUpSaldoPage extends State<TopUpSaldoPage> {
         headers: <String, String>{
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
-          "Access-Control-Allow-Origin": "*"
+
         },
         body: body
     );

@@ -193,7 +193,7 @@ class _DetailAppointmentPage extends State<DetailAppointmentPage> {
   Future<AppointmentElement> fetchAppointment(String id) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
-    var url = 'http://localhost:8080/api/appointment/' + id;
+    var url = 'https://apap-050.cs.ui.ac.id/api/appointment/' + id;
     final response = await http.get(Uri.parse(url),
     headers: <String, String>{'Authorization': 'Bearer $token'},);
     Map<String, dynamic> data = jsonDecode(response.body);
